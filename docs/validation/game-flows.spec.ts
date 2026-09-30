@@ -20,14 +20,15 @@ import HistoryDetail from '@/pages/history/detail.vue'
 import HintSheet from '@/components/sudoku/HintSheet.vue'
 import GamePage from '@/pages/game/index.vue'
 import HomePage from '@/pages/home/index.vue'
+import LevelsPage from '@/pages/levels/index.vue'
 import ResultPage from '@/pages/result/index.vue'
 import { requestCampaignLevel } from '@/services/campaign.service'
 import { campaignRepository } from '@/repositories/campaign.repository'
 
-const hooks = vi.hoisted(() => ({ shows: [] as Array<() => void>, hides: [] as Array<() => void>, backs: [] as Array<() => boolean> }))
+const hooks = vi.hoisted(() => ({ shows: [] as Array<() => void>, hides: [] as Array<() => void>, backs: [] as Array<() => boolean>, query: { id: 'audit-old' } as Record<string, string> }))
 
 vi.mock('@dcloudio/uni-app', () => ({
-  onLoad: (callback: (query: { id: string }) => void) => callback({ id: 'audit-old' }),
+  onLoad: (callback: (query: Record<string, string>) => void) => callback(hooks.query),
   onShow: (callback: () => void) => hooks.shows.push(callback),
   onHide: (callback: () => void) => hooks.hides.push(callback),
   onBackPress: (callback: () => boolean) => hooks.backs.push(callback)
@@ -40,6 +41,7 @@ const HISTORY = 'sudoku:v1:history'
 beforeEach(() => {
   storage.clear()
   hooks.shows.length = 0; hooks.hides.length = 0; hooks.backs.length = 0
+  hooks.query = { id: 'audit-old' }
   vi.useFakeTimers()
   vi.setSystemTime(100000)
   vi.stubGlobal('uni', {
@@ -110,8 +112,8 @@ describe('Infinite campaign game and page integration', () => {
     expect(currentGameRepository.load()?.levelId).toBe('master-001')
   })
 
-  it('shows successive pages beyond 25 and launches a generated level from the real home component', async () => {
-    const mounted = mount(HomePage, {})
+  it('shows successive pages beyond 25 and launches a generated level from the real selection component', async () => {
+    const mounted = mount(LevelsPage, {})
     hooks.shows.forEach(cb => cb())
     const nextGroup = find(mounted.root, el => el.tag === 'button' && el.text === '下一组')!
     nextGroup.props.onTap()
@@ -136,7 +138,7 @@ describe('Infinite campaign game and page integration', () => {
       completionCount: 1, firstCompletedAt: 1, lastCompletedAt: 1
     }]))
     resultsRepository.saveProgress(progress)
-    const mounted = mount(HomePage, {})
+    const mounted = mount(LevelsPage, {})
     hooks.shows.forEach(cb => cb())
     await nextTick()
     expect(findAll(mounted.root, el => el.tag === 'text' && el.props.class === 'number')[0].text).toBe('26')
@@ -150,7 +152,7 @@ describe('Infinite campaign game and page integration', () => {
   })
 
   it('jumps to distant numbered levels and can cancel or leave without starting a game', async () => {
-    const mounted = mount(HomePage, {})
+    const mounted = mount(LevelsPage, {})
     hooks.shows.forEach(cb => cb())
     const input = find(mounted.root, el => el.tag === 'input')!
     input.props.onInput({ detail: { value: '10001' } })
@@ -209,6 +211,146 @@ describe('Infinite campaign game and page integration', () => {
     find(mounted.root, el => el.tag === 'button' && el.text === '下一关')!.props.onTap()
     await vi.advanceTimersByTimeAsync(1000)
     expect(store.game!.levelId).toBe('master-026')
+    mounted.unmount()
+  })
+})
+
+describe('Game main menu and navigation hierarchy', () => {
+  const byClass = (root: HostNode, name: string) => find(root, el => String(el.props.class).split(' ').includes(name))!
+
+  it('opens on the main menu and opens selection without creating or overwriting a game', async () => {
+    const mounted = mount(HomePage, {})
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '开始游戏')).toBeDefined()
+    expect(find(mounted.root, el => el.props.class === 'level-grid')).toBeUndefined()
+    byClass(mounted.root, 'play-button').props.onTap()
+    expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/levels/index' })
+    expect(useGameStore().game).toBeNull()
+    expect(campaignRepository.load()).toEqual([])
+    mounted.unmount()
+  })
+
+  it('exposes every app feature directly from the main menu, including the practice tab', () => {
+    const mounted = mount(HomePage, {})
+    const entries = [
+      ['daily-card', '/pages/daily/index'],
+      ['practice-card', '/pages/levels/index?mode=practice'],
+      ['feature-tutorial', '/pages/tutorial/index'],
+      ['feature-statistics', '/pages/statistics/index'],
+      ['feature-history', '/pages/history/index'],
+      ['feature-import', '/pages/import/index'],
+      ['settings-button', '/pages/settings/index']
+    ]
+    for (const [name, url] of entries) {
+      vi.mocked(uni.navigateTo).mockClear()
+      byClass(mounted.root, name).props.onTap()
+      expect(uni.navigateTo).toHaveBeenCalledOnce()
+      expect(uni.navigateTo).toHaveBeenCalledWith({ url })
+    }
+    expect(uni.showModal).not.toHaveBeenCalled()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '更多')).toBeUndefined()
+    mounted.unmount()
+  })
+
+  it('restores a saved game on the menu, keeps input and undo, and resumes its existing ID', async () => {
+    const store = start()
+    useSettingsStore().setSetting('immediateErrorCheck', false)
+    const index = store.game!.selectedIndex!
+    store.inputNormalDigit(store.game!.cells[index].solution % 9 + 1)
+    store.pause(); store.flushSave()
+    const savedId = store.game!.id
+    vi.clearAllTimers()
+    setActivePinia(createPinia())
+    const restored = useGameStore()
+    const mounted = mount(HomePage, {})
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(restored.game?.id).toBe(savedId)
+    expect(restored.game?.status).toBe('PAUSED')
+    expect(restored.game?.undoStack).toHaveLength(1)
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '继续游戏')).toBeDefined()
+    // A wrong value still counts as filled; the menu does not reveal correctness.
+    expect(find(mounted.root, el => el.tag === 'text' && el.text.startsWith('已填 1/'))).toBeDefined()
+    byClass(mounted.root, 'play-button').props.onTap()
+    expect(restored.game?.id).toBe(savedId)
+    expect(restored.game?.status).toBe('PLAYING')
+    expect(uni.navigateTo).toHaveBeenCalledWith(expect.objectContaining({ url: '/pages/game/index' }))
+    const options = vi.mocked(uni.navigateTo).mock.calls[0][0]
+    options.fail!({ errMsg: 'navigation failed' })
+    expect(restored.game?.status).toBe('PAUSED')
+    mounted.unmount()
+  })
+
+  it('pauses an active game on entering the menu even when background pause is disabled', async () => {
+    const store = start()
+    useSettingsStore().settings.autoPauseOnBackground = false
+    await vi.advanceTimersByTimeAsync(3000)
+    const elapsed = store.elapsed()
+    const mounted = mount(HomePage, {})
+    hooks.shows.forEach(cb => cb())
+    await vi.advanceTimersByTimeAsync(30000)
+    expect(store.game?.status).toBe('PAUSED')
+    expect(store.elapsed()).toBe(elapsed)
+    expect(currentGameRepository.load()?.status).toBe('PAUSED')
+    const id = store.game!.id
+    byClass(mounted.root, 'choose-button').props.onTap()
+    expect(store.game?.id).toBe(id)
+    expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/levels/index' })
+    mounted.unmount()
+  })
+
+  it('refreshes daily completion, streaks and campaign progress, and excludes a completed game from resume', async () => {
+    vi.setSystemTime(new Date('2026-09-30T12:00:00+08:00'))
+    const store = start(); finish(store)
+    for (const date of ['2026-09-29', '2026-09-30']) {
+      store.startGame(createDailyLevel(date), 'DAILY', date); finish(store)
+    }
+    const mounted = mount(HomePage, {})
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '今日已完成')).toBeDefined()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '已连续挑战 2 天')).toBeDefined()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '已完成 1 关')).toBeDefined()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '继续游戏')).toBeUndefined()
+    vi.setSystemTime(new Date('2026-10-01T12:00:00+08:00'))
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '今日新题')).toBeDefined()
+    mounted.unmount()
+  })
+
+  it('opens practice selection from the query and safely falls back to the menu when back navigation fails', async () => {
+    hooks.query = { mode: 'practice' }
+    const mounted = mount(LevelsPage, {})
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(findAll(mounted.root, el => String(el.props.class).split(' ').includes('tier-card'))).toHaveLength(4)
+    expect(find(mounted.root, el => el.props.class === 'level-grid')).toBeUndefined()
+    expect(find(mounted.root, el => el.tag === 'button' && el.text === '开始新的练习')).toBeDefined()
+    byClass(mounted.root, 'back-link').props.onTap()
+    expect(uni.navigateBack).toHaveBeenCalledOnce()
+    vi.mocked(uni.navigateBack).mock.calls[0][0]!.fail!({ errMsg: 'no preceding page' })
+    expect(uni.reLaunch).toHaveBeenCalledWith({ url: '/pages/home/index' })
+    mounted.unmount()
+  })
+
+  it('keeps the game menu focused on current-game actions and saves before returning to the main menu', async () => {
+    const store = start()
+    useSettingsStore().settings.onboardingSeen = true
+    const mounted = mount(GamePage, {})
+    hooks.shows.forEach(cb => cb())
+    const id = store.game!.id
+    byClass(mounted.root, 'more-button').props.onTap()
+    await nextTick()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '本局操作')).toBeDefined()
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '历史记录')).toBeUndefined()
+    const home = find(mounted.root, el => el.tag === 'text' && el.text === '返回主菜单')!
+    home.parent!.props.onTap()
+    await vi.advanceTimersByTimeAsync(10)
+    expect(store.game).toMatchObject({ id, status: 'PAUSED' })
+    expect(currentGameRepository.load()?.id).toBe(id)
+    expect(uni.reLaunch).toHaveBeenCalledWith({ url: '/pages/home/index' })
     mounted.unmount()
   })
 })

@@ -36,7 +36,7 @@ function action(id: string) {
 </script>
 
 <template>
-  <BottomSheet :model-value="modelValue" title="更多" @update:model-value="emit('update:modelValue', $event)">
+  <BottomSheet :model-value="modelValue" :title="gameMode ? '本局操作' : '更多'" @update:model-value="emit('update:modelValue', $event)">
     <view v-if="gameMode" class="group game-actions">
       <view class="row" @tap="action('check')"><text class="icon">✓</text><text class="label">检查当前棋盘</text><text class="arrow">›</text></view>
       <view class="row" @tap="action('bookmark')"><text class="icon">⚑</text><text class="label">保存棋盘书签</text><text class="arrow">›</text></view>
@@ -45,7 +45,8 @@ function action(id: string) {
       <view class="row" @tap="action('restart')"><text class="icon">↻</text><text class="label">重新开始本关</text><text class="arrow">›</text></view>
       <view class="row" @tap="action('exit')"><text class="icon">←</text><text class="label">退出并保存</text><text class="arrow">›</text></view>
     </view>
-
+    <view v-if="gameMode" class="group"><view class="row" @tap="action('home')"><text class="icon">⌂</text><text class="label">返回主菜单</text><text class="arrow">›</text></view></view>
+    <template v-else>
     <view v-for="(group, groupIndex) in mainGroups" :key="groupIndex" class="group">
       <view v-for="item in group" :key="item.id" class="row" @tap="action(item.id)">
         <text class="icon">{{ item.icon }}</text>
@@ -53,6 +54,7 @@ function action(id: string) {
         <text class="arrow">›</text>
       </view>
     </view>
+    </template>
   </BottomSheet>
 </template>
 

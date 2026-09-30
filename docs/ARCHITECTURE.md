@@ -17,6 +17,8 @@ Pure TypeScript Sudoku Core
 
 ## State ownership
 
+- `home/index.vue`：常驻游戏主菜单，应用入口与当前局摘要；显示时恢复/暂停/保存原局，不创建新题。
+- `levels/index.vue`：二级闯关/练习选择，复用原有连续编号、生成取消与替换确认。
 - `game.store.ts`：当前局、模式和完整题目、输入、计时、操作、解法、书签、保存与结算反馈。
 - `progress.store.ts`：保留与生成关卡的最佳成绩与首次完成积分视图。
 - `history.store.ts`：保留历史、独立完成局累计与每日日期。
@@ -61,6 +63,6 @@ GameState stores a complete level snapshot
 
 ## Validation
 
-`docs/validation/vitest.config.ts` 独立于 uni-app 构建插件，真实 Store/Repository 和 Vue 内存渲染器配合模拟平台接口测试。`npm run check` 执行类型、66 条回归（含 300 道生成关卡抽检）、保留题库唯一解/元数据以及 SFC/路由源码校验；不启动工程或浏览器。
+`docs/validation/vitest.config.ts` 独立于 uni-app 构建插件，真实 Store/Repository 和 Vue 内存渲染器配合模拟平台接口测试。`npm run check` 执行类型、73 条回归（含 300 道生成关卡抽检）、保留题库唯一解/元数据以及 23 个 SFC 与 12 条路由源码校验；不启动工程或浏览器。
 
-详细范围与待进行的设备验收见 [首版记录](implementation/2026-09-30/IMPLEMENTATION.md) 与 [无限闯关记录](implementation/2026-09-30/INFINITE_CAMPAIGN.md)。
+详细范围与待进行的设备验收见 [首版记录](implementation/2026-09-30/IMPLEMENTATION.md)、[无限闯关记录](implementation/2026-09-30/INFINITE_CAMPAIGN.md) 与 [主菜单设计](design/2026-09-30/MAIN_MENU.md)。

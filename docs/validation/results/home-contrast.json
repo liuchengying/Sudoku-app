@@ -1,0 +1,200 @@
+{
+  "scope": "Home lower-menu source colors, normal state; gradient endpoints and filled mode icons",
+  "threshold": 4.5,
+  "minimumRatio": 5.806532298503967,
+  "passed": true,
+  "checks": [
+    {
+      "theme": "light",
+      "foreground": "--menu-ink",
+      "background": "--page-bg",
+      "textColor": "#162c47",
+      "backgroundColor": "#ffffff",
+      "ratio": 14.14
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-ink",
+      "background": "--primary-soft",
+      "textColor": "#162c47",
+      "backgroundColor": "#dcecff",
+      "ratio": 11.77
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-muted",
+      "background": "--page-bg",
+      "textColor": "#43546a",
+      "backgroundColor": "#ffffff",
+      "ratio": 7.74
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-muted",
+      "background": "--primary-soft",
+      "textColor": "#43546a",
+      "backgroundColor": "#dcecff",
+      "ratio": 6.44
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-nav-icon",
+      "background": "--page-bg",
+      "textColor": "#23588a",
+      "backgroundColor": "#ffffff",
+      "ratio": 7.41
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-nav-icon",
+      "background": "--primary-soft",
+      "textColor": "#23588a",
+      "backgroundColor": "#dcecff",
+      "ratio": 6.17
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-daily-tag",
+      "background": "--page-bg",
+      "textColor": "#834507",
+      "backgroundColor": "#ffffff",
+      "ratio": 7.45
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-daily-tag",
+      "background": "--primary-soft",
+      "textColor": "#834507",
+      "backgroundColor": "#dcecff",
+      "ratio": 6.2
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-completed",
+      "background": "--page-bg",
+      "textColor": "#12653d",
+      "backgroundColor": "#ffffff",
+      "ratio": 7.11
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-completed",
+      "background": "--primary-soft",
+      "textColor": "#12653d",
+      "backgroundColor": "#dcecff",
+      "ratio": 5.92
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-icon-text",
+      "background": "--menu-daily-icon",
+      "textColor": "#ffffff",
+      "backgroundColor": "#9a530c",
+      "ratio": 5.81
+    },
+    {
+      "theme": "light",
+      "foreground": "--menu-icon-text",
+      "background": "--menu-practice-icon",
+      "textColor": "#ffffff",
+      "backgroundColor": "#244d85",
+      "ratio": 8.48
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-ink",
+      "background": "--page-bg",
+      "textColor": "#f3f6fb",
+      "backgroundColor": "#141922",
+      "ratio": 16.27
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-ink",
+      "background": "--primary-soft",
+      "textColor": "#f3f6fb",
+      "backgroundColor": "#243d57",
+      "ratio": 10.31
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-muted",
+      "background": "--page-bg",
+      "textColor": "#bbc7d5",
+      "backgroundColor": "#141922",
+      "ratio": 10.27
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-muted",
+      "background": "--primary-soft",
+      "textColor": "#bbc7d5",
+      "backgroundColor": "#243d57",
+      "ratio": 6.51
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-nav-icon",
+      "background": "--page-bg",
+      "textColor": "#8ec8ff",
+      "backgroundColor": "#141922",
+      "ratio": 9.95
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-nav-icon",
+      "background": "--primary-soft",
+      "textColor": "#8ec8ff",
+      "backgroundColor": "#243d57",
+      "ratio": 6.31
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-daily-tag",
+      "background": "--page-bg",
+      "textColor": "#f3c17a",
+      "backgroundColor": "#141922",
+      "ratio": 10.67
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-daily-tag",
+      "background": "--primary-soft",
+      "textColor": "#f3c17a",
+      "backgroundColor": "#243d57",
+      "ratio": 6.77
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-completed",
+      "background": "--page-bg",
+      "textColor": "#8ad5ab",
+      "backgroundColor": "#141922",
+      "ratio": 10.22
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-completed",
+      "background": "--primary-soft",
+      "textColor": "#8ad5ab",
+      "backgroundColor": "#243d57",
+      "ratio": 6.48
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-icon-text",
+      "background": "--menu-daily-icon",
+      "textColor": "#17243c",
+      "backgroundColor": "#f3c17a",
+      "ratio": 9.39
+    },
+    {
+      "theme": "dark",
+      "foreground": "--menu-icon-text",
+      "background": "--menu-practice-icon",
+      "textColor": "#17243c",
+      "backgroundColor": "#91b9ff",
+      "ratio": 7.82
+    }
+  ]
+}

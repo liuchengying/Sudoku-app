@@ -98,6 +98,7 @@ function moreAction(action: string) {
     return
   }
   if (action === 'exit') return exitAndSave()
+  if (action === 'home') { gameStore.pause(); gameStore.flushSave(); uni.reLaunch({ url: '/pages/home/index' }); return }
   if (action === 'restart') return restart()
   if (action === 'fill-candidates') {
     if (game.value?.status === 'PAUSED') gameStore.resume()

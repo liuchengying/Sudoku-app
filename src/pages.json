@@ -1,6 +1,7 @@
 {
   "pages": [
     { "path": "pages/home/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/levels/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/game/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/result/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/history/index", "style": { "navigationStyle": "custom" } },
