@@ -1,8 +1,8 @@
 page {
-  --primary: #0a7cff;
+  --primary: #0864cf;
   --primary-soft: #dcecff;
   --text-primary: #151518;
-  --text-secondary: #929399;
+  --text-secondary: #626870;
   --page-bg: #ffffff;
   --surface: #f4f5f7;
   --divider: #dedfe3;
@@ -11,10 +11,12 @@ page {
   --cell-same: #dcecff;
   --cell-selected: #cbe3ff;
   --given-number: #050505;
-  --hint: #2288ee;
-  --error: #ff3b30;
+  --hint: #1262ab;
+  --error: #c92b25;
   --line: #b8bcc2;
   --line-strong: #111111;
+  --digit-font-size: clamp(20px, 6.4vw, 32px);
+  --note-font-size: clamp(10px, 2.7vw, 12px);
 
   background: var(--page-bg);
   color: var(--text-primary);
@@ -36,3 +38,20 @@ button::after { border: none; }
 }
 
 .no-select { user-select: none; -webkit-user-select: none; }
+
+.theme-dark {
+  --primary: #79b8ff; --primary-soft: #243d57; --text-primary: #edf0f5; --text-secondary: #adb7c4;
+  --page-bg: #141922; --surface: #202733; --divider: #3a4658; --cell-bg: #1b2430;
+  --cell-related: #253344; --cell-same: #304867; --cell-selected: #365576;
+  --given-number: #f3f6fa; --hint: #8ecaff; --error: #ff9990; --line: #526175; --line-strong: #a4b4c9;
+  background: var(--page-bg); color: var(--text-primary);
+}
+.large-digits { --digit-font-size: clamp(22px, 7.2vw, 34px); --note-font-size: clamp(11px, 2.9vw, 13px); }
+@media (max-height: 500px) {
+  .game-page { --digit-font-size: 24px; --note-font-size: 10px; }
+  .game-page.large-digits { --digit-font-size: 28px; --note-font-size: 11px; }
+}
+.primary-action, .secondary-action { width: 100%; min-height: 48px; padding: 16rpx; margin-top: 16rpx; border-radius: 18rpx; font-size: 30rpx; display: flex; align-items: center; justify-content: center; }
+.primary-action { background: var(--primary); color: var(--page-bg); }
+.secondary-action { background: var(--primary-soft); color: var(--primary); }
+.secondary-copy { font-size: 24rpx; color: var(--text-secondary); line-height: 1.6; }

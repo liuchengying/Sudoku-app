@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import {
   createCells,
@@ -12,11 +12,13 @@ import {
   type GameAction,
   type GameActionType,
   type GameState,
+  type GameMode,
   type HintResult,
   type ReplayEvent,
   type SudokuLevel
 } from '@/core/sudoku'
 import { currentGameRepository } from '@/repositories/current-game.repository'
+import { resultsRepository } from '@/repositories/results.repository'
 import { createId } from '@/utils/id'
 import { useSettingsStore } from './settings.store'
 import { useProgressStore } from './progress.store'
@@ -45,8 +47,12 @@ function medalFor(mistakes: number, hints: number): MedalType {
 export const useGameStore = defineStore('game', () => {
   const game = ref<GameState | null>(null)
   const pendingHint = ref<HintResult | null>(null)
+  const storageError = ref('')
+  const activeDigit = ref<number | null>(null)
+  watch(() => useSettingsStore().settings.inputStyle, () => { activeDigit.value = null })
 
   const isActive = computed(() => game.value?.status === 'PLAYING')
+  const needsSettlement = computed(() => Boolean(game.value && game.value.status !== 'COMPLETED' && game.value.cells.every(c => c.value === c.solution)))
   const selectedCell = computed(() => {
     if (!game.value || game.value.selectedIndex == null) return null
     return game.value.cells[game.value.selectedIndex]
@@ -76,13 +82,23 @@ export const useGameStore = defineStore('game', () => {
     }
     if (game.value && game.value.status !== 'COMPLETED') {
       game.value.updatedAt = Date.now()
-      currentGameRepository.save(cloneState(game.value))
+      try {
+        currentGameRepository.save(cloneState(game.value))
+        storageError.value = ''
+        return true
+      } catch {
+        storageError.value = '进度保存失败，请释放设备存储后重试。'
+        return false
+      }
     }
+    return true
   }
 
   function restoreGame(): boolean {
     const saved = currentGameRepository.load()
     if (!saved || saved.status === 'COMPLETED') return false
+    if (resultsRepository.load().discardedGameId === saved.id) return false
+    if (resultsRepository.completionFor(saved.id)) { try { currentGameRepository.clear() } catch { /* Committed settlement is authoritative. */ } return false }
     const settings = useSettingsStore().settings
 
     if (saved.status === 'PLAYING' && saved.activeStartedAt != null) {
@@ -98,12 +114,16 @@ export const useGameStore = defineStore('game', () => {
     return true
   }
 
-  function startGame(level: SudokuLevel) {
+  function startGame(level: SudokuLevel, mode: GameMode = 'CAMPAIGN', dailyDate?: string) {
     const now = Date.now()
     const cells = createCells(level.puzzle, level.solution)
     const firstEmpty = cells.find((cell) => cell.origin !== 'GIVEN')?.index ?? null
     game.value = {
       id: createId('game'),
+      mode,
+      level: { ...level },
+      dailyDate,
+      timelineBase: cells.map(snapshotCell),
       levelId: level.id,
       difficultyId: level.difficultyId,
       puzzle: level.puzzle,
@@ -125,21 +145,24 @@ export const useGameStore = defineStore('game', () => {
       updatedAt: now
     }
     pendingHint.value = null
+    activeDigit.value = null
+    storageError.value = ''
     flushSave()
   }
 
   function restartCurrent(): boolean {
     if (!game.value) return false
-    const level = getLevelById(game.value.levelId)
+    const level = game.value.level ?? getLevelById(game.value.levelId)
     if (!level) return false
-    startGame(level)
+    startGame(level, game.value.mode ?? 'CAMPAIGN', game.value.dailyDate)
     return true
   }
 
   function selectCell(index: number) {
-    if (!game.value || index < 0 || index >= 81) return
+    if (!game.value || game.value.status !== 'PLAYING' || !Number.isInteger(index) || index < 0 || index >= 81) return
     game.value.selectedIndex = index
     pendingHint.value = null
+    if (useSettingsStore().settings.inputStyle === 'number-first' && activeDigit.value != null) inputDigit(activeDigit.value)
   }
 
   function toggleNoteMode() {
@@ -172,7 +195,13 @@ export const useGameStore = defineStore('game', () => {
       changes: action.changes,
       timestamp: Date.now()
     })
-    if (game.value.timeline.length > 1500) game.value.timeline.splice(0, game.value.timeline.length - 1500)
+    if (game.value.timeline.length > 1500) {
+      game.value.timelineTruncated = true
+      game.value.timelineBase ??= createCells(game.value.puzzle, game.value.solution).map(snapshotCell)
+      for (const event of game.value.timeline.splice(0, game.value.timeline.length - 1500)) {
+        for (const change of event.changes) game.value.timelineBase[change.index] = { ...(event.kind === 'APPLY' ? change.after : change.before) }
+      }
+    }
   }
 
   function commitAction(type: GameActionType, changes: CellChange[]) {
@@ -194,12 +223,12 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function currentBoard(clearKnownErrors = false): number[] {
-    return game.value?.cells.map((cell) => (clearKnownErrors && cell.error ? 0 : cell.value)) ?? []
+    return game.value?.cells.map((cell) => (clearKnownErrors && cell.value !== cell.solution ? 0 : cell.value)) ?? []
   }
 
   function inputNormalDigit(digit: number) {
     if (!game.value || game.value.status !== 'PLAYING') return
-    if (digit < 1 || digit > 9 || game.value.selectedIndex == null) return
+    if (!Number.isInteger(digit) || digit < 1 || digit > 9 || game.value.selectedIndex == null) return
     const index = game.value.selectedIndex
     const cell = game.value.cells[index]
     if (cell.origin === 'GIVEN' || cell.value === digit) return
@@ -215,9 +244,10 @@ export const useGameStore = defineStore('game', () => {
     cell.notesMask = 0
     cell.error = settings.immediateErrorCheck ? !correct : false
 
-    if (!correct && settings.immediateErrorCheck) {
+    if (!correct) {
       game.value.mistakeCount += 1
-      feedback('error')
+      if (settings.immediateErrorCheck) feedback('error')
+      else feedback()
     } else {
       feedback()
     }
@@ -233,7 +263,7 @@ export const useGameStore = defineStore('game', () => {
 
   function inputNoteDigit(digit: number) {
     if (!game.value || game.value.status !== 'PLAYING') return
-    if (digit < 1 || digit > 9 || game.value.selectedIndex == null) return
+    if (!Number.isInteger(digit) || digit < 1 || digit > 9 || game.value.selectedIndex == null) return
     const index = game.value.selectedIndex
     const cell = game.value.cells[index]
     if (cell.origin === 'GIVEN' || cell.value !== 0) return
@@ -305,43 +335,20 @@ export const useGameStore = defineStore('game', () => {
 
   function requestHint(): HintResult | null {
     if (!game.value || game.value.status !== 'PLAYING') return null
-    const board = currentBoard(true)
-    const logical = findHint(board)
-    const selected = game.value.selectedIndex
-
-    if (selected != null && game.value.cells[selected].origin !== 'GIVEN') {
-      const cell = game.value.cells[selected]
-      if (cell.value === 0 || cell.error || cell.value !== cell.solution) {
-        if (logical?.index === selected) {
-          pendingHint.value = logical
-        } else {
-          pendingHint.value = {
-            index: selected,
-            digit: cell.solution,
-            technique: 'BACKTRACKING',
-            message: `第 ${Math.floor(selected / 9) + 1} 行第 ${(selected % 9) + 1} 列的正确数字是 ${cell.solution}。`
-          }
-        }
-        game.value.hintCount += 1
-        scheduleSave()
-        return pendingHint.value
-      }
-    }
-
-    pendingHint.value = logical
-    if (!pendingHint.value) {
-      const target = game.value.cells.find((cell) => cell.origin !== 'GIVEN' && cell.value !== cell.solution)
-      if (target) {
-        pendingHint.value = {
-          index: target.index,
-          digit: target.solution,
-          technique: 'BACKTRACKING',
-          message: `可以先处理第 ${Math.floor(target.index / 9) + 1} 行第 ${(target.index % 9) + 1} 列，答案是 ${target.solution}。`
-        }
+    if (pendingHint.value) return pendingHint.value
+    const wrong = game.value.cells.find(c => c.origin !== 'GIVEN' && c.value !== 0 && c.value !== c.solution)
+    if (wrong) {
+      pendingHint.value = { index: wrong.index, digit: wrong.solution, technique: 'BACKTRACKING', message: `第 ${Math.floor(wrong.index / 9) + 1} 行第 ${wrong.index % 9 + 1} 列的填写有误，请先检查这个格。展开答案可以更正。`, focusIndexes: [wrong.index] }
+    } else {
+      pendingHint.value = findHint(currentBoard(true))
+      if (!pendingHint.value) {
+        const target = game.value.cells.find(c => !c.value)
+        if (target) pendingHint.value = { index: target.index, digit: target.solution, technique: 'BACKTRACKING', message: '现有教学技巧暂时无法继续推导，可展开答案提示。', focusIndexes: [target.index] }
       }
     }
     if (pendingHint.value) {
-      game.value.hintCount += 1
+      game.value.selectedIndex = pendingHint.value.index
+      game.value.hintCount++
       scheduleSave()
     }
     return pendingHint.value
@@ -350,8 +357,9 @@ export const useGameStore = defineStore('game', () => {
   function applyHint() {
     if (!game.value || !pendingHint.value || game.value.status !== 'PLAYING') return
     const { index, digit } = pendingHint.value
+    if (!Number.isInteger(index) || index < 0 || index > 80) { pendingHint.value = null; return }
     const cell = game.value.cells[index]
-    if (cell.origin === 'GIVEN') return
+    if (cell.origin === 'GIVEN' || digit !== cell.solution) { pendingHint.value = null; return }
     const peers = peerIndexes(index)
     const tracked = [index, ...peers]
     const before = capture(tracked)
@@ -437,72 +445,101 @@ export const useGameStore = defineStore('game', () => {
     if (game.value.cells.every((cell) => cell.value === cell.solution)) completeGame()
   }
 
-  function completeGame() {
-    if (!game.value || game.value.status === 'COMPLETED') return
+  function completeGame(): boolean {
+    if (!game.value || game.value.status === 'COMPLETED' || !game.value.cells.every(c => c.value === c.solution)) return false
     const now = Date.now()
-    if (game.value.activeStartedAt != null) game.value.accumulatedTime += Math.max(0, now - game.value.activeStartedAt)
-    game.value.activeStartedAt = null
-    game.value.status = 'COMPLETED'
-
-    const difficulty = getDifficulty(game.value.difficultyId)
-    const level = getLevelById(game.value.levelId)
-    const medal = medalFor(game.value.mistakeCount, game.value.hintCount)
-    const progressResult = useProgressStore().markCompleted({
-      levelId: game.value.levelId,
-      difficultyId: game.value.difficultyId,
-      levelNo: level?.levelNo ?? 0,
-      baseScore: difficulty.score,
-      medal,
-      elapsedTime: game.value.accumulatedTime,
-      mistakes: game.value.mistakeCount,
-      hints: game.value.hintCount,
-      completedAt: now
-    })
-
-    game.value.completion = {
-      completedAt: now,
-      medal,
-      baseScore: difficulty.score,
-      scoreAwarded: progressResult.scoreAwarded,
-      firstCompletion: progressResult.firstCompletion
+    const duration = elapsed(now)
+    const campaign = (game.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN'
+    try {
+      const completion = resultsRepository.settle(game.value.id, {
+        id: `record-${game.value.id}`, levelId: game.value.levelId, difficultyId: game.value.difficultyId,
+        levelNo: game.value.level?.levelNo ?? getLevelById(game.value.levelId)?.levelNo ?? 0,
+        mode: game.value.mode ?? 'CAMPAIGN', dailyDate: game.value.dailyDate,
+        puzzle: game.value.puzzle, solution: game.value.solution,
+        finalValues: game.value.cells.map(c => c.value), origins: game.value.cells.map(c => c.origin),
+        elapsedTime: duration, mistakeCount: game.value.mistakeCount, hintCount: game.value.hintCount,
+        baseScore: campaign ? getDifficulty(game.value.difficultyId).score : 0,
+        medal: medalFor(game.value.mistakeCount, game.value.hintCount), startedAt: game.value.startedAt, completedAt: now,
+        actions: [], timeline: [...game.value.timeline], timelineBase: game.value.timelineBase, timelineTruncated: game.value.timelineTruncated
+      })
+      game.value.accumulatedTime = duration
+      game.value.activeStartedAt = null
+      game.value.status = 'COMPLETED'
+      game.value.completion = completion
+      storageError.value = ''
+      if (saveTimer) clearTimeout(saveTimer)
+      saveTimer = null
+      useProgressStore().reload()
+      useHistoryStore().refresh()
+      try { currentGameRepository.clear() } catch { /* A stale save is rejected by its settlement id. */ }
+      feedback('success')
+      setTimeout(() => uni.redirectTo({ url: '/pages/result/index' }), 80)
+      return true
+    } catch {
+      const saved = flushSave()
+      storageError.value = saved
+        ? '完成结果保存失败，棋盘已存档。请释放存储后点击重试结算。'
+        : '存储不可写，棋盘仅保留在当前页面。请释放存储后重试结算，暂勿关闭游戏。'
+      return false
     }
-
-    useHistoryStore().add({
-      id: createId('record'),
-      levelId: game.value.levelId,
-      difficultyId: game.value.difficultyId,
-      levelNo: level?.levelNo ?? 0,
-      puzzle: game.value.puzzle,
-      solution: game.value.solution,
-      finalValues: game.value.cells.map((cell) => cell.value),
-      origins: game.value.cells.map((cell) => cell.origin),
-      elapsedTime: game.value.accumulatedTime,
-      mistakeCount: game.value.mistakeCount,
-      hintCount: game.value.hintCount,
-      baseScore: difficulty.score,
-      scoreAwarded: progressResult.scoreAwarded,
-      medal,
-      startedAt: game.value.startedAt,
-      completedAt: now,
-      actions: [],
-      timeline: [...game.value.timeline]
-    })
-
-    currentGameRepository.clear()
-    feedback('success')
-    setTimeout(() => uni.redirectTo({ url: '/pages/result/index' }), 80)
   }
 
-  function discard() {
+  function checkBoard(): number {
+    if (!game.value || game.value.status !== 'PLAYING') return 0
+    const indexes = game.value.cells.filter(c => c.origin !== 'GIVEN').map(c => c.index)
+    const before = capture(indexes)
+    for (const index of indexes) {
+      const cell = game.value.cells[index]
+      cell.error = cell.value !== 0 && cell.value !== cell.solution
+    }
+    commitAction('CHECK', buildChanges(indexes, before))
+    return game.value.cells.filter(c => c.error).length
+  }
+
+  function chooseDigit(digit: number) {
+    if (!isActive.value || !Number.isInteger(digit) || digit < 1 || digit > 9) return
+    if (useSettingsStore().settings.inputStyle === 'number-first') activeDigit.value = activeDigit.value === digit ? null : digit
+    else inputDigit(digit)
+  }
+
+  function saveBookmark() {
+    if (!game.value || game.value.status !== 'PLAYING') return
+    game.value.bookmark = game.value.cells.map(snapshotCell)
+    flushSave()
+  }
+
+  function restoreBookmark(): boolean {
+    if (!game.value?.bookmark || game.value.status !== 'PLAYING') return false
+    const indexes = game.value.cells.filter(c => c.origin !== 'GIVEN').map(c => c.index)
+    const before = capture(indexes)
+    indexes.forEach(i => applySnapshot(i, game.value!.bookmark![i]))
+    commitAction('RESTORE_BOOKMARK', buildChanges(indexes, before))
+    checkCompletion()
+    return true
+  }
+
+  function discard(persist = true) {
+    if (persist) currentGameRepository.clear()
+    if (saveTimer) clearTimeout(saveTimer)
+    saveTimer = null
+    storageError.value = ''
+    activeDigit.value = null
     game.value = null
     pendingHint.value = null
-    currentGameRepository.clear()
   }
 
   return {
     game,
     pendingHint,
+    storageError,
+    activeDigit,
+    chooseDigit,
+    checkBoard,
+    saveBookmark,
+    restoreBookmark,
+    completeGame,
     isActive,
+    needsSettlement,
     selectedCell,
     startGame,
     restartCurrent,

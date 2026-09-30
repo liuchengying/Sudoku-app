@@ -8,6 +8,10 @@ export interface AppSettings {
   smartNotes: boolean
   sound: boolean
   haptics: boolean
+  theme: 'light' | 'dark'
+  largeDigits: boolean
+  inputStyle: 'cell-first' | 'number-first'
+  onboardingSeen: boolean
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -19,5 +23,11 @@ export const DEFAULT_SETTINGS: AppSettings = {
   disableCompletedDigit: true,
   smartNotes: true,
   sound: true,
-  haptics: true
+  haptics: true,
+  theme: 'light',
+  largeDigits: false,
+  inputStyle: 'cell-first',
+  onboardingSeen: false
 }
+
+export type BooleanSetting = { [K in keyof AppSettings]: AppSettings[K] extends boolean ? K : never }[keyof AppSettings]

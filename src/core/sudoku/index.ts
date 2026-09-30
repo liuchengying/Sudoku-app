@@ -8,3 +8,4 @@ export * from './hint'
 export * from './difficulty'
 
 export * from './generator'
+export * from './replay'

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { MedalType } from '@/types/progress'
+import { computed } from 'vue'
 
 const props = defineProps<{ medal: MedalType; size?: 'small' | 'normal' }>()
-const number = props.medal === 'GOLD' ? 1 : props.medal === 'SILVER' ? 2 : 3
+const number = computed(() => props.medal === 'GOLD' ? 1 : props.medal === 'SILVER' ? 2 : 3)
 </script>
 
 <template>

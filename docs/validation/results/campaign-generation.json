@@ -1,0 +1,2108 @@
+{
+  "sampleCount": 300,
+  "duplicates": 0,
+  "invalid": 0,
+  "elapsedMs": 36103,
+  "levels": [
+    {
+      "id": "master-026",
+      "stage": 2,
+      "tier": "easy",
+      "score": 93,
+      "clues": 28
+    },
+    {
+      "id": "master-027",
+      "stage": 2,
+      "tier": "easy",
+      "score": 87,
+      "clues": 28
+    },
+    {
+      "id": "master-028",
+      "stage": 2,
+      "tier": "easy",
+      "score": 92,
+      "clues": 28
+    },
+    {
+      "id": "master-029",
+      "stage": 2,
+      "tier": "easy",
+      "score": 92,
+      "clues": 28
+    },
+    {
+      "id": "master-030",
+      "stage": 2,
+      "tier": "easy",
+      "score": 94,
+      "clues": 29
+    },
+    {
+      "id": "master-031",
+      "stage": 2,
+      "tier": "easy",
+      "score": 87,
+      "clues": 28
+    },
+    {
+      "id": "master-032",
+      "stage": 2,
+      "tier": "easy",
+      "score": 91,
+      "clues": 28
+    },
+    {
+      "id": "master-033",
+      "stage": 2,
+      "tier": "easy",
+      "score": 83,
+      "clues": 30
+    },
+    {
+      "id": "master-034",
+      "stage": 2,
+      "tier": "easy",
+      "score": 83,
+      "clues": 28
+    },
+    {
+      "id": "master-035",
+      "stage": 2,
+      "tier": "easy",
+      "score": 86,
+      "clues": 28
+    },
+    {
+      "id": "master-036",
+      "stage": 2,
+      "tier": "easy",
+      "score": 90,
+      "clues": 28
+    },
+    {
+      "id": "master-037",
+      "stage": 2,
+      "tier": "easy",
+      "score": 85,
+      "clues": 28
+    },
+    {
+      "id": "master-038",
+      "stage": 2,
+      "tier": "easy",
+      "score": 87,
+      "clues": 28
+    },
+    {
+      "id": "master-039",
+      "stage": 2,
+      "tier": "easy",
+      "score": 91,
+      "clues": 28
+    },
+    {
+      "id": "master-040",
+      "stage": 2,
+      "tier": "easy",
+      "score": 89,
+      "clues": 28
+    },
+    {
+      "id": "master-041",
+      "stage": 2,
+      "tier": "easy",
+      "score": 83,
+      "clues": 28
+    },
+    {
+      "id": "master-042",
+      "stage": 2,
+      "tier": "easy",
+      "score": 93,
+      "clues": 28
+    },
+    {
+      "id": "master-043",
+      "stage": 2,
+      "tier": "easy",
+      "score": 88,
+      "clues": 28
+    },
+    {
+      "id": "master-044",
+      "stage": 2,
+      "tier": "easy",
+      "score": 83,
+      "clues": 28
+    },
+    {
+      "id": "master-045",
+      "stage": 2,
+      "tier": "easy",
+      "score": 85,
+      "clues": 28
+    },
+    {
+      "id": "master-046",
+      "stage": 2,
+      "tier": "easy",
+      "score": 84,
+      "clues": 28
+    },
+    {
+      "id": "master-047",
+      "stage": 2,
+      "tier": "easy",
+      "score": 87,
+      "clues": 28
+    },
+    {
+      "id": "master-048",
+      "stage": 2,
+      "tier": "easy",
+      "score": 83,
+      "clues": 28
+    },
+    {
+      "id": "master-049",
+      "stage": 2,
+      "tier": "easy",
+      "score": 84,
+      "clues": 28
+    },
+    {
+      "id": "master-050",
+      "stage": 2,
+      "tier": "easy",
+      "score": 87,
+      "clues": 28
+    },
+    {
+      "id": "master-051",
+      "stage": 3,
+      "tier": "easy",
+      "score": 103,
+      "clues": 26
+    },
+    {
+      "id": "master-052",
+      "stage": 3,
+      "tier": "easy",
+      "score": 95,
+      "clues": 27
+    },
+    {
+      "id": "master-053",
+      "stage": 3,
+      "tier": "easy",
+      "score": 102,
+      "clues": 26
+    },
+    {
+      "id": "master-054",
+      "stage": 3,
+      "tier": "easy",
+      "score": 97,
+      "clues": 28
+    },
+    {
+      "id": "master-055",
+      "stage": 3,
+      "tier": "easy",
+      "score": 95,
+      "clues": 26
+    },
+    {
+      "id": "master-056",
+      "stage": 3,
+      "tier": "easy",
+      "score": 96,
+      "clues": 26
+    },
+    {
+      "id": "master-057",
+      "stage": 3,
+      "tier": "easy",
+      "score": 99,
+      "clues": 26
+    },
+    {
+      "id": "master-058",
+      "stage": 3,
+      "tier": "easy",
+      "score": 101,
+      "clues": 26
+    },
+    {
+      "id": "master-059",
+      "stage": 3,
+      "tier": "easy",
+      "score": 97,
+      "clues": 28
+    },
+    {
+      "id": "master-060",
+      "stage": 3,
+      "tier": "easy",
+      "score": 99,
+      "clues": 26
+    },
+    {
+      "id": "master-061",
+      "stage": 3,
+      "tier": "easy",
+      "score": 95,
+      "clues": 27
+    },
+    {
+      "id": "master-062",
+      "stage": 3,
+      "tier": "easy",
+      "score": 95,
+      "clues": 26
+    },
+    {
+      "id": "master-063",
+      "stage": 3,
+      "tier": "easy",
+      "score": 100,
+      "clues": 26
+    },
+    {
+      "id": "master-064",
+      "stage": 3,
+      "tier": "easy",
+      "score": 96,
+      "clues": 26
+    },
+    {
+      "id": "master-065",
+      "stage": 3,
+      "tier": "easy",
+      "score": 98,
+      "clues": 26
+    },
+    {
+      "id": "master-066",
+      "stage": 3,
+      "tier": "easy",
+      "score": 109,
+      "clues": 26
+    },
+    {
+      "id": "master-067",
+      "stage": 3,
+      "tier": "easy",
+      "score": 96,
+      "clues": 26
+    },
+    {
+      "id": "master-068",
+      "stage": 3,
+      "tier": "easy",
+      "score": 98,
+      "clues": 28
+    },
+    {
+      "id": "master-069",
+      "stage": 3,
+      "tier": "easy",
+      "score": 103,
+      "clues": 26
+    },
+    {
+      "id": "master-070",
+      "stage": 3,
+      "tier": "easy",
+      "score": 95,
+      "clues": 26
+    },
+    {
+      "id": "master-071",
+      "stage": 3,
+      "tier": "easy",
+      "score": 101,
+      "clues": 26
+    },
+    {
+      "id": "master-072",
+      "stage": 3,
+      "tier": "easy",
+      "score": 109,
+      "clues": 26
+    },
+    {
+      "id": "master-073",
+      "stage": 3,
+      "tier": "easy",
+      "score": 98,
+      "clues": 26
+    },
+    {
+      "id": "master-074",
+      "stage": 3,
+      "tier": "easy",
+      "score": 103,
+      "clues": 27
+    },
+    {
+      "id": "master-075",
+      "stage": 3,
+      "tier": "easy",
+      "score": 105,
+      "clues": 26
+    },
+    {
+      "id": "master-076",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 118,
+      "clues": 28
+    },
+    {
+      "id": "master-077",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 111,
+      "clues": 26
+    },
+    {
+      "id": "master-078",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 126,
+      "clues": 26
+    },
+    {
+      "id": "master-079",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 116,
+      "clues": 26
+    },
+    {
+      "id": "master-080",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 112,
+      "clues": 27
+    },
+    {
+      "id": "master-081",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 117,
+      "clues": 26
+    },
+    {
+      "id": "master-082",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 112,
+      "clues": 26
+    },
+    {
+      "id": "master-083",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 122,
+      "clues": 25
+    },
+    {
+      "id": "master-084",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 119,
+      "clues": 26
+    },
+    {
+      "id": "master-085",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 121,
+      "clues": 26
+    },
+    {
+      "id": "master-086",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 126,
+      "clues": 26
+    },
+    {
+      "id": "master-087",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 127,
+      "clues": 26
+    },
+    {
+      "id": "master-088",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 126,
+      "clues": 24
+    },
+    {
+      "id": "master-089",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 111,
+      "clues": 27
+    },
+    {
+      "id": "master-090",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 127,
+      "clues": 27
+    },
+    {
+      "id": "master-091",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 119,
+      "clues": 26
+    },
+    {
+      "id": "master-092",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 115,
+      "clues": 26
+    },
+    {
+      "id": "master-093",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 115,
+      "clues": 28
+    },
+    {
+      "id": "master-094",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 110,
+      "clues": 26
+    },
+    {
+      "id": "master-095",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 123,
+      "clues": 27
+    },
+    {
+      "id": "master-096",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 129,
+      "clues": 26
+    },
+    {
+      "id": "master-097",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 114,
+      "clues": 26
+    },
+    {
+      "id": "master-098",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 125,
+      "clues": 25
+    },
+    {
+      "id": "master-099",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 112,
+      "clues": 28
+    },
+    {
+      "id": "master-100",
+      "stage": 4,
+      "tier": "advanced",
+      "score": 129,
+      "clues": 26
+    },
+    {
+      "id": "master-101",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 134,
+      "clues": 26
+    },
+    {
+      "id": "master-102",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 132,
+      "clues": 24
+    },
+    {
+      "id": "master-103",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 166,
+      "clues": 25
+    },
+    {
+      "id": "master-104",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 144,
+      "clues": 24
+    },
+    {
+      "id": "master-105",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 132,
+      "clues": 26
+    },
+    {
+      "id": "master-106",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 134,
+      "clues": 24
+    },
+    {
+      "id": "master-107",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 169,
+      "clues": 24
+    },
+    {
+      "id": "master-108",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 155,
+      "clues": 26
+    },
+    {
+      "id": "master-109",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 132,
+      "clues": 24
+    },
+    {
+      "id": "master-110",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 142,
+      "clues": 26
+    },
+    {
+      "id": "master-111",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 136,
+      "clues": 26
+    },
+    {
+      "id": "master-112",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 134,
+      "clues": 24
+    },
+    {
+      "id": "master-113",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 154,
+      "clues": 26
+    },
+    {
+      "id": "master-114",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 141,
+      "clues": 24
+    },
+    {
+      "id": "master-115",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 156,
+      "clues": 26
+    },
+    {
+      "id": "master-116",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 154,
+      "clues": 24
+    },
+    {
+      "id": "master-117",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 155,
+      "clues": 26
+    },
+    {
+      "id": "master-118",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 140,
+      "clues": 24
+    },
+    {
+      "id": "master-119",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 154,
+      "clues": 26
+    },
+    {
+      "id": "master-120",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 133,
+      "clues": 28
+    },
+    {
+      "id": "master-121",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 132,
+      "clues": 26
+    },
+    {
+      "id": "master-122",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 154,
+      "clues": 24
+    },
+    {
+      "id": "master-123",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 143,
+      "clues": 24
+    },
+    {
+      "id": "master-124",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 156,
+      "clues": 26
+    },
+    {
+      "id": "master-125",
+      "stage": 5,
+      "tier": "advanced",
+      "score": 135,
+      "clues": 26
+    },
+    {
+      "id": "king-026",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 116,
+      "clues": 26
+    },
+    {
+      "id": "king-027",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 114,
+      "clues": 26
+    },
+    {
+      "id": "king-028",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 116,
+      "clues": 24
+    },
+    {
+      "id": "king-029",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 118,
+      "clues": 24
+    },
+    {
+      "id": "king-030",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 112,
+      "clues": 26
+    },
+    {
+      "id": "king-031",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 125,
+      "clues": 25
+    },
+    {
+      "id": "king-032",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 116,
+      "clues": 26
+    },
+    {
+      "id": "king-033",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 111,
+      "clues": 26
+    },
+    {
+      "id": "king-034",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 113,
+      "clues": 26
+    },
+    {
+      "id": "king-035",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 114,
+      "clues": 26
+    },
+    {
+      "id": "king-036",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 116,
+      "clues": 24
+    },
+    {
+      "id": "king-037",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 122,
+      "clues": 27
+    },
+    {
+      "id": "king-038",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 112,
+      "clues": 28
+    },
+    {
+      "id": "king-039",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 122,
+      "clues": 25
+    },
+    {
+      "id": "king-040",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 124,
+      "clues": 25
+    },
+    {
+      "id": "king-041",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 112,
+      "clues": 26
+    },
+    {
+      "id": "king-042",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 117,
+      "clues": 27
+    },
+    {
+      "id": "king-043",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 125,
+      "clues": 26
+    },
+    {
+      "id": "king-044",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 111,
+      "clues": 26
+    },
+    {
+      "id": "king-045",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 122,
+      "clues": 26
+    },
+    {
+      "id": "king-046",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 120,
+      "clues": 24
+    },
+    {
+      "id": "king-047",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 127,
+      "clues": 26
+    },
+    {
+      "id": "king-048",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 122,
+      "clues": 26
+    },
+    {
+      "id": "king-049",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 128,
+      "clues": 26
+    },
+    {
+      "id": "king-050",
+      "stage": 2,
+      "tier": "advanced",
+      "score": 110,
+      "clues": 26
+    },
+    {
+      "id": "king-051",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 155,
+      "clues": 26
+    },
+    {
+      "id": "king-052",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 131,
+      "clues": 26
+    },
+    {
+      "id": "king-053",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 155,
+      "clues": 26
+    },
+    {
+      "id": "king-054",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 138,
+      "clues": 24
+    },
+    {
+      "id": "king-055",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 154,
+      "clues": 26
+    },
+    {
+      "id": "king-056",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 132,
+      "clues": 26
+    },
+    {
+      "id": "king-057",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 140,
+      "clues": 24
+    },
+    {
+      "id": "king-058",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 181,
+      "clues": 26
+    },
+    {
+      "id": "king-059",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 143,
+      "clues": 24
+    },
+    {
+      "id": "king-060",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 156,
+      "clues": 26
+    },
+    {
+      "id": "king-061",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 130,
+      "clues": 25
+    },
+    {
+      "id": "king-062",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 138,
+      "clues": 26
+    },
+    {
+      "id": "king-063",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 149,
+      "clues": 25
+    },
+    {
+      "id": "king-064",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 154,
+      "clues": 26
+    },
+    {
+      "id": "king-065",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 132,
+      "clues": 24
+    },
+    {
+      "id": "king-066",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 155,
+      "clues": 26
+    },
+    {
+      "id": "king-067",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 141,
+      "clues": 24
+    },
+    {
+      "id": "king-068",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 131,
+      "clues": 24
+    },
+    {
+      "id": "king-069",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 130,
+      "clues": 24
+    },
+    {
+      "id": "king-070",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 131,
+      "clues": 26
+    },
+    {
+      "id": "king-071",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 135,
+      "clues": 26
+    },
+    {
+      "id": "king-072",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 130,
+      "clues": 24
+    },
+    {
+      "id": "king-073",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 200,
+      "clues": 24
+    },
+    {
+      "id": "king-074",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 133,
+      "clues": 25
+    },
+    {
+      "id": "king-075",
+      "stage": 3,
+      "tier": "advanced",
+      "score": 173,
+      "clues": 25
+    },
+    {
+      "id": "king-076",
+      "stage": 4,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "king-077",
+      "stage": 4,
+      "tier": "expert",
+      "score": 284,
+      "clues": 28
+    },
+    {
+      "id": "king-078",
+      "stage": 4,
+      "tier": "expert",
+      "score": 328,
+      "clues": 26
+    },
+    {
+      "id": "king-079",
+      "stage": 4,
+      "tier": "expert",
+      "score": 279,
+      "clues": 26
+    },
+    {
+      "id": "king-080",
+      "stage": 4,
+      "tier": "expert",
+      "score": 326,
+      "clues": 26
+    },
+    {
+      "id": "king-081",
+      "stage": 4,
+      "tier": "expert",
+      "score": 293,
+      "clues": 30
+    },
+    {
+      "id": "king-082",
+      "stage": 4,
+      "tier": "expert",
+      "score": 311,
+      "clues": 27
+    },
+    {
+      "id": "king-083",
+      "stage": 4,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "king-084",
+      "stage": 4,
+      "tier": "expert",
+      "score": 327,
+      "clues": 27
+    },
+    {
+      "id": "king-085",
+      "stage": 4,
+      "tier": "expert",
+      "score": 261,
+      "clues": 33
+    },
+    {
+      "id": "king-086",
+      "stage": 4,
+      "tier": "expert",
+      "score": 301,
+      "clues": 26
+    },
+    {
+      "id": "king-087",
+      "stage": 4,
+      "tier": "expert",
+      "score": 272,
+      "clues": 26
+    },
+    {
+      "id": "king-088",
+      "stage": 4,
+      "tier": "expert",
+      "score": 303,
+      "clues": 28
+    },
+    {
+      "id": "king-089",
+      "stage": 4,
+      "tier": "expert",
+      "score": 306,
+      "clues": 28
+    },
+    {
+      "id": "king-090",
+      "stage": 4,
+      "tier": "expert",
+      "score": 313,
+      "clues": 28
+    },
+    {
+      "id": "king-091",
+      "stage": 4,
+      "tier": "expert",
+      "score": 327,
+      "clues": 27
+    },
+    {
+      "id": "king-092",
+      "stage": 4,
+      "tier": "expert",
+      "score": 301,
+      "clues": 26
+    },
+    {
+      "id": "king-093",
+      "stage": 4,
+      "tier": "expert",
+      "score": 286,
+      "clues": 30
+    },
+    {
+      "id": "king-094",
+      "stage": 4,
+      "tier": "expert",
+      "score": 270,
+      "clues": 28
+    },
+    {
+      "id": "king-095",
+      "stage": 4,
+      "tier": "expert",
+      "score": 278,
+      "clues": 26
+    },
+    {
+      "id": "king-096",
+      "stage": 4,
+      "tier": "expert",
+      "score": 329,
+      "clues": 26
+    },
+    {
+      "id": "king-097",
+      "stage": 4,
+      "tier": "expert",
+      "score": 327,
+      "clues": 26
+    },
+    {
+      "id": "king-098",
+      "stage": 4,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "king-099",
+      "stage": 4,
+      "tier": "expert",
+      "score": 302,
+      "clues": 26
+    },
+    {
+      "id": "king-100",
+      "stage": 4,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "king-101",
+      "stage": 5,
+      "tier": "expert",
+      "score": 346,
+      "clues": 25
+    },
+    {
+      "id": "king-102",
+      "stage": 5,
+      "tier": "expert",
+      "score": 358,
+      "clues": 28
+    },
+    {
+      "id": "king-103",
+      "stage": 5,
+      "tier": "expert",
+      "score": 335,
+      "clues": 26
+    },
+    {
+      "id": "king-104",
+      "stage": 5,
+      "tier": "expert",
+      "score": 360,
+      "clues": 25
+    },
+    {
+      "id": "king-105",
+      "stage": 5,
+      "tier": "expert",
+      "score": 359,
+      "clues": 25
+    },
+    {
+      "id": "king-106",
+      "stage": 5,
+      "tier": "expert",
+      "score": 375,
+      "clues": 25
+    },
+    {
+      "id": "king-107",
+      "stage": 5,
+      "tier": "expert",
+      "score": 352,
+      "clues": 26
+    },
+    {
+      "id": "king-108",
+      "stage": 5,
+      "tier": "expert",
+      "score": 399,
+      "clues": 25
+    },
+    {
+      "id": "king-109",
+      "stage": 5,
+      "tier": "expert",
+      "score": 338,
+      "clues": 30
+    },
+    {
+      "id": "king-110",
+      "stage": 5,
+      "tier": "expert",
+      "score": 386,
+      "clues": 28
+    },
+    {
+      "id": "king-111",
+      "stage": 5,
+      "tier": "expert",
+      "score": 377,
+      "clues": 25
+    },
+    {
+      "id": "king-112",
+      "stage": 5,
+      "tier": "expert",
+      "score": 335,
+      "clues": 31
+    },
+    {
+      "id": "king-113",
+      "stage": 5,
+      "tier": "expert",
+      "score": 396,
+      "clues": 26
+    },
+    {
+      "id": "king-114",
+      "stage": 5,
+      "tier": "expert",
+      "score": 365,
+      "clues": 25
+    },
+    {
+      "id": "king-115",
+      "stage": 5,
+      "tier": "expert",
+      "score": 374,
+      "clues": 25
+    },
+    {
+      "id": "king-116",
+      "stage": 5,
+      "tier": "expert",
+      "score": 363,
+      "clues": 25
+    },
+    {
+      "id": "king-117",
+      "stage": 5,
+      "tier": "expert",
+      "score": 394,
+      "clues": 28
+    },
+    {
+      "id": "king-118",
+      "stage": 5,
+      "tier": "expert",
+      "score": 382,
+      "clues": 28
+    },
+    {
+      "id": "king-119",
+      "stage": 5,
+      "tier": "expert",
+      "score": 350,
+      "clues": 25
+    },
+    {
+      "id": "king-120",
+      "stage": 5,
+      "tier": "expert",
+      "score": 365,
+      "clues": 25
+    },
+    {
+      "id": "king-121",
+      "stage": 5,
+      "tier": "expert",
+      "score": 393,
+      "clues": 28
+    },
+    {
+      "id": "king-122",
+      "stage": 5,
+      "tier": "expert",
+      "score": 380,
+      "clues": 25
+    },
+    {
+      "id": "king-123",
+      "stage": 5,
+      "tier": "expert",
+      "score": 381,
+      "clues": 26
+    },
+    {
+      "id": "king-124",
+      "stage": 5,
+      "tier": "expert",
+      "score": 387,
+      "clues": 25
+    },
+    {
+      "id": "king-125",
+      "stage": 5,
+      "tier": "expert",
+      "score": 346,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-026",
+      "stage": 2,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-027",
+      "stage": 2,
+      "tier": "expert",
+      "score": 298,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-028",
+      "stage": 2,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-029",
+      "stage": 2,
+      "tier": "expert",
+      "score": 327,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-030",
+      "stage": 2,
+      "tier": "expert",
+      "score": 286,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-031",
+      "stage": 2,
+      "tier": "expert",
+      "score": 285,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-032",
+      "stage": 2,
+      "tier": "expert",
+      "score": 312,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-033",
+      "stage": 2,
+      "tier": "expert",
+      "score": 317,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-034",
+      "stage": 2,
+      "tier": "expert",
+      "score": 319,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-035",
+      "stage": 2,
+      "tier": "expert",
+      "score": 293,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-036",
+      "stage": 2,
+      "tier": "expert",
+      "score": 318,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-037",
+      "stage": 2,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-038",
+      "stage": 2,
+      "tier": "expert",
+      "score": 327,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-039",
+      "stage": 2,
+      "tier": "expert",
+      "score": 306,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-040",
+      "stage": 2,
+      "tier": "expert",
+      "score": 314,
+      "clues": 29
+    },
+    {
+      "id": "grandmaster-041",
+      "stage": 2,
+      "tier": "expert",
+      "score": 306,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-042",
+      "stage": 2,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-043",
+      "stage": 2,
+      "tier": "expert",
+      "score": 290,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-044",
+      "stage": 2,
+      "tier": "expert",
+      "score": 293,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-045",
+      "stage": 2,
+      "tier": "expert",
+      "score": 327,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-046",
+      "stage": 2,
+      "tier": "expert",
+      "score": 298,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-047",
+      "stage": 2,
+      "tier": "expert",
+      "score": 296,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-048",
+      "stage": 2,
+      "tier": "expert",
+      "score": 276,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-049",
+      "stage": 2,
+      "tier": "expert",
+      "score": 319,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-050",
+      "stage": 2,
+      "tier": "expert",
+      "score": 317,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-051",
+      "stage": 3,
+      "tier": "expert",
+      "score": 363,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-052",
+      "stage": 3,
+      "tier": "expert",
+      "score": 367,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-053",
+      "stage": 3,
+      "tier": "expert",
+      "score": 378,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-054",
+      "stage": 3,
+      "tier": "expert",
+      "score": 373,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-055",
+      "stage": 3,
+      "tier": "expert",
+      "score": 341,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-056",
+      "stage": 3,
+      "tier": "expert",
+      "score": 379,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-057",
+      "stage": 3,
+      "tier": "expert",
+      "score": 381,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-058",
+      "stage": 3,
+      "tier": "expert",
+      "score": 359,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-059",
+      "stage": 3,
+      "tier": "expert",
+      "score": 399,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-060",
+      "stage": 3,
+      "tier": "expert",
+      "score": 394,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-061",
+      "stage": 3,
+      "tier": "expert",
+      "score": 360,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-062",
+      "stage": 3,
+      "tier": "expert",
+      "score": 338,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-063",
+      "stage": 3,
+      "tier": "expert",
+      "score": 354,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-064",
+      "stage": 3,
+      "tier": "expert",
+      "score": 361,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-065",
+      "stage": 3,
+      "tier": "expert",
+      "score": 383,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-066",
+      "stage": 3,
+      "tier": "expert",
+      "score": 332,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-067",
+      "stage": 3,
+      "tier": "expert",
+      "score": 365,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-068",
+      "stage": 3,
+      "tier": "expert",
+      "score": 372,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-069",
+      "stage": 3,
+      "tier": "expert",
+      "score": 360,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-070",
+      "stage": 3,
+      "tier": "expert",
+      "score": 390,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-071",
+      "stage": 3,
+      "tier": "expert",
+      "score": 374,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-072",
+      "stage": 3,
+      "tier": "expert",
+      "score": 350,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-073",
+      "stage": 3,
+      "tier": "expert",
+      "score": 393,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-074",
+      "stage": 3,
+      "tier": "expert",
+      "score": 370,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-075",
+      "stage": 3,
+      "tier": "expert",
+      "score": 349,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-076",
+      "stage": 4,
+      "tier": "expert",
+      "score": 422,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-077",
+      "stage": 4,
+      "tier": "expert",
+      "score": 458,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-078",
+      "stage": 4,
+      "tier": "expert",
+      "score": 413,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-079",
+      "stage": 4,
+      "tier": "expert",
+      "score": 437,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-080",
+      "stage": 4,
+      "tier": "expert",
+      "score": 461,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-081",
+      "stage": 4,
+      "tier": "expert",
+      "score": 426,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-082",
+      "stage": 4,
+      "tier": "expert",
+      "score": 404,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-083",
+      "stage": 4,
+      "tier": "expert",
+      "score": 469,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-084",
+      "stage": 4,
+      "tier": "expert",
+      "score": 456,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-085",
+      "stage": 4,
+      "tier": "expert",
+      "score": 464,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-086",
+      "stage": 4,
+      "tier": "expert",
+      "score": 460,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-087",
+      "stage": 4,
+      "tier": "expert",
+      "score": 416,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-088",
+      "stage": 4,
+      "tier": "expert",
+      "score": 452,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-089",
+      "stage": 4,
+      "tier": "expert",
+      "score": 457,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-090",
+      "stage": 4,
+      "tier": "expert",
+      "score": 420,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-091",
+      "stage": 4,
+      "tier": "expert",
+      "score": 404,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-092",
+      "stage": 4,
+      "tier": "expert",
+      "score": 454,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-093",
+      "stage": 4,
+      "tier": "expert",
+      "score": 489,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-094",
+      "stage": 4,
+      "tier": "expert",
+      "score": 426,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-095",
+      "stage": 4,
+      "tier": "expert",
+      "score": 477,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-096",
+      "stage": 4,
+      "tier": "expert",
+      "score": 460,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-097",
+      "stage": 4,
+      "tier": "expert",
+      "score": 405,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-098",
+      "stage": 4,
+      "tier": "expert",
+      "score": 402,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-099",
+      "stage": 4,
+      "tier": "expert",
+      "score": 461,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-100",
+      "stage": 4,
+      "tier": "expert",
+      "score": 410,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-101",
+      "stage": 5,
+      "tier": "expert",
+      "score": 402,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-102",
+      "stage": 5,
+      "tier": "expert",
+      "score": 419,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-103",
+      "stage": 5,
+      "tier": "expert",
+      "score": 418,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-104",
+      "stage": 5,
+      "tier": "expert",
+      "score": 488,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-105",
+      "stage": 5,
+      "tier": "expert",
+      "score": 446,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-106",
+      "stage": 5,
+      "tier": "expert",
+      "score": 465,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-107",
+      "stage": 5,
+      "tier": "expert",
+      "score": 462,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-108",
+      "stage": 5,
+      "tier": "expert",
+      "score": 401,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-109",
+      "stage": 5,
+      "tier": "expert",
+      "score": 441,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-110",
+      "stage": 5,
+      "tier": "expert",
+      "score": 405,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-111",
+      "stage": 5,
+      "tier": "expert",
+      "score": 404,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-112",
+      "stage": 5,
+      "tier": "expert",
+      "score": 458,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-113",
+      "stage": 5,
+      "tier": "expert",
+      "score": 454,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-114",
+      "stage": 5,
+      "tier": "expert",
+      "score": 406,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-115",
+      "stage": 5,
+      "tier": "expert",
+      "score": 406,
+      "clues": 28
+    },
+    {
+      "id": "grandmaster-116",
+      "stage": 5,
+      "tier": "expert",
+      "score": 440,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-117",
+      "stage": 5,
+      "tier": "expert",
+      "score": 403,
+      "clues": 27
+    },
+    {
+      "id": "grandmaster-118",
+      "stage": 5,
+      "tier": "expert",
+      "score": 456,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-119",
+      "stage": 5,
+      "tier": "expert",
+      "score": 439,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-120",
+      "stage": 5,
+      "tier": "expert",
+      "score": 401,
+      "clues": 30
+    },
+    {
+      "id": "grandmaster-121",
+      "stage": 5,
+      "tier": "expert",
+      "score": 440,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-122",
+      "stage": 5,
+      "tier": "expert",
+      "score": 456,
+      "clues": 25
+    },
+    {
+      "id": "grandmaster-123",
+      "stage": 5,
+      "tier": "expert",
+      "score": 455,
+      "clues": 26
+    },
+    {
+      "id": "grandmaster-124",
+      "stage": 5,
+      "tier": "expert",
+      "score": 449,
+      "clues": 24
+    },
+    {
+      "id": "grandmaster-125",
+      "stage": 5,
+      "tier": "expert",
+      "score": 415,
+      "clues": 24
+    }
+  ]
+}

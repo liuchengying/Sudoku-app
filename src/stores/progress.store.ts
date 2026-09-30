@@ -53,8 +53,9 @@ export const useProgressStore = defineStore('progress', () => {
       lastCompletedAt: input.completedAt
     }
 
-    progressMap.value = { ...progressMap.value, [input.levelId]: next }
-    progressRepository.save(progressMap.value)
+    const updated = { ...progressMap.value, [input.levelId]: next }
+    progressRepository.save(updated)
+    progressMap.value = updated
     return { firstCompletion, progress: next, scoreAwarded: firstCompletion ? input.baseScore : 0 }
   }
 
@@ -63,8 +64,8 @@ export const useProgressStore = defineStore('progress', () => {
   }
 
   function reset() {
-    progressMap.value = {}
     progressRepository.clear()
+    progressMap.value = {}
   }
 
   return { progressMap, completedCount, totalScore, get, markCompleted, reload, reset }

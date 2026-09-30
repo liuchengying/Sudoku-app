@@ -360,18 +360,19 @@ export function solveLogically(input: number[], maxSteps = 2000): LogicalSolveRe
   }
 }
 
-export function nextLogicalPlacement(input: number[]): { step: LogicalStep; preceding: SudokuTechnique[] } | null {
+export function nextLogicalPlacement(input: number[]): { step: LogicalStep; preceding: SudokuTechnique[]; steps: LogicalStep[] } | null {
   const board = [...input]
   if (!validateBoard(board)) return null
   const candidates = initializeCandidates(board)
   const preceding: SudokuTechnique[] = []
+  const steps: LogicalStep[] = []
 
   for (let guard = 0; guard < 200; guard += 1) {
     if (hasCandidateContradiction(board, candidates)) return null
     const naked = findNakedSingle(board, candidates)
-    if (naked) return { step: naked, preceding }
+    if (naked) return { step: naked, preceding, steps: [...steps, naked] }
     const hidden = findHiddenSingle(board, candidates)
-    if (hidden) return { step: hidden, preceding }
+    if (hidden) return { step: hidden, preceding, steps: [...steps, hidden] }
 
     let eliminated = false
     for (const finder of [findLockedCandidate, findNakedPair, findHiddenPair, findNakedTriple, findXWing]) {
@@ -379,6 +380,7 @@ export function nextLogicalPlacement(input: number[]): { step: LogicalStep; prec
       if (!step?.eliminations) continue
       if (applyEliminations(candidates, step.eliminations) === 0) continue
       preceding.push(step.technique)
+      steps.push(step)
       eliminated = true
       break
     }

@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import { useAppearance } from '@/composables/useAppearance'
+import { back } from '@/composables/useNavigation'
 import { computed, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import AppHeader from '@/components/common/AppHeader.vue'
 import SudokuBoard from '@/components/sudoku/SudokuBoard.vue'
-import { createCells, type SudokuCell } from '@/core/sudoku'
+import { replayCells, type SudokuCell } from '@/core/sudoku'
 import { useHistoryStore } from '@/stores/history.store'
 import type { GameRecord } from '@/types/progress'
-import { getDifficulty } from '@/config/difficulty'
+import { recordTitle } from '@/utils/game-label'
 import { formatDate, formatDuration } from '@/utils/time'
+
+const appearance = useAppearance()
 
 const historyStore = useHistoryStore()
 const record = ref<GameRecord | null>(null)
@@ -21,30 +25,11 @@ onLoad((query) => {
   }
 })
 
-const title = computed(() => record.value ? `${getDifficulty(record.value.difficultyId).name} · 第 ${record.value.levelNo} 关` : '历史详情')
-const displayCells = computed<SudokuCell[]>(() => {
-  if (!record.value) return []
-  const cells = createCells(record.value.puzzle, record.value.solution)
-  const events = record.value.timeline.slice(0, replayIndex.value)
-  for (const event of events) {
-    for (const change of event.changes) {
-      const snapshot = event.kind === 'APPLY' ? change.after : change.before
-      Object.assign(cells[change.index], snapshot)
-    }
-  }
-  if (replayIndex.value === record.value.timeline.length && record.value.finalValues?.length === 81) {
-    record.value.finalValues.forEach((value, index) => {
-      cells[index].value = value
-      cells[index].origin = record.value!.origins[index]
-      cells[index].error = false
-      cells[index].notesMask = 0
-    })
-  }
-  return cells
-})
+const title = computed(() => record.value ? recordTitle(record.value) : '历史详情')
+const displayCells = computed<SudokuCell[]>(() => record.value ? replayCells(record.value, replayIndex.value) : [])
 
 function changeReplay(event: { detail: { value: number } }) {
-  replayIndex.value = Number(event.detail.value)
+  replayIndex.value = Math.max(0, Math.min(record.value?.timeline.length ?? 0, Number(event.detail.value) || 0))
 }
 
 function step(delta: number) {
@@ -54,9 +39,9 @@ function step(delta: number) {
 </script>
 
 <template>
-  <view class="safe-page detail-page">
+  <view class="safe-page detail-page" :class="appearance">
     <AppHeader :title="title">
-      <template #left><text class="back" @tap="uni.navigateBack()">‹</text></template>
+      <template #left><text class="back" @tap="back">‹</text></template>
     </AppHeader>
 
     <view v-if="record" class="content">
@@ -71,11 +56,13 @@ function step(delta: number) {
 
       <view class="replay-card">
         <view class="replay-title"><text>复盘</text><text>{{ replayIndex }} / {{ record.timeline.length }}</text></view>
-        <text v-if="record.timeline.length === 0" class="replay-empty">较早的记录仅保留最终棋盘，不保留逐步复盘。</text>
+        <text v-if="record.timelineTruncated && record.timeline.length > 0" class="replay-empty">复盘从保留的起点开始，较早操作已归档。</text>
+        <text v-if="record.timeline.length === 0" class="replay-empty">本条记录仅保留最终棋盘。</text>
         <slider
+          v-if="record.timeline.length > 0"
           :value="replayIndex"
           :min="0"
-          :max="Math.max(1, record.timeline.length)"
+          :max="record.timeline.length"
           :step="1"
           active-color="#0a7cff"
           background-color="#d9dde3"
@@ -84,7 +71,7 @@ function step(delta: number) {
           @changing="changeReplay"
           @change="changeReplay"
         />
-        <view class="replay-actions">
+        <view v-if="record.timeline.length > 0" class="replay-actions">
           <button :disabled="replayIndex <= 0" @tap="step(-1)">上一步</button>
           <button :disabled="replayIndex >= record.timeline.length" @tap="step(1)">下一步</button>
           <button @tap="replayIndex = record.timeline.length">最终棋盘</button>
@@ -103,16 +90,16 @@ function step(delta: number) {
 .detail-page { background: var(--page-bg); }
 .back { color: var(--primary); font-size: 58rpx; line-height: 1; }
 .content { padding: 10rpx 20rpx 40rpx; }
-.summary { display: flex; justify-content: space-around; color: #8e8e93; font-size: 23rpx; margin: 12rpx 0 25rpx; }
+.summary { display: flex; justify-content: space-around; color: var(--text-secondary); font-size: 23rpx; margin: 12rpx 0 25rpx; }
 .board-shell { width: 100%; }
 .replay-card { margin-top: 30rpx; padding: 24rpx 20rpx 20rpx; background: var(--surface); border-radius: 22rpx; }
-.replay-title { display: flex; justify-content: space-between; padding: 0 12rpx 6rpx; font-size: 25rpx; color: #6d7075; }
-.replay-title text:first-child { color: #111; font-size: 28rpx; font-weight: 650; }
-.replay-empty { display: block; padding: 18rpx 12rpx 10rpx; color: #999; font-size: 22rpx; line-height: 1.5; }
+.replay-title { display: flex; justify-content: space-between; padding: 0 12rpx 6rpx; font-size: 25rpx; color: var(--text-secondary); }
+.replay-title text:first-child { color: var(--text-primary); font-size: 28rpx; font-weight: 650; }
+.replay-empty { display: block; padding: 18rpx 12rpx 10rpx; color: var(--text-secondary); font-size: 22rpx; line-height: 1.5; }
 .replay-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; margin-top: 8rpx; }
-.replay-actions button { height: 72rpx; border-radius: 15rpx; background: #fff; color: var(--primary); font-size: 24rpx; display: flex; align-items: center; justify-content: center; }
+.replay-actions button { height: 72rpx; border-radius: 15rpx; background: var(--cell-bg); color: var(--primary); font-size: 24rpx; display: flex; align-items: center; justify-content: center; }
 .replay-actions button[disabled] { color: #b8bbc0; opacity: .6; }
-.legend { margin-top: 24rpx; display: flex; justify-content: center; gap: 36rpx; color: #8e8e93; font-size: 23rpx; }
+.legend { margin-top: 24rpx; display: flex; justify-content: center; gap: 36rpx; color: var(--text-secondary); font-size: 23rpx; }
 .legend-item { display: flex; align-items: center; gap: 9rpx; }
 .legend-dot { width: 14rpx; height: 14rpx; border-radius: 50%; }
 .legend-dot.black { background: #111; }

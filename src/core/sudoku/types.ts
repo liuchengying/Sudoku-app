@@ -29,6 +29,8 @@ export type GameActionType =
   | 'SET_ALL_NOTES'
   | 'TOGGLE_NOTE'
   | 'HINT'
+  | 'CHECK'
+  | 'RESTORE_BOOKMARK'
 
 export interface GameAction {
   id: string
@@ -49,6 +51,8 @@ export interface ReplayEvent {
 
 export type GameStatus = 'READY' | 'PLAYING' | 'PAUSED' | 'COMPLETED'
 export type InputMode = 'NORMAL' | 'NOTE'
+export type GameMode = 'CAMPAIGN' | 'PRACTICE' | 'DAILY' | 'CUSTOM'
+export type PuzzleTier = 'beginner' | 'easy' | 'advanced' | 'expert'
 
 export interface GameCompletion {
   completedAt: number
@@ -79,6 +83,12 @@ export interface GameState {
   completion: GameCompletion | null
   createdAt: number
   updatedAt: number
+  mode?: GameMode
+  level?: SudokuLevel
+  dailyDate?: string
+  timelineBase?: CellSnapshot[]
+  timelineTruncated?: boolean
+  bookmark?: CellSnapshot[]
 }
 
 export type SudokuTechnique =
@@ -101,6 +111,8 @@ export interface SudokuLevel {
   clueCount: number
   techniques: SudokuTechnique[]
   version: number
+  tier?: PuzzleTier
+  seed?: number
 }
 
 export interface DifficultyResult {
@@ -140,4 +152,6 @@ export interface HintResult {
   digit: number
   technique: SudokuTechnique
   message: string
+  steps?: LogicalStep[]
+  focusIndexes?: number[]
 }

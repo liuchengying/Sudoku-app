@@ -1,0 +1,1586 @@
+{
+  "date": "2026-09-30",
+  "scope": "Source and script checks only; no app, browser or native UI launch",
+  "puzzles": [
+    {
+      "difficulty": "master",
+      "count": 25,
+      "clues": [
+        28,
+        33
+      ],
+      "storedScore": [
+        602,
+        658
+      ],
+      "coreScore": [
+        64,
+        82
+      ],
+      "logicallySolved": 25,
+      "requiresBeyondCurrentLogic": 0,
+      "invalidLogicResults": 0,
+      "onlySingles": 25,
+      "scoreMismatch": 25,
+      "techniqueMetadataMismatch": 0,
+      "ratings": [
+        {
+          "id": "master-001",
+          "clues": 31,
+          "storedScore": 602,
+          "coreScore": 66,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-002",
+          "clues": 31,
+          "storedScore": 602,
+          "coreScore": 66,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-003",
+          "clues": 31,
+          "storedScore": 602,
+          "coreScore": 66,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-004",
+          "clues": 31,
+          "storedScore": 602,
+          "coreScore": 66,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-005",
+          "clues": 31,
+          "storedScore": 602,
+          "coreScore": 66,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-006",
+          "clues": 31,
+          "storedScore": 602,
+          "coreScore": 66,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-007",
+          "clues": 32,
+          "storedScore": 608,
+          "coreScore": 65,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-008",
+          "clues": 32,
+          "storedScore": 610,
+          "coreScore": 64,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-009",
+          "clues": 30,
+          "storedScore": 612,
+          "coreScore": 69,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-010",
+          "clues": 33,
+          "storedScore": 614,
+          "coreScore": 68,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-011",
+          "clues": 31,
+          "storedScore": 616,
+          "coreScore": 70,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-012",
+          "clues": 29,
+          "storedScore": 623,
+          "coreScore": 72,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-013",
+          "clues": 31,
+          "storedScore": 632,
+          "coreScore": 68,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-014",
+          "clues": 30,
+          "storedScore": 632,
+          "coreScore": 74,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-015",
+          "clues": 28,
+          "storedScore": 633,
+          "coreScore": 75,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "master-016",
+          "clues": 30,
+          "storedScore": 635,
+          "coreScore": 75,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-017",
+          "clues": 29,
+          "storedScore": 635,
+          "coreScore": 74,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-018",
+          "clues": 32,
+          "storedScore": 639,
+          "coreScore": 73,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-019",
+          "clues": 33,
+          "storedScore": 644,
+          "coreScore": 75,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-020",
+          "clues": 30,
+          "storedScore": 646,
+          "coreScore": 75,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-021",
+          "clues": 30,
+          "storedScore": 646,
+          "coreScore": 78,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-022",
+          "clues": 28,
+          "storedScore": 654,
+          "coreScore": 76,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-023",
+          "clues": 29,
+          "storedScore": 656,
+          "coreScore": 81,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-024",
+          "clues": 29,
+          "storedScore": 658,
+          "coreScore": 79,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "master-025",
+          "clues": 28,
+          "storedScore": 658,
+          "coreScore": 82,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        }
+      ]
+    },
+    {
+      "difficulty": "king",
+      "count": 25,
+      "clues": [
+        24,
+        30
+      ],
+      "storedScore": [
+        664,
+        806
+      ],
+      "coreScore": [
+        75,
+        107
+      ],
+      "logicallySolved": 25,
+      "requiresBeyondCurrentLogic": 0,
+      "invalidLogicResults": 0,
+      "onlySingles": 25,
+      "scoreMismatch": 25,
+      "techniqueMetadataMismatch": 0,
+      "ratings": [
+        {
+          "id": "king-001",
+          "clues": 30,
+          "storedScore": 664,
+          "coreScore": 75,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-002",
+          "clues": 29,
+          "storedScore": 666,
+          "coreScore": 79,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-003",
+          "clues": 28,
+          "storedScore": 667,
+          "coreScore": 88,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-004",
+          "clues": 26,
+          "storedScore": 667,
+          "coreScore": 84,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-005",
+          "clues": 29,
+          "storedScore": 668,
+          "coreScore": 81,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-006",
+          "clues": 28,
+          "storedScore": 682,
+          "coreScore": 86,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-007",
+          "clues": 27,
+          "storedScore": 684,
+          "coreScore": 84,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-008",
+          "clues": 28,
+          "storedScore": 688,
+          "coreScore": 91,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-009",
+          "clues": 29,
+          "storedScore": 697,
+          "coreScore": 87,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-010",
+          "clues": 27,
+          "storedScore": 697,
+          "coreScore": 94,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "king-011",
+          "clues": 25,
+          "storedScore": 697,
+          "coreScore": 90,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-012",
+          "clues": 26,
+          "storedScore": 701,
+          "coreScore": 92,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-013",
+          "clues": 27,
+          "storedScore": 709,
+          "coreScore": 97,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "king-014",
+          "clues": 26,
+          "storedScore": 713,
+          "coreScore": 94,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-015",
+          "clues": 26,
+          "storedScore": 713,
+          "coreScore": 91,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-016",
+          "clues": 27,
+          "storedScore": 716,
+          "coreScore": 91,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-017",
+          "clues": 26,
+          "storedScore": 726,
+          "coreScore": 102,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-018",
+          "clues": 26,
+          "storedScore": 741,
+          "coreScore": 100,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-019",
+          "clues": 27,
+          "storedScore": 747,
+          "coreScore": 88,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "king-020",
+          "clues": 26,
+          "storedScore": 751,
+          "coreScore": 101,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-021",
+          "clues": 26,
+          "storedScore": 752,
+          "coreScore": 95,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "king-022",
+          "clues": 26,
+          "storedScore": 771,
+          "coreScore": 107,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        },
+        {
+          "id": "king-023",
+          "clues": 24,
+          "storedScore": 771,
+          "coreScore": 102,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "king-024",
+          "clues": 25,
+          "storedScore": 780,
+          "coreScore": 97,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE"
+          ]
+        },
+        {
+          "id": "king-025",
+          "clues": 25,
+          "storedScore": 806,
+          "coreScore": 95,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE"
+          ]
+        }
+      ]
+    },
+    {
+      "difficulty": "grandmaster",
+      "count": 25,
+      "clues": [
+        24,
+        31
+      ],
+      "storedScore": [
+        900,
+        1189
+      ],
+      "coreScore": [
+        98,
+        448
+      ],
+      "logicallySolved": 7,
+      "requiresBeyondCurrentLogic": 18,
+      "invalidLogicResults": 0,
+      "onlySingles": 0,
+      "scoreMismatch": 25,
+      "techniqueMetadataMismatch": 21,
+      "ratings": [
+        {
+          "id": "grandmaster-001",
+          "clues": 31,
+          "storedScore": 900,
+          "coreScore": 370,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 32,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "HIDDEN_PAIR",
+            "NAKED_TRIPLE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-002",
+          "clues": 28,
+          "storedScore": 932,
+          "coreScore": 296,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 21,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "NAKED_PAIR",
+            "LOCKED_CANDIDATE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-003",
+          "clues": 27,
+          "storedScore": 934,
+          "coreScore": 327,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 25,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-004",
+          "clues": 28,
+          "storedScore": 957,
+          "coreScore": 376,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 29,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-005",
+          "clues": 28,
+          "storedScore": 973,
+          "coreScore": 348,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 34,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-006",
+          "clues": 27,
+          "storedScore": 996,
+          "coreScore": 374,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 33,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "HIDDEN_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-007",
+          "clues": 26,
+          "storedScore": 999,
+          "coreScore": 419,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 38,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "HIDDEN_PAIR",
+            "X_WING",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-008",
+          "clues": 27,
+          "storedScore": 1006,
+          "coreScore": 401,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 38,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-009",
+          "clues": 25,
+          "storedScore": 1013,
+          "coreScore": 400,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 30,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "X_WING",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-010",
+          "clues": 26,
+          "storedScore": 1014,
+          "coreScore": 104,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE"
+          ]
+        },
+        {
+          "id": "grandmaster-011",
+          "clues": 28,
+          "storedScore": 1023,
+          "coreScore": 394,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 39,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "HIDDEN_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-012",
+          "clues": 26,
+          "storedScore": 1027,
+          "coreScore": 112,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE"
+          ]
+        },
+        {
+          "id": "grandmaster-013",
+          "clues": 26,
+          "storedScore": 1048,
+          "coreScore": 133,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR"
+          ]
+        },
+        {
+          "id": "grandmaster-014",
+          "clues": 25,
+          "storedScore": 1053,
+          "coreScore": 368,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 37,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-015",
+          "clues": 28,
+          "storedScore": 1073,
+          "coreScore": 413,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 45,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-016",
+          "clues": 26,
+          "storedScore": 1088,
+          "coreScore": 123,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_SINGLE",
+            "NAKED_PAIR"
+          ]
+        },
+        {
+          "id": "grandmaster-017",
+          "clues": 25,
+          "storedScore": 1094,
+          "coreScore": 402,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 37,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "HIDDEN_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-018",
+          "clues": 26,
+          "storedScore": 1097,
+          "coreScore": 425,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 43,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "HIDDEN_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-019",
+          "clues": 26,
+          "storedScore": 1106,
+          "coreScore": 98,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE"
+          ]
+        },
+        {
+          "id": "grandmaster-020",
+          "clues": 26,
+          "storedScore": 1110,
+          "coreScore": 411,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 43,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "HIDDEN_PAIR",
+            "LOCKED_CANDIDATE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-021",
+          "clues": 26,
+          "storedScore": 1111,
+          "coreScore": 425,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 47,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-022",
+          "clues": 28,
+          "storedScore": 1126,
+          "coreScore": 448,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 52,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "HIDDEN_PAIR",
+            "BACKTRACKING"
+          ]
+        },
+        {
+          "id": "grandmaster-023",
+          "clues": 24,
+          "storedScore": 1171,
+          "coreScore": 120,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE"
+          ]
+        },
+        {
+          "id": "grandmaster-024",
+          "clues": 25,
+          "storedScore": 1182,
+          "coreScore": 125,
+          "logicallySolved": true,
+          "valid": true,
+          "remaining": 0,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_SINGLE",
+            "NAKED_PAIR"
+          ]
+        },
+        {
+          "id": "grandmaster-025",
+          "clues": 24,
+          "storedScore": 1189,
+          "coreScore": 421,
+          "logicallySolved": false,
+          "valid": true,
+          "remaining": 45,
+          "storedTechniques": [
+            "NAKED_SINGLE",
+            "HIDDEN_SINGLE",
+            "LOCKED_CANDIDATE",
+            "NAKED_PAIR",
+            "BACKTRACKING"
+          ],
+          "actualTechniques": [
+            "HIDDEN_SINGLE",
+            "NAKED_SINGLE",
+            "LOCKED_CANDIDATE",
+            "BACKTRACKING"
+          ]
+        }
+      ]
+    }
+  ],
+  "generatorSmoke": [
+    {
+      "seed": 1,
+      "targetClues": 32,
+      "symmetry": true,
+      "clues": 32
+    },
+    {
+      "seed": 1,
+      "targetClues": 28,
+      "symmetry": true,
+      "clues": 32
+    },
+    {
+      "seed": 1,
+      "targetClues": 25,
+      "symmetry": true,
+      "clues": 32
+    },
+    {
+      "seed": 1,
+      "targetClues": 25,
+      "symmetry": false,
+      "clues": 45
+    },
+    {
+      "seed": 42,
+      "targetClues": 32,
+      "symmetry": true,
+      "clues": 32
+    },
+    {
+      "seed": 42,
+      "targetClues": 28,
+      "symmetry": true,
+      "clues": 28
+    },
+    {
+      "seed": 42,
+      "targetClues": 25,
+      "symmetry": true,
+      "clues": 28
+    },
+    {
+      "seed": 42,
+      "targetClues": 25,
+      "symmetry": false,
+      "clues": 47
+    },
+    {
+      "seed": 20260930,
+      "targetClues": 32,
+      "symmetry": true,
+      "clues": 32
+    },
+    {
+      "seed": 20260930,
+      "targetClues": 28,
+      "symmetry": true,
+      "clues": 28
+    },
+    {
+      "seed": 20260930,
+      "targetClues": 25,
+      "symmetry": true,
+      "clues": 25
+    },
+    {
+      "seed": 20260930,
+      "targetClues": 25,
+      "symmetry": false,
+      "clues": 47
+    }
+  ],
+  "wrongHintExample": {
+    "levelId": "master-001",
+    "wrongInput": {
+      "row": 1,
+      "column": 1,
+      "digit": 7,
+      "answer": 4
+    },
+    "resultingHint": {
+      "row": 1,
+      "column": 9,
+      "digit": 9,
+      "answer": 7,
+      "technique": "NAKED_SINGLE"
+    }
+  },
+  "uiStatic": {
+    "contrast": [
+      {
+        "foreground": "#929399",
+        "background": "#ffffff",
+        "ratio": 3.06
+      },
+      {
+        "foreground": "#b0b2b6",
+        "background": "#ffffff",
+        "ratio": 2.12
+      },
+      {
+        "foreground": "#b9babd",
+        "background": "#e6e7e9",
+        "ratio": 1.57
+      }
+    ],
+    "compactHomeSwiperRpx": 720,
+    "levelGridMinimumRpx": 754,
+    "viewport375": {
+      "caveat": "CSS dimensions inferred from source; not actual Android dp or rendered device measurements",
+      "numberKeyWidthCssPx": 38.33,
+      "answerKeyHeightCssPx": 43,
+      "noteDigitCssPx": 8.5
+    }
+  }
+}

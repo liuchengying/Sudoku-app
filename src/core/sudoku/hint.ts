@@ -31,6 +31,8 @@ export function findHint(board: number[]): HintResult | null {
     index,
     digit,
     technique: step.technique,
+    steps: result.steps,
+    focusIndexes: [...new Set([index, ...result.steps.flatMap(s => s.eliminations?.map(e => e.index) ?? [])])],
     message: `${prefix}${step.message}。位置：第 ${rowOf(index) + 1} 行第 ${colOf(index) + 1} 列。`
   }
 }

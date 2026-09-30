@@ -1,4 +1,4 @@
-import type { CellOrigin, GameAction, ReplayEvent } from '@/core/sudoku'
+import type { CellOrigin, CellSnapshot, GameAction, GameMode, ReplayEvent } from '@/core/sudoku'
 
 export type MedalType = 'GOLD' | 'SILVER' | 'BRONZE'
 
@@ -37,6 +37,20 @@ export interface GameRecord {
   completedAt: number
   actions: GameAction[]
   timeline: ReplayEvent[]
+  timelineBase?: CellSnapshot[]
+  timelineTruncated?: boolean
+  mode?: GameMode
+  dailyDate?: string
+}
+
+export interface LifetimeTotals {
+  totalPlayTime: number
+  mistakes: number
+  hints: number
+  totalCompletions: number
+  byDifficulty: Record<string, number>
+  byMode: Record<GameMode, number>
+  medals: Record<MedalType, number>
 }
 
 export interface StatisticsData {

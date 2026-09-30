@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-30",
+  "appStarted": false,
+  "browserOrNativeUiControlled": false,
+  "productionSourceModified": false,
+  "dependenciesInstalledByThisReview": false,
+  "defaultTypecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 2,
+    "errors": 10,
+    "categories": { "uniTemplatePropertyMissing": 9, "switchEventTypeMismatch": 1 }
+  },
+  "defaultTest": {
+    "command": "npm test",
+    "exitCode": 1,
+    "testsExecuted": false,
+    "error": "Failed to resolve vue/compiler-sfc while loading the uni-app build configuration"
+  },
+  "isolatedTests": {
+    "config": "docs/reviews/2026-09-30/vitest.audit.config.ts",
+    "result": "docs/reviews/2026-09-30/test-results.json",
+    "exitCode": 0,
+    "originalTestsPassed": 10,
+    "normalBusinessFlowsPassed": 8,
+    "defectReproductionsConfirmed": 8,
+    "totalAssertionsAsTestCases": 26,
+    "caveat": "Defect reproduction cases assert current incorrect behavior; their passing does not indicate the defects are fixed. Platform APIs and lifecycle calls are simulated."
+  },
+  "puzzles": {
+    "validated": 75,
+    "logicallySolved": 57,
+    "beyondCurrentLogicalTechniques": 18,
+    "logicalSolverMatchesSolutionWhenSolved": true,
+    "symmetricGeneratorSamplesValidated": 9,
+    "asymmetricGeneratorIssueSamples": 3
+  },
+  "visualVerification": {
+    "renderedLayoutOrDeviceVerified": false,
+    "componentLogicVerifiedInMemory": ["NumberPad", "MedalBadge", "HistoryDetail"],
+    "cssGeometryAndContrastComputed": true,
+    "caveat": "An in-memory host tests Vue state and events, not CSS layout or Android dp dimensions."
+  }
+}

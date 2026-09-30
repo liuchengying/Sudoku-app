@@ -1,14 +1,16 @@
 {
   "pages": [
     { "path": "pages/home/index", "style": { "navigationStyle": "custom" } },
-    { "path": "pages/game/index", "style": { "navigationStyle": "custom", "disableScroll": true } },
+    { "path": "pages/game/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/result/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/history/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/history/detail", "style": { "navigationStyle": "custom" } },
     { "path": "pages/statistics/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/tutorial/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/tutorial/detail", "style": { "navigationStyle": "custom" } },
-    { "path": "pages/settings/index", "style": { "navigationStyle": "custom" } }
+    { "path": "pages/settings/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/daily/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/import/index", "style": { "navigationStyle": "custom" } }
   ],
   "globalStyle": {
     "backgroundColor": "#ffffff",

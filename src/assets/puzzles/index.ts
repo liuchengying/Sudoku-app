@@ -1,4 +1,4 @@
-import type { SudokuLevel, SudokuTechnique } from '@/core/sudoku'
+import type { PuzzleTier, SudokuLevel, SudokuTechnique } from '@/core/sudoku'
 import puzzleBank from './puzzles.json'
 
 interface PuzzleSeed {
@@ -7,6 +7,7 @@ interface PuzzleSeed {
   clueCount: number
   difficultyScore: number
   techniques: SudokuTechnique[]
+  tier?: PuzzleTier
 }
 
 const bank = puzzleBank as Record<string, PuzzleSeed[]>
@@ -22,6 +23,7 @@ function createDifficultyLevels(difficultyId: string): SudokuLevel[] {
     difficultyScore: seed.difficultyScore,
     clueCount: seed.clueCount,
     techniques: seed.techniques,
+    tier: seed.tier,
     version: 1
   }))
 }
@@ -46,10 +48,4 @@ export function getLevelsByDifficulty(difficultyId: string): SudokuLevel[] {
 
 export function getLevelById(levelId: string): SudokuLevel | undefined {
   return LEVEL_BY_ID.get(levelId)
-}
-
-export function getNextLevel(levelId: string): SudokuLevel | undefined {
-  const current = getLevelById(levelId)
-  if (!current) return undefined
-  return getLevelsByDifficulty(current.difficultyId).find((level) => level.levelNo === current.levelNo + 1)
 }

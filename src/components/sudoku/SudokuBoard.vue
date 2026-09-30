@@ -9,11 +9,13 @@ const props = withDefaults(defineProps<{
   highlightRelated?: boolean
   highlightSameDigit?: boolean
   interactive?: boolean
+  activeDigit?: number | null
+  focusIndexes?: number[]
 }>(), { highlightRelated: true, highlightSameDigit: true, interactive: true })
 
 const emit = defineEmits<{ (event: 'select', index: number): void }>()
 
-const selectedValue = computed(() => props.selectedIndex == null ? 0 : (props.cells[props.selectedIndex]?.value ?? 0))
+const selectedValue = computed(() => props.activeDigit ?? (props.selectedIndex == null ? 0 : (props.cells[props.selectedIndex]?.value ?? 0)))
 
 function related(index: number): boolean {
   if (!props.highlightRelated || props.selectedIndex == null || index === props.selectedIndex) return false
@@ -40,6 +42,8 @@ function select(index: number) {
       :selected="cell.index === selectedIndex"
       :related="related(cell.index)"
       :same-value="sameValue(cell)"
+      :highlight-digit="highlightSameDigit ? selectedValue : 0"
+      :focus="focusIndexes?.includes(cell.index) ?? false"
       @select="select"
     />
   </view>

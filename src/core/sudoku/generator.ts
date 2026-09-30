@@ -91,7 +91,7 @@ export function generatePuzzle(options: GeneratorOptions): { puzzle: number[]; s
     if (seen.has(index)) continue
     const mirror = 80 - index
     seen.add(index)
-    seen.add(mirror)
+    if (options.symmetry !== false) seen.add(mirror)
     groups.push(options.symmetry === false || index === mirror ? [index] : [index, mirror])
   }
   shuffle(groups, random)

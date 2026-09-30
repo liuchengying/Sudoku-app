@@ -15,5 +15,5 @@
     },
     "types": ["@dcloudio/types", "vitest/globals", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "tests/**/*.ts", "vite.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "tests/**/*.ts", "docs/validation/**/*.ts", "vite.config.ts"]
 }

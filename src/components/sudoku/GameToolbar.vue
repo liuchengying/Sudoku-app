@@ -3,6 +3,7 @@ withDefaults(defineProps<{
   noteMode: boolean
   canUndo: boolean
   canRedo: boolean
+  disabled?: boolean
 }>(), { noteMode: false, canUndo: false, canRedo: false })
 
 const emit = defineEmits<{
@@ -17,7 +18,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <view class="toolbar-wrap">
+  <view class="toolbar-wrap" :class="{ disabled }">
     <view class="toolbar">
       <view class="tool" @tap="emit('candidates')" @longpress="emit('candidates-all')">
         <view class="icon-circle"><text class="glyph flag">⚑</text></view><text class="label"><text class="dot">●</text>候选</text>
@@ -41,18 +42,19 @@ const emit = defineEmits<{
 </template>
 
 <style scoped lang="scss">
-.toolbar-wrap { padding-top: 24rpx; }
+.toolbar-wrap { padding-top: 12rpx; }
+.toolbar-wrap.disabled { opacity: .45; pointer-events: none; }
 .toolbar { display: grid; grid-template-columns: repeat(4, 1fr); padding: 0 54rpx; }
-.tool { display: flex; flex-direction: column; align-items: center; gap: 10rpx; }
-.icon-circle { width: 96rpx; height: 96rpx; border-radius: 50%; background: #f5f6fa; display: flex; align-items: center; justify-content: center; transition: .12s; }
+.tool { min-height: 48px; display: flex; flex-direction: column; align-items: center; gap: 10rpx; }
+.icon-circle { width: 80rpx; height: 80rpx; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; transition: .12s; }
 .glyph { color: var(--primary); font-size: 52rpx; line-height: 1; }
 .flag { font-size: 56rpx; }
 .pencil { font-size: 55rpx; }
-.label { font-size: 28rpx; color: #111; font-weight: 600; }
+.label { font-size: 28rpx; color: var(--text-primary); font-weight: 600; }
 .dot { color: #f7bb2c; font-size: 22rpx; margin-right: 5rpx; }
 .tool.active .icon-circle { background: var(--primary-soft); box-shadow: inset 0 0 0 3rpx var(--primary); }
 .tool.active .label { color: var(--primary); }
-.undo-row { height: 48rpx; margin-top: 6rpx; display: flex; align-items: center; justify-content: center; gap: 22rpx; color: var(--primary); font-size: 23rpx; }
+.undo-row { min-height: 48px; margin-top: 6rpx; display: flex; align-items: center; justify-content: center; gap: 22rpx; color: var(--primary); font-size: 23rpx; }
 .undo.off { color: #c6c7ca; }
 .divider { color: #d4d4d6; }
 </style>

@@ -7,8 +7,10 @@ export const useSettingsStore = defineStore('settings', () => {
   const settings = reactive<AppSettings>(settingsRepository.load())
 
   function setSetting<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
-    settings[key] = value
-    settingsRepository.save({ ...settings })
+    try {
+      settingsRepository.save({ ...settings, [key]: value })
+      settings[key] = value
+    } catch { uni.showToast({ title: '设置保存失败，请释放设备存储后重试', icon: 'none' }) }
   }
 
   function reload() {
