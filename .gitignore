@@ -1,0 +1,10 @@
+node_modules/
+dist/
+unpackage/
+.DS_Store
+*.log
+.idea/
+.vscode/
+coverage/
+
+generated-puzzles.json

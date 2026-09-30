@@ -1,0 +1,42 @@
+{
+  "name": "数独",
+  "appid": "__UNI__A1B2C3D",
+  "description": "离线优先的经典数独游戏",
+  "versionName": "1.0.0",
+  "versionCode": "10000",
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true,
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3,
+    "screenOrientation": [
+      "portrait-primary"
+    ],
+    "statusbar": {
+      "immersed": true,
+      "style": "dark",
+      "background": "#ffffff"
+    },
+    "splashscreen": {
+      "alwaysShowBeforeRender": true,
+      "waiting": true,
+      "autoclose": true,
+      "delay": 0
+    },
+    "distribute": {
+      "android": {
+        "minSdkVersion": 23,
+        "targetSdkVersion": 35,
+        "permissions": [
+          "<uses-permission android:name=\"android.permission.VIBRATE\"/>"
+        ]
+      }
+    }
+  },
+  "h5": {
+    "title": "数独",
+    "router": {
+      "mode": "hash"
+    }
+  }
+}
