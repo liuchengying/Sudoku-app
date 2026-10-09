@@ -14,6 +14,7 @@ export const settingsRepository = {
       if (typeof DEFAULT_SETTINGS[key] === 'boolean' && typeof v === 'boolean') (settings as unknown as Record<string, unknown>)[key] = v
     }
     if (raw.theme === 'light' || raw.theme === 'dark') settings.theme = raw.theme
+    if (raw.boardColor === 'blue' || raw.boardColor === 'green') settings.boardColor = raw.boardColor
     if (raw.inputStyle === 'cell-first' || raw.inputStyle === 'number-first') settings.inputStyle = raw.inputStyle
     return settings
   },
@@ -21,7 +22,9 @@ export const settingsRepository = {
     writeStorage(KEY, settings)
   },
   reset(): AppSettings {
-    writeStorage(KEY, DEFAULT_SETTINGS)
-    return { ...DEFAULT_SETTINGS }
+    // Onboarding completion is a lifecycle marker, rather than a preference.
+    const settings = { ...DEFAULT_SETTINGS, onboardingSeen: settingsRepository.load().onboardingSeen }
+    writeStorage(KEY, settings)
+    return settings
   }
 }

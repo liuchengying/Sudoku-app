@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { onBackPress } from '@dcloudio/uni-app'
 import { useAppearance } from '@/composables/useAppearance'
 import { back } from '@/composables/useNavigation'
 import AppHeader from '@/components/common/AppHeader.vue'
+import OnboardingGuide from '@/components/common/OnboardingGuide.vue'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useProgressStore } from '@/stores/progress.store'
 import { useHistoryStore } from '@/stores/history.store'
@@ -18,6 +21,20 @@ const store = useSettingsStore()
 const progressStore = useProgressStore()
 const historyStore = useHistoryStore()
 const gameStore = useGameStore()
+const onboardingVisible = ref(false)
+const guide = ref<InstanceType<typeof OnboardingGuide> | null>(null)
+
+function replayOnboarding() {
+  gameStore.pause()
+  gameStore.flushSave()
+  onboardingVisible.value = true
+}
+
+onBackPress(() => {
+  if (!onboardingVisible.value) return false
+  guide.value?.dismiss()
+  return true
+})
 
 const items: { key: BooleanSetting; label: string; desc: string }[] = [
   { key: 'largeDigits', label: '大字数字', desc: '放大棋盘数字与候选数' },
@@ -66,6 +83,7 @@ function resetSettings() {
 
 <template>
   <view class="safe-page settings-page" :class="appearance">
+    <template v-if="!onboardingVisible">
     <AppHeader title="设置">
       <template #left><text class="back" @tap="back">‹</text></template>
     </AppHeader>
@@ -73,6 +91,18 @@ function resetSettings() {
       <view class="section preference-section">
         <text class="label">显示主题</text>
         <view class="choices"><button :class="{ chosen: store.settings.theme === 'light' }" @tap="store.setSetting('theme', 'light')">浅色</button><button :class="{ chosen: store.settings.theme === 'dark' }" @tap="store.setSetting('theme', 'dark')">深色</button></view>
+        <text class="label">棋盘配色</text>
+        <text class="desc palette-desc">选择后立即生效，下次打开仍保留</text>
+        <view class="choices board-color-choices">
+          <button class="board-color-blue" :class="{ chosen: store.settings.boardColor === 'blue' }" :aria-pressed="store.settings.boardColor === 'blue'" @tap="store.setSetting('boardColor', 'blue')">
+            <view class="palette-name"><view class="color-swatch blue"></view><text>经典蓝色</text></view>
+            <text class="palette-status">{{ store.settings.boardColor === 'blue' ? '✓ 已选' : '选择' }}</text>
+          </button>
+          <button class="board-color-green" :class="{ chosen: store.settings.boardColor === 'green' }" :aria-pressed="store.settings.boardColor === 'green'" @tap="store.setSetting('boardColor', 'green')">
+            <view class="palette-name"><view class="color-swatch green"></view><text>护眼绿色</text></view>
+            <text class="palette-status">{{ store.settings.boardColor === 'green' ? '✓ 已选' : '选择' }}</text>
+          </button>
+        </view>
         <text class="label">输入方式</text>
         <view class="choices"><button :class="{ chosen: store.settings.inputStyle === 'cell-first' }" @tap="store.setSetting('inputStyle', 'cell-first')">先选格再填数</button><button :class="{ chosen: store.settings.inputStyle === 'number-first' }" @tap="store.setSetting('inputStyle', 'number-first')">先选数字再点格</button></view>
       </view>
@@ -84,11 +114,14 @@ function resetSettings() {
       </view>
 
       <view class="section action-section">
+        <button class="action-row replay-onboarding" @tap="replayOnboarding"><text>重新查看新手引导</text><text aria-hidden="true">›</text></button>
         <view class="action-row" @tap="resetSettings"><text>恢复默认设置</text><text>›</text></view>
         <view class="action-row danger" @tap="resetProgress"><text>重置游戏进度</text><text>›</text></view>
       </view>
       <text class="version">数独 · V1.0.0 · 数据仅保存在本机</text>
     </view>
+    </template>
+    <OnboardingGuide v-if="onboardingVisible" ref="guide" context="settings" @finish="onboardingVisible = false" />
   </view>
 </template>
 
@@ -97,6 +130,16 @@ function resetSettings() {
 .choices { display: flex; gap: 16rpx; margin: 12rpx 0 24rpx; }
 .choices button { flex: 1; min-height: 48px; font-size: 26rpx; background: var(--surface); color: var(--text-primary); border-radius: 12rpx; }
 .choices .chosen { background: var(--primary-soft); color: var(--primary); }
+.palette-desc { display: block; margin-top: 8rpx; }
+.board-color-choices button { padding: 18rpx 12rpx; border: 2rpx solid var(--divider); }
+.board-color-choices .chosen { border-color: var(--primary); }
+.palette-name { display: flex; align-items: center; justify-content: center; gap: 10rpx; }
+.palette-status { display: block; margin-top: 8rpx; font-size: 22rpx; }
+.color-swatch { width: 24rpx; height: 24rpx; border-radius: 50%; flex-shrink: 0; }
+.color-swatch.blue { background: #0864cf; }
+.color-swatch.green { background: #285c3c; }
+.theme-dark .color-swatch.blue { background: #79b8ff; }
+.theme-dark .color-swatch.green { background: #b5e0b7; }
 .settings-page { background: var(--surface); }
 .back { color: var(--primary); font-size: 58rpx; line-height: 1; }
 .content { padding: 16rpx 24rpx 40rpx; }
@@ -108,6 +151,8 @@ function resetSettings() {
 .desc { color: var(--text-secondary); font-size: 21rpx; line-height: 1.42; padding-right: 6rpx; }
 .action-section { margin-top: 28rpx; }
 .action-row { height: 94rpx; padding: 0 26rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid var(--divider); font-size: 29rpx; }
+.replay-onboarding { width: 100%; min-height: 48px; margin: 0; background: var(--cell-bg); color: var(--text-primary); border-radius: 0; }
+.replay-onboarding::after { display: none; border: 0; }
 .action-row:last-child { border-bottom: 0; }
 .action-row text:last-child { color: #bbb; font-size: 44rpx; }
 .action-row.danger text:first-child { color: #ff3b30; }

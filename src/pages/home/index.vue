@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { onShow } from '@dcloudio/uni-app'
+import { onBackPress, onShow } from '@dcloudio/uni-app'
+import OnboardingGuide from '@/components/common/OnboardingGuide.vue'
 import { LEVELS } from '@/assets/puzzles'
 import { useAppearance } from '@/composables/useAppearance'
 import { useSafeArea } from '@/composables/useSafeArea'
@@ -8,6 +9,7 @@ import { openPage } from '@/composables/useNavigation'
 import { useGameStore } from '@/stores/game.store'
 import { useProgressStore } from '@/stores/progress.store'
 import { useHistoryStore } from '@/stores/history.store'
+import { useSettingsStore } from '@/stores/settings.store'
 import { localDate } from '@/services/puzzle.service'
 import { streaks } from '@/services/daily.service'
 import { shareApp } from '@/services/share.service'
@@ -19,6 +21,9 @@ const { topStyle } = useSafeArea()
 const gameStore = useGameStore()
 const progress = useProgressStore()
 const history = useHistoryStore()
+const settings = useSettingsStore()
+const onboardingVisible = ref(settings.shouldShowOnboarding)
+const guide = ref<InstanceType<typeof OnboardingGuide> | null>(null)
 const today = ref(localDate())
 const current = computed(() => gameStore.game && gameStore.game.status !== 'COMPLETED' ? gameStore.game : null)
 const resume = computed(() => {
@@ -39,6 +44,10 @@ const features = computed(() => [
 ])
 
 function chooseGame() { openPage('/pages/levels/index') }
+function finishOnboarding(action: 'done' | 'skip' | 'practice') {
+  onboardingVisible.value = false
+  if (action === 'practice') openPage('/pages/levels/index?mode=practice')
+}
 function play() {
   if (!current.value) return chooseGame()
   gameStore.resume()
@@ -51,12 +60,18 @@ onShow(() => {
   if (!gameStore.game) gameStore.restoreGame()
   // The main menu is an intentional break, irrespective of the background preference.
   if (current.value) { gameStore.pause(); gameStore.flushSave() }
+  onboardingVisible.value = settings.shouldShowOnboarding
+})
+onBackPress(() => {
+  if (!onboardingVisible.value) return false
+  guide.value?.dismiss()
+  return true
 })
 </script>
 
 <template>
   <view class="safe-page home-page" :class="appearance" :style="topStyle">
-    <view class="menu-content">
+    <view v-if="!onboardingVisible" class="menu-content">
       <view class="menu-header">
         <view class="brand"><view class="brand-mark" aria-hidden="true"><text>1</text><text>2</text><text>3</text><text>4</text></view><text class="brand-name">数独</text></view>
         <button class="menu-control settings-button" @tap="openPage('/pages/settings/index')"><text class="settings-icon" aria-hidden="true">⚙</text><text>设置</text></button>
@@ -96,6 +111,7 @@ onShow(() => {
       </view>
       <view class="menu-footer"><text class="offline-label"><text class="offline-dot"></text>离线畅玩，随时继续</text><button class="menu-control share-button" hover-class="menu-hover" @tap="shareApp">分享 App ↗</button></view>
     </view>
+    <OnboardingGuide v-if="onboardingVisible" ref="guide" @finish="finishOnboarding" />
   </view>
 </template>
 

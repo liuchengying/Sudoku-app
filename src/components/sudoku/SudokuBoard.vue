@@ -50,5 +50,5 @@ function select(index: number) {
 </template>
 
 <style scoped lang="scss">
-.board { width: 100%; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(9, minmax(0, 1fr)); border: 4rpx solid var(--line-strong); background: var(--cell-bg); overflow: hidden; }
+.board { width: 100%; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(9, minmax(0, 1fr)); border: 4rpx solid var(--board-line-strong, var(--line-strong)); background: var(--board-bg, var(--cell-bg)); overflow: hidden; }
 </style>

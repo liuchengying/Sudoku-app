@@ -8,6 +8,7 @@ import NumberPad from '@/components/sudoku/NumberPad.vue'
 import GameToolbar from '@/components/sudoku/GameToolbar.vue'
 import AppHeader from '@/components/common/AppHeader.vue'
 import MoreSheet from '@/components/common/MoreSheet.vue'
+import OnboardingGuide from '@/components/common/OnboardingGuide.vue'
 import { useGameStore } from '@/stores/game.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import HintSheet from '@/components/sudoku/HintSheet.vue'
@@ -26,6 +27,8 @@ const now = ref(Date.now())
 const moreVisible = ref(false)
 const hintVisible = ref(false)
 const onboardingVisible = ref(false)
+const guide = ref<InstanceType<typeof OnboardingGuide> | null>(null)
+let wasPlayingBeforeOnboarding = false
 let wasPlayingBeforeMenu = false
 let menuActionChosen = false
 let timer: ReturnType<typeof setInterval> | null = null
@@ -56,9 +59,9 @@ function closeMore(value: boolean) {
   if (!value) setTimeout(() => { if (!menuActionChosen && wasPlayingBeforeMenu) gameStore.resume() }, 0)
 }
 function finishOnboarding() {
-  settingsStore.setSetting('onboardingSeen', true)
   onboardingVisible.value = false
-  gameStore.resume()
+  if (wasPlayingBeforeOnboarding) gameStore.resume()
+  wasPlayingBeforeOnboarding = false
 }
 function openStatistics() { gameStore.pause(); openPage('/pages/statistics/index') }
 
@@ -129,11 +132,16 @@ onShow(() => {
   }
   ensureTimer()
   now.value = Date.now()
-  if (!settingsStore.settings.onboardingSeen) { gameStore.pause(); onboardingVisible.value = true }
+  if (settingsStore.shouldShowOnboarding && game.value?.status !== 'COMPLETED' && !onboardingVisible.value) {
+    wasPlayingBeforeOnboarding = game.value?.status === 'PLAYING'
+    gameStore.pause()
+    onboardingVisible.value = true
+  }
 })
-onHide(() => { gameStore.pause(true); gameStore.flushSave(); if (timer) clearInterval(timer); timer = null; moreVisible.value = false; hintVisible.value = false })
+onHide(() => { wasPlayingBeforeOnboarding = false; gameStore.pause(true); gameStore.flushSave(); if (timer) clearInterval(timer); timer = null; moreVisible.value = false; hintVisible.value = false })
 
 onBackPress(() => {
+  if (onboardingVisible.value) { guide.value?.dismiss(); return true }
   if (hintVisible.value) { hintVisible.value = false; return true }
   if (moreVisible.value) {
     closeMore(false)
@@ -157,6 +165,7 @@ onBeforeUnmount(() => {
 
 <template>
   <view v-if="game" class="safe-page game-page" :class="appearance">
+    <template v-if="!onboardingVisible">
     <AppHeader title="数独">
       <template #left><text class="pause-button" @tap="togglePause">{{ game.status === 'PAUSED' ? '▶' : 'Ⅱ' }}</text></template>
       <template #right>
@@ -174,7 +183,6 @@ onBeforeUnmount(() => {
     </view>
 
     <view v-if="gameStore.storageError || gameStore.needsSettlement" class="save-error"><text>{{ gameStore.storageError || '棋盘已完成，请保存完成结果。' }}</text><button @tap="gameStore.needsSettlement ? gameStore.completeGame() : gameStore.flushSave()">{{ gameStore.needsSettlement ? '重试结算' : '重试保存' }}</button></view>
-    <view v-if="onboardingVisible" class="onboarding"><text>行、列和每个九宫格内，1–9 都只能出现一次。先选空格，再点数字；草稿用于记录候选。需要帮助时点解法，逐步查看推导。</text><button class="primary-action" @tap="finishOnboarding">开始尝试</button></view>
     <text class="input-help">{{ settingsStore.settings.inputStyle === 'number-first' ? (gameStore.activeDigit ? `已选 ${gameStore.activeDigit}，点击空格填写；再次点数字取消` : '先点下方数字，再点棋盘空格') : '先点棋盘空格，再点下方数字' }}</text>
     <view class="board-shell">
       <view class="board-wrap" :class="{ paused: game.status === 'PAUSED' }">
@@ -221,12 +229,14 @@ onBeforeUnmount(() => {
 
     <MoreSheet :model-value="moreVisible" game-mode @update:model-value="closeMore" @action="moreAction" />
     <HintSheet v-model="hintVisible" :hint="gameStore.pendingHint" @apply="gameStore.applyHint" />
+    </template>
+    <OnboardingGuide v-if="onboardingVisible" ref="guide" context="game" @finish="finishOnboarding" />
   </view>
 </template>
 
 <style scoped lang="scss">
 .input-help { display: block; padding: 6rpx 24rpx; font-size: 22rpx; color: var(--text-secondary); }
-.save-error, .onboarding { margin: 12rpx 24rpx; padding: 22rpx; background: var(--primary-soft); border-radius: 18rpx; font-size: 26rpx; line-height: 1.6; }
+.save-error { margin: 12rpx 24rpx; padding: 22rpx; background: var(--primary-soft); border-radius: 18rpx; font-size: 26rpx; line-height: 1.6; }
 .save-error button { min-height: 48px; color: var(--primary); }
 .game-page { background: var(--page-bg); color: var(--text-primary); overflow: visible; }
 .pause-button { color: var(--primary); font-size: 48rpx; font-weight: 700; min-width: 48px; min-height: 48px; display: flex; align-items: center; }

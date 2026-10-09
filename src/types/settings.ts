@@ -9,6 +9,7 @@ export interface AppSettings {
   sound: boolean
   haptics: boolean
   theme: 'light' | 'dark'
+  boardColor: 'blue' | 'green'
   largeDigits: boolean
   inputStyle: 'cell-first' | 'number-first'
   onboardingSeen: boolean
@@ -25,6 +26,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   sound: true,
   haptics: true,
   theme: 'light',
+  boardColor: 'blue',
   largeDigits: false,
   inputStyle: 'cell-first',
   onboardingSeen: false

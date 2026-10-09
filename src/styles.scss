@@ -46,6 +46,33 @@ button::after { border: none; }
   --given-number: #f3f6fa; --hint: #8ecaff; --error: #ff9990; --line: #526175; --line-strong: #a4b4c9;
   background: var(--page-bg); color: var(--text-primary);
 }
+// Board-only overrides keep the existing blue app theme.
+.board-green {
+  --board-bg: #f4f8ef;
+  --board-related: #e8f1df;
+  --board-same: #d5e7c9;
+  --board-selected: #c8deb9;
+  --board-accent: #285c3c;
+  --board-accent-soft: #d5e7c9;
+  --board-given: #18291c;
+  --board-hint: #3c5947;
+  --board-error: #a92520;
+  --board-line: #96a98a;
+  --board-line-strong: #354d36;
+}
+.theme-dark.board-green {
+  --board-bg: #1c2922;
+  --board-related: #263a2e;
+  --board-same: #304e3a;
+  --board-selected: #3b6045;
+  --board-accent: #b5e0b7;
+  --board-accent-soft: #304e3a;
+  --board-given: #eff5e9;
+  --board-hint: #d1e6b8;
+  --board-error: #ffc4bc;
+  --board-line: #66816b;
+  --board-line-strong: #afc5a9;
+}
 .large-digits { --digit-font-size: clamp(22px, 7.2vw, 34px); --note-font-size: clamp(11px, 2.9vw, 13px); }
 @media (max-height: 500px) {
   .game-page { --digit-font-size: 24px; --note-font-size: 10px; }

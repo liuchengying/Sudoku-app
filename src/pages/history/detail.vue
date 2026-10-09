@@ -79,8 +79,8 @@ function step(delta: number) {
       </view>
 
       <view class="legend">
-        <view class="legend-item"><view class="legend-dot black"></view><text>题目数字</text></view>
-        <view class="legend-item"><view class="legend-dot blue"></view><text>玩家/提示数字</text></view>
+        <view class="legend-item"><view class="legend-dot given"></view><text>题目数字</text></view>
+        <view class="legend-item"><view class="legend-dot player"></view><text>玩家/提示数字</text></view>
       </view>
     </view>
   </view>
@@ -102,6 +102,6 @@ function step(delta: number) {
 .legend { margin-top: 24rpx; display: flex; justify-content: center; gap: 36rpx; color: var(--text-secondary); font-size: 23rpx; }
 .legend-item { display: flex; align-items: center; gap: 9rpx; }
 .legend-dot { width: 14rpx; height: 14rpx; border-radius: 50%; }
-.legend-dot.black { background: #111; }
-.legend-dot.blue { background: #1768b6; }
+.legend-dot.given { background: var(--board-given, var(--given-number)); }
+.legend-dot.player { background: var(--board-accent, var(--primary)); }
 </style>

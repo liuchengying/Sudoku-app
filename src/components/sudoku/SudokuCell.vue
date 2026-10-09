@@ -49,22 +49,22 @@ const noteDigits = computed(() => Array.from({ length: 9 }, (_, i) => i + 1))
 </template>
 
 <style scoped lang="scss">
-.cell { position: relative; min-width: 0; min-height: 0; background: var(--cell-bg); display: flex; align-items: center; justify-content: center; border-right: 1rpx solid var(--line); border-bottom: 1rpx solid var(--line); transition: background .08s ease; overflow: hidden; }
-.cell.related { background: var(--cell-related); }
-.cell.same { background: var(--cell-same); }
-.cell.selected { background: var(--cell-selected); box-shadow: inset 0 0 0 4rpx var(--primary); z-index: 2; }
-.cell.strong-right { border-right: 4rpx solid var(--line-strong); }
-.cell.strong-bottom { border-bottom: 4rpx solid var(--line-strong); }
+.cell { position: relative; min-width: 0; min-height: 0; background: var(--board-bg, var(--cell-bg)); display: flex; align-items: center; justify-content: center; border-right: 1rpx solid var(--board-line, var(--line)); border-bottom: 1rpx solid var(--board-line, var(--line)); transition: background .08s ease; overflow: hidden; }
+.cell.related { background: var(--board-related, var(--cell-related)); }
+.cell.same { background: var(--board-same, var(--cell-same)); }
+.cell.selected { background: var(--board-selected, var(--cell-selected)); box-shadow: inset 0 0 0 4rpx var(--board-accent, var(--primary)); z-index: 2; }
+.cell.strong-right { border-right: 4rpx solid var(--board-line-strong, var(--line-strong)); }
+.cell.strong-bottom { border-bottom: 4rpx solid var(--board-line-strong, var(--line-strong)); }
 .cell.last-col { border-right: 0; }
 .cell.last-row { border-bottom: 0; }
-.value { font-size: var(--digit-font-size); line-height: 1; font-weight: 600; color: var(--primary); font-variant-numeric: tabular-nums; }
-.cell.given .value { color: var(--given-number); font-weight: 650; }
-.cell.hint .value { color: var(--hint); }
-.cell.error .value { color: var(--error); }
+.value { font-size: var(--digit-font-size); line-height: 1; font-weight: 600; color: var(--board-accent, var(--primary)); font-variant-numeric: tabular-nums; }
+.cell.given .value { color: var(--board-given, var(--given-number)); font-weight: 650; }
+.cell.hint .value { color: var(--board-hint, var(--hint)); }
+.cell.error .value { color: var(--board-error, var(--error)); }
 .notes { position: absolute; inset: 4rpx; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
-.note { display: flex; align-items: center; justify-content: center; font-size: var(--note-font-size); line-height: 1; color: var(--primary); font-weight: 560; }
-.note-highlight { background: var(--primary-soft); font-weight: 800; border-radius: 4rpx; }
-.cell.focus { box-shadow: inset 0 0 0 3rpx var(--hint); }
-.error-mark { position: absolute; right: 2rpx; bottom: 2rpx; color: var(--error); font-size: 20rpx; font-weight: 800; }
-.hint-dot { position: absolute; right: 7rpx; top: 7rpx; width: 8rpx; height: 8rpx; border-radius: 50%; background: var(--hint); opacity: .65; }
+.note { display: flex; align-items: center; justify-content: center; font-size: var(--note-font-size); line-height: 1; color: var(--board-accent, var(--primary)); font-weight: 560; }
+.note-highlight { background: var(--board-accent-soft, var(--primary-soft)); font-weight: 800; border-radius: 4rpx; }
+.cell.focus { box-shadow: inset 0 0 0 3rpx var(--board-hint, var(--hint)); }
+.error-mark { position: absolute; right: 2rpx; bottom: 2rpx; color: var(--board-error, var(--error)); font-size: 20rpx; font-weight: 800; }
+.hint-dot { position: absolute; right: 7rpx; top: 7rpx; width: 8rpx; height: 8rpx; border-radius: 50%; background: var(--board-hint, var(--hint)); opacity: .65; }
 </style>
