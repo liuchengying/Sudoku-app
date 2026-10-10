@@ -1,0 +1,65 @@
+{
+  "reviewer": "当前会话逐项复核：文件审阅、真实 CLI 回执与原始脚本结果核对",
+  "summary": "项目适配就绪，5 项检查全部通过（74/74 测试、75 道题库、24 个 SFC、12 条路由）。首轮菜单测试前提缺失通过归档调整后修正并补充首次引导回归，保留原有断言；检查证据、输入、范围和调整历史一致。新材料位于 docs，用户权限规则完整保留，未启动工程、操作 Git 或进行设备验证。交付后等待用户明确决定。",
+  "findings": [],
+  "criteria": [
+    {
+      "id": "adapter-ready",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/doctor-final.json",
+        "docs/ai-delivery/project.json",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/adapter.log"
+      ]
+    },
+    {
+      "id": "permissions-preserved",
+      "result": "passed",
+      "evidence": [
+        "docs/workflow/RULES.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/inspect-before-review.json"
+      ]
+    },
+    {
+      "id": "checks-backed",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/result.json",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit-tests.json",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/puzzles.log",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/ui.log"
+      ]
+    },
+    {
+      "id": "inputs-tracked",
+      "result": "passed",
+      "evidence": [
+        "docs/ai-delivery/project.json",
+        "docs/ai-delivery/check-adapter.mjs",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/inspect-before-review.json"
+      ]
+    },
+    {
+      "id": "workflow-usable",
+      "result": "passed",
+      "evidence": [
+        "docs/ai-delivery/README.md",
+        "docs/workflow/RULES.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md"
+      ]
+    },
+    {
+      "id": "menu-regression-aligned",
+      "result": "passed",
+      "evidence": [
+        "docs/validation/game-flows.spec.ts",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit-tests.json"
+      ]
+    }
+  ],
+  "reviewedAt": "2026-10-09T09:52:16.307Z",
+  "fingerprint": "6e7eedef7b877d45d65202b2bbc8ec2c5c6d1614b53e8499bf97aa1905e0080d"
+}

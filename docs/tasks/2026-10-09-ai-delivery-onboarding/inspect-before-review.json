@@ -1,0 +1,98 @@
+{
+  "workflow": "ai-delivery",
+  "version": "0.5.1",
+  "project": "sudoku-uniapp",
+  "task": "2026-10-09-ai-delivery-onboarding",
+  "title": "接入数独项目的 AI 需求交付流程",
+  "stage": "verified",
+  "label": "检查通过",
+  "event": {
+    "at": "2026-10-09T09:50:22.318Z",
+    "action": "verification-passed",
+    "status": "verified",
+    "note": "",
+    "toolVersion": "0.5.1"
+  },
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true
+    },
+    {
+      "id": "typecheck",
+      "passed": true
+    },
+    {
+      "id": "unit",
+      "passed": true
+    },
+    {
+      "id": "puzzles",
+      "passed": true
+    },
+    {
+      "id": "ui",
+      "passed": true
+    }
+  ],
+  "evidenceCurrent": true,
+  "reasons": [],
+  "category": "active",
+  "action": "review",
+  "next": "逐项复核",
+  "ownerAction": "无需逐步操作",
+  "attempts": {
+    "used": 2,
+    "limit": 4,
+    "remaining": 2,
+    "repairRounds": 1,
+    "repairLimit": 3,
+    "repairsRemaining": 2
+  },
+  "statusFile": "docs/workflow/STATUS.md",
+  "integrity": {
+    "current": true,
+    "verification": {
+      "passed": true,
+      "inputsCurrent": true,
+      "evidenceCurrent": true,
+      "resultConsistent": true
+    },
+    "revisionsCurrent": true,
+    "review": {
+      "required": false,
+      "current": false
+    },
+    "delivery": {
+      "required": false,
+      "current": false
+    },
+    "reasons": []
+  },
+  "changes": {
+    "watched": [
+      "docs/PROJECT_OVERVIEW.md",
+      "docs/ai-delivery/README.md",
+      "docs/ai-delivery/check-adapter.mjs",
+      "docs/ai-delivery/project.json",
+      "docs/validation/game-flows.spec.ts",
+      "docs/workflow/RULES.md"
+    ],
+    "outsideScope": []
+  },
+  "materials": {
+    "task": "docs/tasks/2026-10-09-ai-delivery-onboarding/task.json",
+    "brief": "docs/tasks/2026-10-09-ai-delivery-onboarding/brief.md",
+    "plan": "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+    "checks": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/result.json",
+    "review": null,
+    "delivery": null,
+    "revisions": [
+      "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0001"
+    ]
+  },
+  "runtime": {
+    "exists": false,
+    "alive": false
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 2,
+  "name": "sudoku-uniapp",
+  "timezone": "Asia/Shanghai",
+  "maxRepairRounds": 3,
+  "checkTimeoutMs": 300000,
+  "watch": [
+    "src",
+    "tests",
+    "tools",
+    "docs/validation",
+    "docs/generated/pipeline-smoke.json",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "vite.config.ts",
+    "index.html",
+    "README.md",
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/ARCHITECTURE.md",
+    "docs/design",
+    "docs/implementation",
+    "docs/ai-delivery",
+    "docs/workflow/RULES.md"
+  ],
+  "exclude": ["docs/validation/results"],
+  "checks": ["adapter", "typecheck", "unit", "puzzles", "ui"],
+  "commands": {
+    "adapter": [
+      { "executable": "node", "args": ["docs/ai-delivery/check-adapter.mjs"] }
+    ],
+    "typecheck": [
+      { "executable": "node", "args": ["node_modules/vue-tsc/bin/vue-tsc.js", "--noEmit"] }
+    ],
+    "unit": [
+      {
+        "executable": "node",
+        "args": ["node_modules/vitest/vitest.mjs", "run", "--config", "docs/validation/vitest.config.ts", "--outputFile.json", "{evidenceDir}/unit-tests.json"],
+        "outputs": ["{evidenceDir}/unit-tests.json"]
+      }
+    ],
+    "puzzles": [
+      { "executable": "node", "args": ["tools/validate-puzzles.mjs"] },
+      { "executable": "node", "args": ["docs/validation/calibrate-puzzles.cjs"] }
+    ],
+    "ui": [
+      { "executable": "node", "args": ["docs/validation/validate-ui.cjs"] }
+    ]
+  },
+  "checkPolicy": {
+    "always": ["adapter"],
+    "rules": [
+      {
+        "paths": ["src", "tests", "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts", "index.html"],
+        "checks": ["typecheck", "unit", "puzzles", "ui"],
+        "reason": "源码、测试或工程依赖变化需通过项目完整脚本检查。"
+      },
+      {
+        "paths": ["tools", "docs/validation", "docs/generated/pipeline-smoke.json"],
+        "checks": ["typecheck", "unit", "puzzles", "ui"],
+        "reason": "检查脚本和题库样本变化会影响验证有效性，需重新运行完整检查。"
+      },
+      {
+        "paths": ["docs/ai-delivery", "docs/workflow/RULES.md"],
+        "checks": ["typecheck", "unit", "puzzles", "ui"],
+        "reason": "交付适配和权限规则变化需确认已注册命令能真实检查项目。"
+      }
+    ]
+  },
+  "ruleFiles": [
+    "docs/workflow/RULES.md",
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/ARCHITECTURE.md"
+  ],
+  "taskRoot": "docs/tasks",
+  "statusFile": "docs/workflow/STATUS.md",
+  "runtimeDir": "docs/workflow/runtime"
+}

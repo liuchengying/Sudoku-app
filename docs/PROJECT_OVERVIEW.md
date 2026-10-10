@@ -1,5 +1,7 @@
 # 当前工程与扩展入口
 
+项目已接入 AI 需求交付流程（2026-10-09）：[使用说明](ai-delivery/README.md)、[项目交付规则](workflow/RULES.md)、[任务状态](workflow/STATUS.md)。后续开发与修复按该流程收件、脚本检查、复核和交付，用户明确决定后才记录验收。
+
 更新日期：2026-09-30。本文描述功能完善后的代码。修改前的问题与市场对比保存在 [原始评估](reviews/2026-09-30/ASSESSMENT.md)，实施范围与验收详见 [首版记录](implementation/2026-09-30/IMPLEMENTATION.md)、[无限闯关记录](implementation/2026-09-30/INFINITE_CAMPAIGN.md) 与 [主菜单设计](design/2026-09-30/MAIN_MENU.md)。
 
 ## 工程基线

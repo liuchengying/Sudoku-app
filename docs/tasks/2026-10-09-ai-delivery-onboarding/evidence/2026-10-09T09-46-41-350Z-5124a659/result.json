@@ -1,0 +1,28 @@
+{
+  "id": "2026-10-09T09-46-41-350Z-5124a659",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-09T09:46:41.350Z",
+  "fingerprint": "4de3bfa3997549422394836a74bb175ede0f0ba2ae586f4fc50f40724c27be2e",
+  "passed": false,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 42,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-46-41-350Z-5124a659/adapter.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2401,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-46-41-350Z-5124a659/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": false,
+      "durationMs": 43255,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-46-41-350Z-5124a659/unit.log"
+    }
+  ],
+  "finishedAt": "2026-10-09T09:47:27.077Z"
+}

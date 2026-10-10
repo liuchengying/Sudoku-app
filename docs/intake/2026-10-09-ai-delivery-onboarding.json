@@ -1,0 +1,18 @@
+{
+  "id": "2026-10-09-ai-delivery-onboarding",
+  "title": "接入数独项目的 AI 需求交付流程",
+  "request": "[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 接入此项目",
+  "scope": ["docs/ai-delivery", "docs/workflow/RULES.md", "docs/PROJECT_OVERVIEW.md"],
+  "criteria": [
+    { "id": "adapter-ready", "description": "本项目适配配置可被 ai-delivery 识别，doctor 返回 ready=true，已注册真实脚本检查及范围检查政策。" },
+    { "id": "permissions-preserved", "description": "新增配置、脚本及材料均位于根目录 docs/；项目规则保留用户对 Git、电脑/浏览器控制、工程启动及脚本验证的约定。" },
+    { "id": "checks-backed", "description": "通过适配器执行类型、完整 Vitest 回归、生产题库唯一解/评分及 Vue SFC/路由检查，原始日志和单元测试报告绑定本轮证据。" },
+    { "id": "inputs-tracked", "description": "源码、测试、依赖声明、检查脚本、必要样本和规则均纳入指纹跟踪，生成报告不触发输入循环；注册命令不会启动应用。" },
+    { "id": "workflow-usable", "description": "提供后续需求与恢复入口说明，完成本次任务的逐项会话内复核和交付，自动状态页准确显示待用户验收。" }
+  ],
+  "manualChecks": [
+    "本次仅接入交付流程并执行脚本检查，未启动 H5/Android 工程、构建应用或进行设备、浏览器体验验收。",
+    "后续新会话是否自动选择技能尚需真实需求观察；本次未运行后台模型，也未替用户记录验收通过。"
+  ],
+  "plan": "1. 已核实 package.json、验证脚本、项目概览和架构；以 init 在 docs 内建立配置草稿，再注册现有四类项目脚本及适配自检。这些基础配置在任务收件前建立，作为本次接入的一部分逐项复核。\n2. 在 docs/ai-delivery 完善可执行的适配自检与使用说明，在 docs/workflow/RULES.md 固化当前用户权限约定，在项目概览增加流程入口；不改业务源码、依赖或根目录文档。\n3. doctor 核对配置就绪后，verify 执行全部必要检查：适配安全/跟踪自检、vue-tsc、完整 Vitest、75 道题库唯一解与评分校验、Vue SFC 和页面路由内存编译。Vitest JSON 报告输出到本轮 evidence 目录，日志由引擎生成。源码与检查输入均跟踪，生成报告和运行状态与输入分离。\n4. 对照验收条件做当前会话逐项复核，将 doctor、指纹/范围检查和真实测试结果留在本任务 docs 目录，用 finish 生成交付包及状态摘要；状态停在待用户验收，只有明确用户决定才记录 accepted。\n恢复：检查失败时保留失败日志，修复授权范围内的适配材料后重新检查，最多三轮修复；出现业务源码基线问题则报告具体阻碍，不擅自扩大接入范围。若用户之后要求撤销接入，先核对是否已有新任务，仅处理本次 docs 适配与规则入口，保留任务历史，不使用 Git 回滚或终止其他进程。"
+}

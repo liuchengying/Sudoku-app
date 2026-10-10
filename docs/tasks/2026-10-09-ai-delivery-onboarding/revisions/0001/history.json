@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-09T09:48:39.805Z",
+  "reason": "接入时发现首页测试未设置已看过新手引导的菜单前提；增加 docs 内测试适配和首次引导回归，保留全部检查及业务断言，不改业务实现",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-09-ai-delivery-onboarding/task.json",
+      "snapshot": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0001/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-09-ai-delivery-onboarding/brief.md",
+      "snapshot": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0001/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+      "snapshot": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0001/plan.md"
+    }
+  ]
+}

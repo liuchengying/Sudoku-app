@@ -215,7 +215,43 @@ describe('Infinite campaign game and page integration', () => {
   })
 })
 
+describe('First-run guide and main menu entry', () => {
+  it('shows the guide before the menu, then persists skip across a cold start without starting a game', async () => {
+    expect(useSettingsStore().shouldShowOnboarding).toBe(true)
+    const mounted = mount(HomePage, {})
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(find(mounted.root, el => el.props.role === 'dialog' && el.props['aria-label'] === '数独新手引导')).toBeDefined()
+    expect(find(mounted.root, el => String(el.props.class).split(' ').includes('play-button'))).toBeUndefined()
+    find(mounted.root, el => String(el.props.class).split(' ').includes('guide-skip'))!.props.onTap()
+    await nextTick()
+    expect(useSettingsStore().settings.onboardingSeen).toBe(true)
+    expect(find(mounted.root, el => el.props.role === 'dialog')).toBeUndefined()
+    expect(find(mounted.root, el => String(el.props.class).split(' ').includes('play-button'))).toBeDefined()
+    expect(useGameStore().game).toBeNull()
+    expect(uni.navigateTo).not.toHaveBeenCalled()
+    mounted.unmount()
+
+    hooks.shows.length = 0; hooks.hides.length = 0; hooks.backs.length = 0
+    setActivePinia(createPinia())
+    expect(useSettingsStore().shouldShowOnboarding).toBe(false)
+    const reopened = mount(HomePage, {})
+    hooks.shows.forEach(cb => cb())
+    await nextTick()
+    expect(find(reopened.root, el => el.props.role === 'dialog')).toBeUndefined()
+    expect(find(reopened.root, el => String(el.props.class).split(' ').includes('play-button'))).toBeDefined()
+    expect(useGameStore().game).toBeNull()
+    reopened.unmount()
+  })
+})
+
 describe('Game main menu and navigation hierarchy', () => {
+  beforeEach(() => {
+    // These cases exercise the menu after the guide. Persist the marker because
+    // the saved-game case recreates Pinia to model a cold start.
+    expect(useSettingsStore().setSetting('onboardingSeen', true)).toBe(true)
+  })
+
   const byClass = (root: HostNode, name: string) => find(root, el => String(el.props.class).split(' ').includes(name))!
 
   it('opens on the main menu and opens selection without creating or overwriting a game', async () => {

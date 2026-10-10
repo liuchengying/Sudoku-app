@@ -1,0 +1,21 @@
+{
+  "workflow": "ai-delivery",
+  "version": "0.5.1",
+  "project": "/Users/mac/Downloads/sudoku-uniapp",
+  "config": "docs/ai-delivery/project.json",
+  "ready": true,
+  "checks": [
+    "adapter",
+    "typecheck",
+    "unit",
+    "puzzles",
+    "ui"
+  ],
+  "warnings": [],
+  "runtime": {
+    "exists": false,
+    "alive": false
+  },
+  "writeAvailable": true,
+  "note": "配置可用；未运行检查，也未证明模型自动选择技能"
+}
