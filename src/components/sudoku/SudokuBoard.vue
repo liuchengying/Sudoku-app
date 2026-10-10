@@ -11,7 +11,8 @@ const props = withDefaults(defineProps<{
   interactive?: boolean
   activeDigit?: number | null
   focusIndexes?: number[]
-}>(), { highlightRelated: true, highlightSameDigit: true, interactive: true })
+  showErrors?: boolean
+}>(), { highlightRelated: true, highlightSameDigit: true, interactive: true, showErrors: true })
 
 const emit = defineEmits<{ (event: 'select', index: number): void }>()
 
@@ -39,6 +40,7 @@ function select(index: number) {
       v-for="cell in cells"
       :key="cell.index"
       :cell="cell"
+      :show-errors="showErrors"
       :selected="cell.index === selectedIndex"
       :related="related(cell.index)"
       :same-value="sameValue(cell)"
@@ -50,5 +52,5 @@ function select(index: number) {
 </template>
 
 <style scoped lang="scss">
-.board { width: 100%; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(9, minmax(0, 1fr)); border: 4rpx solid var(--board-line-strong, var(--line-strong)); background: var(--board-bg, var(--cell-bg)); overflow: hidden; }
+.board { width: 100%; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(9, minmax(0, 1fr)); border: 2px solid var(--board-line-strong, var(--line-strong)); background: var(--board-bg, var(--cell-bg)); overflow: hidden; }
 </style>

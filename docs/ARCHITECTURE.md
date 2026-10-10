@@ -25,6 +25,14 @@ Pure TypeScript Sudoku Core
 - `settings.store.ts`：类型校验后的偏好，持久化成功后更新响应式状态。
 - `statistics.store.ts`：从闯关进度与累计值派生统计，显示无总关数上限的完成数与阶段进度；历史列表不是累计口径。
 
+## Window adaptation and interaction
+
+`useWindowMetrics.ts` 共享响应式可用窗口与安全区，监听尺寸变化并在页面/应用返回前台补读；所有消费者释放后取消原生窗口监听。缺少全局 API 时使用页面 onResize，窗口 API 失败时回退系统信息。`useAppearance` 返回外观 class 与页面安全区变量；`useSafeArea` 的顶/底数据现在是 computed Ref，使用者不可再当成静态数值。
+
+`window-layout.ts` 依据实际宽、高及安全区选择单列或并排，棋盘和操作区有尺寸边界，矮窗口允许纵向滚动。普通尺寸变化不调用游戏动作、不创建游戏、不改变计时与操作栈。半折叠铰链需要原生姿态信息，目前没有此桥接，不能把窗口适配等同于姿态识别。
+
+更多菜单工具通过明确的 allowPaused 参数在暂停中执行；确认结束按原状态恢复，迟到回调受页面生命周期与游戏 ID 保护。继续入口统一导航失败兜底。提示说明与有效揭示分开，lastHintKey 保存已查看棋盘/步骤标识以避免同一步重复计数。新增 independentMode 默认 false，候选/清理依可见棋盘，手动检查与推导为显式求助。
+
 ## Persistence and completion
 
 `results.repository.ts` 使用一次同步写入提交进度、历史、累计计数、每日完成和结算标识。完成写入成功后才置 COMPLETED，之后刷新 Store 视图、清理当前局并导航。失败保留可重试的棋盘；相同游戏使用稳定的记录 ID 与结算标识去重。
@@ -63,6 +71,6 @@ GameState stores a complete level snapshot
 
 ## Validation
 
-`docs/validation/vitest.config.ts` 独立于 uni-app 构建插件，真实 Store/Repository 和 Vue 内存渲染器配合模拟平台接口测试。`npm run check` 执行类型、73 条回归（含 300 道生成关卡抽检）、保留题库唯一解/元数据以及 23 个 SFC 与 12 条路由源码校验；不启动工程或浏览器。
+`docs/validation/vitest.config.ts` 独立于 uni-app 构建插件，真实 Store/Repository 和 Vue 内存渲染器配合模拟平台接口测试。`npm run check` 执行类型、完整回归（含 300 道生成关卡抽检及折叠屏窗口/交互专项）、保留题库唯一解/元数据以及 24 个 SFC 与 12 条路由源码校验；不启动工程或浏览器。
 
 详细范围与待进行的设备验收见 [首版记录](implementation/2026-09-30/IMPLEMENTATION.md)、[无限闯关记录](implementation/2026-09-30/INFINITE_CAMPAIGN.md) 与 [主菜单设计](design/2026-09-30/MAIN_MENU.md)。

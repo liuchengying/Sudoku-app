@@ -8,7 +8,7 @@ import { tierName } from '@/config/practice'
 import { useGameStore } from '@/stores/game.store'
 import type { SudokuLevel } from '@/core/sudoku'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 const game = useGameStore()
 const input = ref('')
 const error = ref('')
@@ -26,7 +26,7 @@ function start() {
 }
 </script>
 <template>
-  <view class="safe-page import-page" :class="appearance">
+  <view class="safe-page import-page" :class="appearance" :style="pageStyle">
     <AppHeader title="导入题目"><template #left><text class="back" @tap="back">‹</text></template></AppHeader>
     <view class="content">
       <text class="secondary-copy">按行粘贴 81 个数字，空格用 0 或 . 表示。可以包含换行、空白或逗号。</text>
@@ -41,10 +41,10 @@ function start() {
 </template>
 <style scoped>
 .import-page { background: var(--page-bg); }
-.back { font-size: 58rpx; color: var(--primary); }
+.back { font-size: clamp(24.65px, 58rpx, 29px); color: var(--primary); }
 .content { padding: 24rpx; max-width: 900rpx; margin: auto; }
-.puzzle-input { width: 100%; height: 460rpx; padding: 24rpx; margin: 20rpx 0; background: var(--surface); border-radius: 18rpx; color: var(--text-primary); font-size: 32rpx; letter-spacing: 3rpx; line-height: 1.5; font-family: monospace; }
-.error, .valid { display: block; font-size: 26rpx; line-height: 1.6; }
+.puzzle-input { width: 100%; height: 460rpx; padding: 24rpx; margin: 20rpx 0; background: var(--surface); border-radius: 18rpx; color: var(--text-primary); font-size: clamp(13.6px, 32rpx, 16px); letter-spacing: 3rpx; line-height: 1.5; font-family: monospace; }
+.error, .valid { display: block; font-size: clamp(11.05px, 26rpx, 13px); line-height: 1.6; }
 .error { color: var(--error); }
 .valid { color: var(--primary); }
 .note { display: block; margin-top: 24rpx; }

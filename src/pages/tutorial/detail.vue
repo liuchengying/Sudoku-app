@@ -6,7 +6,7 @@ import { onLoad } from '@dcloudio/uni-app'
 import AppHeader from '@/components/common/AppHeader.vue'
 import { getTutorialArticle } from '@/content/tutorial'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const articleId = ref('rules')
 const article = computed(() => getTutorialArticle(articleId.value))
@@ -17,7 +17,7 @@ onLoad((query) => {
 </script>
 
 <template>
-  <view class="safe-page detail-page" :class="appearance">
+  <view class="safe-page detail-page" :class="appearance" :style="pageStyle">
     <AppHeader :title="article?.title ?? '技巧详情'">
       <template #left><text class="back" @tap="back">‹</text></template>
     </AppHeader>
@@ -37,15 +37,15 @@ onLoad((query) => {
 
 <style scoped lang="scss">
 .detail-page { background: var(--surface); }
-.back { color: var(--primary); font-size: 58rpx; line-height: 1; }
+.back { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); line-height: 1; }
 .content { padding: 18rpx 28rpx 45rpx; }
-.summary { display: block; color: var(--text-secondary); font-size: 25rpx; margin: 0 8rpx 16rpx; }
+.summary { display: block; color: var(--text-secondary); font-size: clamp(10.63px, 25rpx, 12.5px); margin: 0 8rpx 16rpx; }
 .article-card { background: var(--cell-bg); border-radius: 24rpx; padding: 30rpx; }
-.paragraph { display: block; line-height: 1.9; font-size: 29rpx; color: var(--text-primary); margin-bottom: 22rpx; }
+.paragraph { display: block; line-height: 1.9; font-size: clamp(12.33px, 29rpx, 14.5px); color: var(--text-primary); margin-bottom: 22rpx; }
 .paragraph:last-child { margin-bottom: 0; }
 .tips { margin-top: 22rpx; background: var(--primary-soft); border-radius: 22rpx; padding: 26rpx 28rpx; }
-.tips-title { display: block; color: var(--primary); font-size: 27rpx; font-weight: 700; margin-bottom: 12rpx; }
-.tip { display: flex; gap: 12rpx; color: var(--text-secondary); line-height: 1.65; font-size: 24rpx; margin: 7rpx 0; }
+.tips-title { display: block; color: var(--primary); font-size: clamp(11.48px, 27rpx, 13.5px); font-weight: 700; margin-bottom: 12rpx; }
+.tip { display: flex; gap: 12rpx; color: var(--text-secondary); line-height: 1.65; font-size: clamp(10.2px, 24rpx, 12px); margin: 7rpx 0; }
 .bullet { color: var(--primary); }
-.engine-note { margin-top: 24rpx; padding: 24rpx 28rpx; border-radius: 20rpx; background: var(--cell-bg); color: var(--text-secondary); line-height: 1.65; font-size: 22rpx; }
+.engine-note { margin-top: 24rpx; padding: 24rpx 28rpx; border-radius: 20rpx; background: var(--cell-bg); color: var(--text-secondary); line-height: 1.65; font-size: clamp(9.35px, 22rpx, 11px); }
 </style>

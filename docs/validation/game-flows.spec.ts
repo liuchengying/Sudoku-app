@@ -22,15 +22,18 @@ import GamePage from '@/pages/game/index.vue'
 import HomePage from '@/pages/home/index.vue'
 import LevelsPage from '@/pages/levels/index.vue'
 import ResultPage from '@/pages/result/index.vue'
+import DailyPage from '@/pages/daily/index.vue'
+import { continueGame } from '@/composables/useNavigation'
 import { requestCampaignLevel } from '@/services/campaign.service'
 import { campaignRepository } from '@/repositories/campaign.repository'
 
-const hooks = vi.hoisted(() => ({ shows: [] as Array<() => void>, hides: [] as Array<() => void>, backs: [] as Array<() => boolean>, query: { id: 'audit-old' } as Record<string, string> }))
+const hooks = vi.hoisted(() => ({ shows: [] as Array<() => void>, hides: [] as Array<() => void>, resizes: [] as Array<(event: any) => void>, windows: new Set<(event: any) => void>(), backs: [] as Array<() => boolean>, query: { id: 'audit-old' } as Record<string, string> }))
 
 vi.mock('@dcloudio/uni-app', () => ({
   onLoad: (callback: (query: Record<string, string>) => void) => callback(hooks.query),
   onShow: (callback: () => void) => hooks.shows.push(callback),
   onHide: (callback: () => void) => hooks.hides.push(callback),
+  onResize: (callback: (event: any) => void) => hooks.resizes.push(callback),
   onBackPress: (callback: () => boolean) => hooks.backs.push(callback)
 }))
 
@@ -41,6 +44,7 @@ const HISTORY = 'sudoku:v1:history'
 beforeEach(() => {
   storage.clear()
   hooks.shows.length = 0; hooks.hides.length = 0; hooks.backs.length = 0
+  hooks.resizes.length = 0; hooks.windows.clear()
   hooks.query = { id: 'audit-old' }
   vi.useFakeTimers()
   vi.setSystemTime(100000)
@@ -55,7 +59,10 @@ beforeEach(() => {
     showToast: vi.fn(),
     showModal: vi.fn(),
     vibrateShort: vi.fn(),
-    vibrateLong: vi.fn()
+    vibrateLong: vi.fn(),
+    getWindowInfo: vi.fn(() => ({ windowWidth: 352, windowHeight: 780, statusBarHeight: 24, safeAreaInsets: { top: 24, bottom: 12, left: 0, right: 0 } })),
+    onWindowResize: vi.fn((cb: (event: any) => void) => hooks.windows.add(cb)),
+    offWindowResize: vi.fn((cb: (event: any) => void) => hooks.windows.delete(cb))
   })
   setActivePinia(createPinia())
   useSettingsStore().settings.sound = false
@@ -392,6 +399,7 @@ describe('Game main menu and navigation hierarchy', () => {
 })
 
 afterEach(() => {
+  for (const dispose of mountedApps) dispose()
   vi.clearAllTimers()
   vi.useRealTimers()
   vi.unstubAllGlobals()
@@ -445,11 +453,14 @@ const renderer = createRenderer<HostNode, HostNode>({
   nextSibling: el => el.parent?.children[el.parent.children.indexOf(el) + 1] ?? null
 })
 
+const mountedApps = new Set<() => void>()
 function mount(component: Component, props: Record<string, any>) {
   const root = node('root')
   const app = renderer.createApp({ render: () => h(component, props) })
   app.mount(root)
-  return { root, unmount: () => app.unmount() }
+  const unmount = () => { app.unmount(); mountedApps.delete(unmount) }
+  mountedApps.add(unmount)
+  return { root, unmount }
 }
 
 function find(root: HostNode, predicate: (el: HostNode) => boolean): HostNode | undefined {
@@ -463,6 +474,237 @@ function find(root: HostNode, predicate: (el: HostNode) => boolean): HostNode | 
 function findAll(root: HostNode, predicate: (el: HostNode) => boolean): HostNode[] {
   return [...(predicate(root) ? [root] : []), ...root.children.flatMap(child => findAll(child, predicate))]
 }
+
+describe('First phase adaptive game and interaction regressions', () => {
+  beforeEach(() => { useSettingsStore().settings.onboardingSeen = true })
+  const byClass = (root: HostNode, cls: string) => find(root, el => String(el.props.class).split(' ').includes(cls))!
+  const labeled = (root: HostNode, label: string) => find(root, el => Boolean(el.props.onTap) && (el.text === label || el.children.some(child => child.text === label)))!
+  async function chooseTool(root: HostNode, label: string) {
+    byClass(root, 'more-button').props.onTap(); await nextTick()
+    labeled(root, label).props.onTap(); await nextTick()
+  }
+
+  it.each(['PLAYING', 'PAUSED'] as const)('keeps the %s game and operation stacks across 20 outer/inner/split window changes', async status => {
+    const store = start()
+    const index = store.game!.selectedIndex!
+    store.inputNoteDigit(store.game!.cells[index].solution)
+    store.inputNormalDigit(store.game!.cells[index].solution)
+    store.undo(); store.saveBookmark()
+    if (status === 'PAUSED') store.pause()
+    const mounted = mount(GamePage, {})
+    hooks.shows.forEach(cb => cb()); await nextTick()
+    const snapshot = JSON.stringify(store.game)
+    const timerCount = vi.getTimerCount()
+    expect(hooks.windows.size).toBe(1)
+    for (let i = 0; i < 20; i++) {
+      const size = i % 2 ? { windowWidth: 352, windowHeight: 780 } : { windowWidth: 800, windowHeight: 720 }
+      hooks.windows.forEach(cb => cb({ size })); await nextTick()
+      expect(String(byClass(mounted.root, 'game-layout').props.class).includes('split')).toBe(i % 2 === 0)
+      expect(JSON.stringify(store.game)).toBe(snapshot)
+    }
+    expect(vi.getTimerCount()).toBe(timerCount)
+    store.flushSave()
+    mounted.unmount(); expect(hooks.windows.size).toBe(0)
+    setActivePinia(createPinia())
+    const restored = useGameStore(); expect(restored.restoreGame()).toBe(true)
+    expect(restored.game).toMatchObject({ id: JSON.parse(snapshot).id, selectedIndex: index, status: 'PAUSED' })
+    expect(restored.game!.redoStack).toEqual(JSON.parse(snapshot).redoStack)
+    expect(restored.game!.bookmark).toEqual(JSON.parse(snapshot).bookmark)
+  })
+
+  it('opens and closes hint instructions without changing selection, count or exposing a target', async () => {
+    const store = start(), selected = store.game!.selectedIndex
+    const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
+    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[1].props.onTap(); await nextTick()
+    expect(store.game!.hintCount).toBe(0)
+    expect(store.game!.selectedIndex).toBe(selected)
+    expect(store.pendingHint).toBeNull()
+    expect(find(mounted.root, el => el.text.startsWith('观察第 '))).toBeUndefined()
+    byClass(mounted.root, 'close').props.onTap(); await nextTick()
+    expect(store.game!.hintCount).toBe(0)
+    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[1].props.onTap(); await nextTick()
+    byClass(mounted.root, 'reveal-hint').props.onTap(); await nextTick()
+    expect(store.game!.hintCount).toBe(1)
+    expect(store.pendingHint).not.toBeNull()
+    expect(find(mounted.root, el => el.text.startsWith('观察第 '))).toBeDefined()
+    byClass(mounted.root, 'close').props.onTap(); await nextTick()
+    store.pause(); store.resume()
+    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[1].props.onTap(); await nextTick()
+    byClass(mounted.root, 'reveal-hint').props.onTap(); await nextTick()
+    expect(store.game!.hintCount).toBe(1)
+    mounted.unmount()
+  })
+
+  it('preserves the viewed step identity through a saved-game restore', () => {
+    const store = start(), hint = store.requestHint()!
+    store.pause(); store.flushSave()
+    setActivePinia(createPinia())
+    const restored = useGameStore(); expect(restored.restoreGame()).toBe(true)
+    restored.resume(); expect(restored.requestHint()).toEqual(hint)
+    expect(restored.game!.hintCount).toBe(1)
+  })
+
+  it.each(['PLAYING', 'PAUSED'] as const)('keeps the original %s state after checking, bookmarks and candidates', async status => {
+    const store = start(); if (status === 'PAUSED') store.pause()
+    const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
+    for (const label of ['检查当前棋盘', '保存棋盘书签', '填充全部候选']) {
+      const elapsed = store.elapsed()
+      byClass(mounted.root, 'more-button').props.onTap(); await nextTick()
+      await vi.advanceTimersByTimeAsync(5000)
+      labeled(mounted.root, label).props.onTap(); await nextTick(); await vi.advanceTimersByTimeAsync(0)
+      expect(store.game!.status).toBe(status)
+      expect(store.elapsed()).toBe(elapsed)
+    }
+    expect(store.game!.bookmark).toBeDefined()
+    expect(store.game!.cells.some(c => c.notesMask)).toBe(true)
+    mounted.unmount()
+  })
+
+  it.each(['PLAYING', 'PAUSED'] as const)('keeps restore/restart confirmations paused and returns to %s on cancel', async status => {
+    const store = start(); store.saveBookmark(); if (status === 'PAUSED') store.pause()
+    const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
+    for (const label of ['恢复棋盘书签', '重新开始本关']) {
+      await chooseTool(mounted.root, label)
+      await vi.advanceTimersByTimeAsync(0)
+      expect(store.game!.status).toBe('PAUSED')
+      const elapsed = store.elapsed()
+      await vi.advanceTimersByTimeAsync(10000)
+      expect(store.elapsed()).toBe(elapsed)
+      const modal = vi.mocked(uni.showModal).mock.calls.at(-1)![0]!
+      modal.success!({ confirm: false, cancel: true })
+      expect(store.game!.status).toBe(status)
+    }
+    mounted.unmount()
+  })
+
+  it('does not resume from a delayed menu close or confirmation after the page hides', async () => {
+    const store = start(); store.saveBookmark()
+    const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
+    await chooseTool(mounted.root, '恢复棋盘书签')
+    const modal = vi.mocked(uni.showModal).mock.calls.at(-1)![0]!
+    hooks.hides.forEach(cb => cb())
+    await vi.advanceTimersByTimeAsync(0)
+    modal.success!({ confirm: true, cancel: false })
+    expect(store.game!.status).toBe('PAUSED')
+    expect(store.game!.undoStack.some(action => action.type === 'RESTORE_BOOKMARK')).toBe(false)
+    mounted.unmount()
+  })
+
+  it.each(['PLAYING', 'PAUSED'] as const)('restores a confirmed bookmark with undo while preserving %s', async status => {
+    const store = start(), index = store.game!.selectedIndex!
+    store.saveBookmark(); store.inputNormalDigit(store.game!.cells[index].solution)
+    if (status === 'PAUSED') store.pause()
+    const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
+    await chooseTool(mounted.root, '恢复棋盘书签')
+    const modal = vi.mocked(uni.showModal).mock.calls.at(-1)![0]!
+    hooks.windows.forEach(cb => cb({ size: { windowWidth: 800, windowHeight: 720 } }))
+    await vi.advanceTimersByTimeAsync(5000)
+    const elapsed = store.elapsed()
+    modal.success!({ confirm: true, cancel: false })
+    expect(store.game!.cells[index].value).toBe(0)
+    expect(store.game!.undoStack.at(-1)?.type).toBe('RESTORE_BOOKMARK')
+    expect(store.game!.status).toBe(status)
+    expect(store.elapsed()).toBe(elapsed)
+    mounted.unmount()
+  })
+
+  it('continues the same game from selection and daily entries and pauses on navigation failure', async () => {
+    const store = start(); store.pause(); const id = store.game!.id
+    const selection = mount(LevelsPage, {}); hooks.shows.forEach(cb => cb()); await nextTick()
+    labeled(selection.root, '继续本关').props.onTap()
+    expect(store.game).toMatchObject({ id, status: 'PLAYING' })
+    selection.unmount()
+    store.pause(); continueGame()
+    vi.mocked(uni.navigateTo).mock.calls.at(-1)![0].fail!({ errMsg: 'stack full' })
+    expect(store.game!.status).toBe('PAUSED')
+    vi.setSystemTime(new Date(2026, 8, 30, 12))
+    store.startGame(createDailyLevel('2026-09-30'), 'DAILY', '2026-09-30'); store.pause()
+    hooks.shows.length = 0
+    const daily = mount(DailyPage, {}); hooks.shows.forEach(cb => cb()); await nextTick()
+    const dailyId = store.game!.id
+    labeled(daily.root, '继续这一天').props.onTap()
+    expect(store.game).toMatchObject({ id: dailyId, status: 'PLAYING', dailyDate: '2026-09-30' })
+    daily.unmount()
+  })
+
+  it('follows today across a month boundary, preserves explicit backfill and can return to today', async () => {
+    vi.setSystemTime(new Date(2026, 8, 30, 23, 59))
+    const mounted = mount(DailyPage, {}); hooks.shows.forEach(cb => cb()); await nextTick()
+    expect(byClass(mounted.root, 'date-title').text).toContain('2026-09-30')
+    vi.setSystemTime(new Date(2026, 9, 1, 0, 1))
+    hooks.shows.forEach(cb => cb()); await nextTick()
+    expect(byClass(mounted.root, 'date-title').text).toContain('2026-10-01')
+    expect(find(mounted.root, el => el.tag === 'text' && el.text === '2026-10')).toBeDefined()
+    findAll(byClass(mounted.root, 'calendar-head'), el => el.tag === 'button')[0].props.onTap(); await nextTick()
+    find(byClass(mounted.root, 'calendar'), el => el.tag === 'button' && el.children.some(child => child.text === '30'))!.props.onTap(); await nextTick()
+    vi.setSystemTime(new Date(2026, 9, 2, 12)); hooks.shows.forEach(cb => cb()); await nextTick()
+    expect(byClass(mounted.root, 'date-title').text).toContain('2026-09-30 · 补玩')
+    labeled(mounted.root, '回到今天').props.onTap(); await nextTick()
+    expect(byClass(mounted.root, 'date-title').text).toContain('2026-10-02 · 今日挑战')
+    labeled(mounted.root, '开始今日挑战').props.onTap()
+    expect(useGameStore().game).toMatchObject({ mode: 'DAILY', dailyDate: '2026-10-02' })
+    mounted.unmount()
+  })
+
+  it('uses visible entries for independent candidates and smart notes while keeping mistake scoring', () => {
+    const store = start(), settings = useSettingsStore().settings
+    settings.independentMode = true; settings.autoRemoveCandidates = false
+    const initial = store.game!.cells.map(c => c.value)
+    const target = store.game!.cells.find(c => !c.value && maskToDigits(getCandidateMask(initial, c.index)).some(d => d !== c.solution && peerIndexes(c.index).some(p => !initial[p] && (getCandidateMask(initial, p) & digitBit(d)))))!
+    const wrong = maskToDigits(getCandidateMask(initial, target.index)).find(d => d !== target.solution && peerIndexes(target.index).some(p => !initial[p] && (getCandidateMask(initial, p) & digitBit(d))))!
+    store.selectCell(target.index); store.inputNormalDigit(wrong)
+    expect(target.error).toBe(false); expect(store.game!.mistakeCount).toBe(1)
+    const peer = peerIndexes(target.index).find(p => !initial[p] && (getCandidateMask(initial, p) & digitBit(wrong)))!
+    store.selectCell(peer); store.inputNoteDigit(wrong)
+    expect(store.game!.cells[peer].notesMask).toBe(0)
+    store.autoCandidatesAll()
+    const visible = store.game!.cells.map(c => c.value)
+    for (const cell of store.game!.cells.filter(c => !c.value)) expect(cell.notesMask).toBe(getCandidateMask(visible, cell.index))
+  })
+
+  it('clears peer notes for every visible independent entry, including a wrong answer', () => {
+    const store = start(), settings = useSettingsStore().settings
+    settings.independentMode = true; settings.smartNotes = false
+    const target = store.game!.cells.find(c => !c.value)!, wrong = target.solution % 9 + 1
+    const peer = peerIndexes(target.index).find(p => !store.game!.cells[p].value)!
+    store.selectCell(peer); store.inputNoteDigit(wrong)
+    store.selectCell(target.index); store.inputNormalDigit(wrong)
+    expect(store.game!.cells[peer].notesMask & digitBit(wrong)).toBe(0)
+    store.undo(); expect(store.game!.cells[peer].notesMask & digitBit(wrong)).not.toBe(0)
+  })
+
+  it('keeps hidden-checking keys identical for visible boards with different hidden correctness', async () => {
+    const cells = createCells(LEVELS[0].puzzle, LEVELS[0].solution)
+    for (const cell of cells) { cell.value = cell.solution === 4 ? 4 : 0; cell.origin = 'USER' }
+    const props = reactive({ cells, showRemaining: false, answerAware: false })
+    const mounted = mount(NumberPad, props)
+    const before = findAll(mounted.root, el => el.tag === 'button').map(el => ({ disabled: el.props.disabled, label: el.props['aria-label'] }))
+    for (const cell of props.cells) cell.solution = cell.solution % 9 + 1
+    await nextTick()
+    expect(findAll(mounted.root, el => el.tag === 'button').map(el => ({ disabled: el.props.disabled, label: el.props['aria-label'] }))).toEqual(before)
+    expect(before.every(key => !key.disabled)).toBe(true)
+    mounted.unmount()
+  })
+
+  it('hides earlier error marks in independent mode until an explicit board check', async () => {
+    const store = start(), index = store.game!.selectedIndex!
+    store.inputNormalDigit(store.game!.cells[index].solution % 9 + 1)
+    expect(store.game!.cells[index].error).toBe(true)
+    useSettingsStore().settings.independentMode = true
+    const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb()); await nextTick()
+    expect(find(mounted.root, el => String(el.props.class).split(' ').includes('error'))).toBeUndefined()
+    await chooseTool(mounted.root, '检查当前棋盘')
+    expect(find(mounted.root, el => String(el.props.class).split(' ').includes('error'))).toBeDefined()
+    mounted.unmount()
+  })
+
+  it('defaults old settings to assisted mode and persists the independent preference', () => {
+    expect(useSettingsStore().settings.independentMode).toBe(false)
+    expect(useSettingsStore().setSetting('independentMode', true)).toBe(true)
+    setActivePinia(createPinia())
+    expect(useSettingsStore().settings.independentMode).toBe(true)
+  })
+})
 
 describe('Normal business flows, using real stores and in-memory uni storage', () => {
   it('clears peer notes with a correct answer and restores the whole patch on undo', () => {

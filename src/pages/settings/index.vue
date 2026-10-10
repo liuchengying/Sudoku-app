@@ -15,7 +15,7 @@ import { currentGameRepository } from '@/repositories/current-game.repository'
 import { campaignRepository } from '@/repositories/campaign.repository'
 import type { BooleanSetting } from '@/types/settings'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const store = useSettingsStore()
 const progressStore = useProgressStore()
@@ -38,13 +38,14 @@ onBackPress(() => {
 
 const items: { key: BooleanSetting; label: string; desc: string }[] = [
   { key: 'largeDigits', label: '大字数字', desc: '放大棋盘数字与候选数' },
+  { key: 'independentMode', label: '自主推理', desc: '隐藏即时正误与数字余数，候选和自动清理只依据当前填写；手动检查与解法仍可求助，错误和提示仍计入成绩' },
   { key: 'highlightRelated', label: '高亮同行列宫', desc: '选中格时突出显示相关区域' },
   { key: 'highlightSameDigit', label: '高亮相同数字', desc: '突出显示与选中数字相同的数字' },
   { key: 'autoRemoveCandidates', label: '自动删除候选', desc: '正确填入后清除同行、同列和同宫中的同数字候选' },
   { key: 'smartNotes', label: '智能草稿', desc: '阻止添加已经被行、列或宫排除的候选数' },
-  { key: 'immediateErrorCheck', label: '错误即时提示', desc: '立即标红错误；关闭后错误次数仍计入结算'  },
+  { key: 'immediateErrorCheck', label: '错误即时提示', desc: '立即标红错误；关闭后隐藏即时反馈和数字禁用，但其他辅助仍可用。自主推理开启时不生效，错误仍计入结算'  },
   { key: 'autoPauseOnBackground', label: '后台自动暂停', desc: '切到后台时停止计时，回到游戏后手动继续' },
-  { key: 'disableCompletedDigit', label: '完成数字禁用', desc: '某数字正确填满 9 个后禁用对应数字键' },
+  { key: 'disableCompletedDigit', label: '完成数字禁用', desc: '显示即时正误辅助时，某数字正确填满 9 个后禁用；自主推理或关闭即时提示时不禁用' },
   { key: 'sound', label: '音效', desc: '数字输入、错误和完成时播放轻量音效' },
   { key: 'haptics', label: '震动反馈', desc: '操作和错误时触发轻触感' }
 ]
@@ -82,7 +83,7 @@ function resetSettings() {
 </script>
 
 <template>
-  <view class="safe-page settings-page" :class="appearance">
+  <view class="safe-page settings-page" :class="appearance" :style="pageStyle">
     <template v-if="!onboardingVisible">
     <AppHeader title="设置">
       <template #left><text class="back" @tap="back">‹</text></template>
@@ -109,7 +110,7 @@ function resetSettings() {
       <view class="section">
         <view v-for="item in items" :key="item.key" class="setting-row">
           <view class="text"><text class="label">{{ item.label }}</text><text class="desc">{{ item.desc }}</text></view>
-          <switch :checked="store.settings[item.key]" color="#0a7cff" @change="update(item.key, $event)" />
+          <switch :checked="store.settings[item.key]" :disabled="store.settings.independentMode && ['immediateErrorCheck', 'disableCompletedDigit'].includes(item.key)" color="#0a7cff" @change="update(item.key, $event)" />
         </view>
       </view>
 
@@ -128,33 +129,33 @@ function resetSettings() {
 <style scoped lang="scss">
 .preference-section { padding: 24rpx; margin-bottom: 24rpx; }
 .choices { display: flex; gap: 16rpx; margin: 12rpx 0 24rpx; }
-.choices button { flex: 1; min-height: 48px; font-size: 26rpx; background: var(--surface); color: var(--text-primary); border-radius: 12rpx; }
+.choices button { flex: 1; min-height: 48px; font-size: clamp(11.05px, 26rpx, 13px); background: var(--surface); color: var(--text-primary); border-radius: 12rpx; }
 .choices .chosen { background: var(--primary-soft); color: var(--primary); }
 .palette-desc { display: block; margin-top: 8rpx; }
 .board-color-choices button { padding: 18rpx 12rpx; border: 2rpx solid var(--divider); }
 .board-color-choices .chosen { border-color: var(--primary); }
 .palette-name { display: flex; align-items: center; justify-content: center; gap: 10rpx; }
-.palette-status { display: block; margin-top: 8rpx; font-size: 22rpx; }
+.palette-status { display: block; margin-top: 8rpx; font-size: clamp(9.35px, 22rpx, 11px); }
 .color-swatch { width: 24rpx; height: 24rpx; border-radius: 50%; flex-shrink: 0; }
 .color-swatch.blue { background: #0864cf; }
 .color-swatch.green { background: #285c3c; }
 .theme-dark .color-swatch.blue { background: #79b8ff; }
 .theme-dark .color-swatch.green { background: #b5e0b7; }
 .settings-page { background: var(--surface); }
-.back { color: var(--primary); font-size: 58rpx; line-height: 1; }
+.back { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); line-height: 1; }
 .content { padding: 16rpx 24rpx 40rpx; }
 .section { background: var(--cell-bg); border-radius: 24rpx; overflow: hidden; }
 .setting-row { min-height: 116rpx; padding: 18rpx 24rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid var(--divider); gap: 20rpx; }
 .setting-row:last-child { border-bottom: 0; }
 .text { display: flex; flex-direction: column; gap: 5rpx; flex: 1; }
-.label { font-size: 29rpx; font-weight: 560; }
-.desc { color: var(--text-secondary); font-size: 21rpx; line-height: 1.42; padding-right: 6rpx; }
+.label { font-size: clamp(12.33px, 29rpx, 14.5px); font-weight: 560; }
+.desc { color: var(--text-secondary); font-size: clamp(8.92px, 21rpx, 10.5px); line-height: 1.42; padding-right: 6rpx; }
 .action-section { margin-top: 28rpx; }
-.action-row { height: 94rpx; padding: 0 26rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid var(--divider); font-size: 29rpx; }
+.action-row { height: 94rpx; padding: 0 26rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid var(--divider); font-size: clamp(12.33px, 29rpx, 14.5px); }
 .replay-onboarding { width: 100%; min-height: 48px; margin: 0; background: var(--cell-bg); color: var(--text-primary); border-radius: 0; }
 .replay-onboarding::after { display: none; border: 0; }
 .action-row:last-child { border-bottom: 0; }
-.action-row text:last-child { color: #bbb; font-size: 44rpx; }
+.action-row text:last-child { color: #bbb; font-size: clamp(18.7px, 44rpx, 22px); }
 .action-row.danger text:first-child { color: #ff3b30; }
-.version { display: block; text-align: center; color: var(--text-secondary); font-size: 20rpx; margin-top: 28rpx; }
+.version { display: block; text-align: center; color: var(--text-secondary); font-size: clamp(8.5px, 20rpx, 10px); margin-top: 28rpx; }
 </style>

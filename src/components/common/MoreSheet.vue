@@ -63,8 +63,8 @@ function action(id: string) {
 .group:first-child { margin-top: 8rpx; }
 .row { min-height: max(94rpx, 48px); padding: 0 28rpx; display: flex; align-items: center; border-bottom: 1rpx solid var(--divider); }
 .row:last-child { border-bottom: 0; }
-.icon { width: 68rpx; font-size: 38rpx; text-align: left; color: var(--text-primary); }
-.label { flex: 1; font-size: 31rpx; font-weight: 560; color: var(--text-primary); }
-.arrow { color: #b8b8bc; font-size: 52rpx; font-weight: 300; }
+.icon { width: 68rpx; font-size: clamp(16.15px, 38rpx, 19px); text-align: left; color: var(--text-primary); }
+.label { flex: 1; font-size: clamp(13.18px, 31rpx, 15.5px); font-weight: 560; color: var(--text-primary); }
+.arrow { color: #b8b8bc; font-size: clamp(22.1px, 52rpx, 26px); font-weight: 300; }
 .game-actions .row:last-child .label { color: #d84a43; }
 </style>

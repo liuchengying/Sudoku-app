@@ -1,0 +1,47 @@
+{
+  "sourceHashesCurrent": 25,
+  "reportLinksValid": 33,
+  "businessSourceChanges": [],
+  "interactionPaths": 6,
+  "verification": {
+    "run": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19",
+    "result": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/result.json",
+    "checks": [
+      {
+        "id": "adapter",
+        "passed": true,
+        "durationMs": 68,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/adapter.log"
+      },
+      {
+        "id": "typecheck",
+        "passed": true,
+        "durationMs": 2922,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/typecheck.log"
+      },
+      {
+        "id": "unit",
+        "passed": true,
+        "durationMs": 42114,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/unit.log"
+      },
+      {
+        "id": "puzzles",
+        "passed": true,
+        "durationMs": 354,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/puzzles.log"
+      },
+      {
+        "id": "ui",
+        "passed": true,
+        "durationMs": 691,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/ui.log"
+      }
+    ],
+    "totalTests": 74,
+    "passedTests": 74,
+    "failedTests": 0,
+    "pendingTests": 0,
+    "testFiles": 8
+  }
+}

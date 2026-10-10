@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { onHide, onLaunch } from '@dcloudio/uni-app'
+import { onHide, onLaunch, onShow } from '@dcloudio/uni-app'
 import { useGameStore } from '@/stores/game.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import { watch } from 'vue'
+import { refreshWindowMetrics } from '@/composables/useWindowMetrics'
+
+onShow(() => refreshWindowMetrics())
 
 onLaunch(() => {
   const settings = useSettingsStore()

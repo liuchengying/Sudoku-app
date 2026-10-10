@@ -8,7 +8,7 @@ import { useGameStore } from '@/stores/game.store'
 import AppHeader from '@/components/common/AppHeader.vue'
 import { TUTORIAL_ARTICLES, TUTORIAL_SECTIONS, type TutorialSection } from '@/content/tutorial'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const training = ref(false)
 let generationToken = 0
@@ -41,7 +41,7 @@ onHide(() => { generationToken++; training.value = false })
 </script>
 
 <template>
-  <view class="safe-page tutorial-page" :class="appearance">
+  <view class="safe-page tutorial-page" :class="appearance" :style="pageStyle">
     <AppHeader :title="filter ? TUTORIAL_SECTIONS.find(s => s.id === filter)?.title : '数独技巧'">
       <template #left><text class="back" @tap="back">‹</text></template>
     </AppHeader>
@@ -70,18 +70,18 @@ onHide(() => { generationToken++; training.value = false })
 
 <style scoped lang="scss">
 .tutorial-page { background: var(--surface); }
-.back { color: var(--primary); font-size: 58rpx; line-height: 1; }
+.back { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); line-height: 1; }
 .content { padding: 16rpx 28rpx 40rpx; }
 .section { margin-bottom: 30rpx; }
 .section-head { margin: 0 10rpx 11rpx; display: flex; align-items: baseline; justify-content: space-between; }
-.section-title { color: var(--text-secondary); font-size: 27rpx; font-weight: 650; }
-.section-sub { color: var(--text-secondary); font-size: 20rpx; }
+.section-title { color: var(--text-secondary); font-size: clamp(11.48px, 27rpx, 13.5px); font-weight: 650; }
+.section-sub { color: var(--text-secondary); font-size: clamp(8.5px, 20rpx, 10px); }
 .card { background: var(--cell-bg); border-radius: 24rpx; overflow: hidden; }
 .row { min-height: 112rpx; padding: 15rpx 24rpx; display: flex; align-items: center; border-bottom: 1rpx solid var(--divider); }
 .row:last-child { border-bottom: 0; }
-.doc-icon { width: 58rpx; color: var(--text-primary); font-size: 38rpx; }
+.doc-icon { width: 58rpx; color: var(--text-primary); font-size: clamp(16.15px, 38rpx, 19px); }
 .copy { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
-.name { font-size: 29rpx; font-weight: 620; }
-.summary { color: var(--text-secondary); font-size: 21rpx; }
-.arrow { color: #bbb; font-size: 48rpx; }
+.name { font-size: clamp(12.33px, 29rpx, 14.5px); font-weight: 620; }
+.summary { color: var(--text-secondary); font-size: clamp(8.92px, 21rpx, 10.5px); }
+.arrow { color: #bbb; font-size: clamp(20.4px, 48rpx, 24px); }
 </style>

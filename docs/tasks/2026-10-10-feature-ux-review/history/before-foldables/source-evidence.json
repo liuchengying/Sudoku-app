@@ -1,0 +1,405 @@
+{
+  "method": "Current source excerpts with line numbers and full-file SHA-256; snippets are observations, not device validation.",
+  "sources": [
+    {
+      "file": "src/pages/home/index.vue",
+      "sha256": "a8fe64a85b8b64dd2771a8beebeec3f92a0b2ba4112cd169b74110e58a51c86d",
+      "blocks": [
+        {
+          "start": 25,
+          "end": 33,
+          "text": "25: const onboardingVisible = ref(settings.shouldShowOnboarding)\n26: const guide = ref<InstanceType<typeof OnboardingGuide> | null>(null)\n27: const today = ref(localDate())\n28: const current = computed(() => gameStore.game && gameStore.game.status !== 'COMPLETED' ? gameStore.game : null)\n29: const resume = computed(() => {\n30:   const cells = current.value?.cells.filter(cell => cell.origin !== 'GIVEN') ?? []\n31:   // Filled cells describe progress without revealing correctness when checking is off.\n32:   const filled = cells.filter(cell => cell.value !== 0).length\n33:   return { title: current.value ? gameTitle(current.value) : '', filled, total: cells.length, percent: cells.length ? Math.round(filled / cells.length * 100) : 0, time: formatDuration(gameStore.elapsed()) }"
+        },
+        {
+          "start": 46,
+          "end": 63,
+          "text": "46: function chooseGame() { openPage('/pages/levels/index') }\n47: function finishOnboarding(action: 'done' | 'skip' | 'practice') {\n48:   onboardingVisible.value = false\n49:   if (action === 'practice') openPage('/pages/levels/index?mode=practice')\n50: }\n51: function play() {\n52:   if (!current.value) return chooseGame()\n53:   gameStore.resume()\n54:   uni.navigateTo({ url: '/pages/game/index', fail: () => gameStore.pause() })\n55: }\n56: onShow(() => {\n57:   today.value = localDate()\n58:   progress.reload()\n59:   history.refresh()\n60:   if (!gameStore.game) gameStore.restoreGame()\n61:   // The main menu is an intentional break, irrespective of the background preference.\n62:   if (current.value) { gameStore.pause(); gameStore.flushSave() }\n63:   onboardingVisible.value = settings.shouldShowOnboarding"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/levels/index.vue",
+      "sha256": "52e91d2564e6e9cd14b1fc836f70af5d5f0c9887a887d814876bdf4ab79e7031",
+      "blocks": [
+        {
+          "start": 59,
+          "end": 79,
+          "text": "59: function cancelGeneration() { generationToken++; loading.value = false }\n60: function replaceCurrent(launch: () => void | Promise<void>) {\n61:   if (!current.value) return launch()\n62:   uni.showModal({ title: '开始新游戏', content: '当前未完成进度会被替换，是否继续？', confirmText: '开始', success: ({ confirm }) => { if (confirm) launch() } })\n63: }\n64: function startSelected() {\n65:   if (loading.value) return\n66:   if (current.value?.levelId === selected.value.id) return openPage('/pages/game/index')\n67:   const id = selected.value.id\n68:   replaceCurrent(async () => {\n69:     if (loading.value) return\n70:     loading.value = true\n71:     const token = ++generationToken\n72:     try {\n73:       const level = await requestCampaignLevel(id, () => token !== generationToken)\n74:       if (token !== generationToken) return\n75:       gameStore.startGame(level)\n76:       openPage('/pages/game/index')\n77:     } catch (e) { if (!(e instanceof GenerationCancelled)) uni.showToast({ title: e instanceof Error ? e.message : '生成失败，请再试一次', icon: 'none' }) }\n78:     finally { if (token === generationToken) loading.value = false }\n79:   })"
+        },
+        {
+          "start": 97,
+          "end": 132,
+          "text": "97: onLoad(query => { mode.value = query?.mode === 'practice' ? 'practice' : 'campaign' })\n98: onShow(() => {\n99:   progressStore.reload()\n100:   if (!gameStore.game) gameStore.restoreGame()\n101:   cacheRevision.value++\n102:   const slot = current.value && (current.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN' ? parseCampaignId(current.value.levelId) : undefined\n103:   if (slot) { difficultyIndex.value = DIFFICULTIES.findIndex(d => d.id === slot.difficultyId); chooseLevel(slot.levelNo) }\n104:   else recommended()\n105: })\n106: onHide(cancelGeneration)\n107: </script>\n108: <template>\n109:   <view class=\"safe-page levels-page\" :class=\"appearance\">\n110:     <AppHeader title=\"选择游戏\"><template #left><button class=\"link back-link\" @tap=\"back\">‹ 返回</button></template><template #right><button class=\"link\" @tap=\"openPage('/pages/tutorial/index?section=rules')\">玩法</button></template></AppHeader>\n111:     <view class=\"content\">\n112:       <button v-if=\"current\" class=\"resume-card\" @tap=\"openPage('/pages/game/index')\"><text>继续上次游戏</text><text>{{ gameTitle(current) }} ›</text></button>\n113:       <text class=\"page-intro\">{{ mode === 'campaign' ? '选择难度，从这一关开始。' : '选一个适合今天的难度，自由练习。' }}</text>\n114:       <view class=\"tabs\"><button :disabled=\"loading\" :class=\"{ active: mode === 'campaign' }\" @tap=\"mode = 'campaign'\">无限闯关</button><button :disabled=\"loading\" :class=\"{ active: mode === 'practice' }\" @tap=\"mode = 'practice'\">无限练习</button></view>\n115:       <template v-if=\"mode === 'campaign'\">\n116:         <view class=\"difficulty-tabs\"><button v-for=\"(item, index) in DIFFICULTIES\" :key=\"item.id\" :disabled=\"loading\" :class=\"{ active: difficultyIndex === index }\" @tap=\"chooseDifficulty(index)\">{{ item.name }}</button></view>\n117:         <text class=\"secondary-copy\">{{ difficulty.subtitle }} · 关卡不限</text>\n118:         <view class=\"pagination\"><button :disabled=\"loading || page === 0\" @tap=\"turnPage(-1)\">上一组</button><text>{{ levels[0].levelNo }}–{{ levels[levels.length - 1].levelNo }} 关</text><button :disabled=\"loading\" @tap=\"turnPage(1)\">下一组</button></view>\n119:         <LevelGrid :levels=\"levels\" :disabled=\"loading\" :selected-level-id=\"selectedId\" :current-level-id=\"current?.levelId\" :progress-map=\"progressStore.progressMap\" @select=\"selectLevel\" />\n120:         <view class=\"jump-row\"><input :value=\"jumpText\" class=\"jump-input\" type=\"number\" :disabled=\"loading\" placeholder=\"输入关卡号\" @input=\"updateJumpText\" @confirm=\"jumpToLevel\" /><button :disabled=\"loading\" @tap=\"jumpToLevel\">前往</button><button :disabled=\"loading\" @tap=\"recommended\">推荐下一关</button></view>\n121:         <text class=\"selection\">第 {{ selected.levelNo }} 关<template v-if=\"profile\"> · 第 {{ profile.stage }} 阶段 · {{ profile.label }}</template></text>\n122:         <text v-if=\"selectedLevel\" class=\"secondary-copy\">实际难度：{{ tierName(selectedLevel.tier) }} · {{ selectedLevel.clueCount }} 个已知数</text>\n123:         <text v-else-if=\"profile\" class=\"secondary-copy\">目标难度：{{ tierName(profile.tier) }} · 开始时离线生成唯一解题目</text>\n124:         <button class=\"primary-action\" :loading=\"loading\" :disabled=\"loading\" @tap=\"startSelected\">{{ loading ? '正在准备题目…' : current?.levelId === selectedId ? '继续本关' : '开始本关' }}</button>\n125:         <text class=\"secondary-copy footnote\">每个难度的前 25 关保留，之后自动生成。新增关卡每 25 关提升一个阶段，专家阶段持续出新题；每关首次完成获得积分。</text>\n126:       </template>\n127:       <template v-else>\n128:         <text class=\"secondary-copy\">离线生成唯一解题目，练习次数不限。练习计入统计，不增加闯关积分。</text>\n129:         <button v-for=\"tier in PRACTICE_TIERS\" :key=\"tier.id\" class=\"tier-card\" :class=\"{ active: practiceTier === tier.id }\" :disabled=\"loading\" @tap=\"practiceTier = tier.id\"><text>{{ tier.name }}</text><text>{{ tier.desc }}</text></button>\n130:         <button class=\"primary-action\" :loading=\"loading\" :disabled=\"loading\" @tap=\"startPractice\">{{ loading ? '正在生成题目…' : '开始新的练习' }}</button>\n131:       </template>\n132:       <button v-if=\"loading\" class=\"secondary-action\" @tap=\"cancelGeneration\">取消生成</button>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/game/index.vue",
+      "sha256": "742c5488b3d2f6812034144dd1f6e6d001856bf347d010a2654368bafeb281d4",
+      "blocks": [
+        {
+          "start": 53,
+          "end": 64,
+          "text": "53: function hint() {\n54:   if (gameStore.requestHint()) hintVisible.value = true\n55:   else uni.showToast({ title: '当前棋盘暂无可用提示', icon: 'none' })\n56: }\n57: function closeMore(value: boolean) {\n58:   moreVisible.value = value\n59:   if (!value) setTimeout(() => { if (!menuActionChosen && wasPlayingBeforeMenu) gameStore.resume() }, 0)\n60: }\n61: function finishOnboarding() {\n62:   onboardingVisible.value = false\n63:   if (wasPlayingBeforeOnboarding) gameStore.resume()\n64:   wasPlayingBeforeOnboarding = false"
+        },
+        {
+          "start": 68,
+          "end": 110,
+          "text": "68: function openMore() {\n69:   wasPlayingBeforeMenu = game.value?.status === 'PLAYING'\n70:   menuActionChosen = false\n71:   if (wasPlayingBeforeMenu) gameStore.pause()\n72:   moreVisible.value = true\n73: }\n74: \n75: function exitAndSave() {\n76:   gameStore.pause()\n77:   gameStore.flushSave()\n78:   uni.navigateBack({ fail: () => uni.reLaunch({ url: '/pages/home/index' }) })\n79: }\n80: \n81: function restart() {\n82:   uni.showModal({\n83:     title: '重新开始本关',\n84:     content: '当前填写、候选和计时都会清除，确定重新开始吗？',\n85:     confirmText: '重新开始',\n86:     confirmColor: '#ff3b30',\n87:     success: ({ confirm }) => { if (confirm) gameStore.restartCurrent(); else if (wasPlayingBeforeMenu) gameStore.resume() }\n88:   })\n89: }\n90: \n91: function moreAction(action: string) {\n92:   menuActionChosen = true\n93:   if (['check', 'bookmark', 'restore-bookmark'].includes(action)) {\n94:     gameStore.resume()\n95:     if (action === 'check') uni.showToast({ title: gameStore.checkBoard() ? '已标出错误填写' : '当前填写没有错误', icon: 'none' })\n96:     if (action === 'bookmark') { gameStore.saveBookmark(); uni.showToast({ title: gameStore.storageError || '棋盘书签已保存', icon: 'none' }) }\n97:     if (action === 'restore-bookmark') {\n98:       if (!game.value?.bookmark) uni.showToast({ title: '本局还没有书签', icon: 'none' })\n99:       else uni.showModal({ title: '恢复书签', content: '将恢复书签棋盘，计时、错误和提示次数保留；可以撤销恢复。', success: ({ confirm }) => { if (confirm) gameStore.restoreBookmark() } })\n100:     }\n101:     return\n102:   }\n103:   if (action === 'exit') return exitAndSave()\n104:   if (action === 'home') { gameStore.pause(); gameStore.flushSave(); uni.reLaunch({ url: '/pages/home/index' }); return }\n105:   if (action === 'restart') return restart()\n106:   if (action === 'fill-candidates') {\n107:     if (game.value?.status === 'PAUSED') gameStore.resume()\n108:     gameStore.autoCandidatesAll()\n109:     return\n110:   }"
+        },
+        {
+          "start": 128,
+          "end": 156,
+          "text": "128: onShow(() => {\n129:   if (!game.value && !gameStore.restoreGame()) {\n130:     uni.reLaunch({ url: '/pages/home/index' })\n131:     return\n132:   }\n133:   ensureTimer()\n134:   now.value = Date.now()\n135:   if (settingsStore.shouldShowOnboarding && game.value?.status !== 'COMPLETED' && !onboardingVisible.value) {\n136:     wasPlayingBeforeOnboarding = game.value?.status === 'PLAYING'\n137:     gameStore.pause()\n138:     onboardingVisible.value = true\n139:   }\n140: })\n141: onHide(() => { wasPlayingBeforeOnboarding = false; gameStore.pause(true); gameStore.flushSave(); if (timer) clearInterval(timer); timer = null; moreVisible.value = false; hintVisible.value = false })\n142: \n143: onBackPress(() => {\n144:   if (onboardingVisible.value) { guide.value?.dismiss(); return true }\n145:   if (hintVisible.value) { hintVisible.value = false; return true }\n146:   if (moreVisible.value) {\n147:     closeMore(false)\n148:     return true\n149:   }\n150:   uni.showModal({\n151:     title: '退出本局？',\n152:     content: '当前进度会自动保存，下次可以继续。',\n153:     confirmText: '退出',\n154:     success: ({ confirm }) => confirm && exitAndSave()\n155:   })\n156:   return true"
+        },
+        {
+          "start": 206,
+          "end": 230,
+          "text": "206:     <GameToolbar\n207:       :disabled=\"game.status !== 'PLAYING'\"\n208:       :note-mode=\"game.inputMode === 'NOTE'\"\n209:       :can-undo=\"game.undoStack.length > 0\"\n210:       :can-redo=\"game.redoStack.length > 0\"\n211:       @candidates=\"gameStore.autoCandidates\"\n212:       @candidates-all=\"gameStore.autoCandidatesAll\"\n213:       @hint=\"hint\"\n214:       @erase=\"gameStore.erase\"\n215:       @note=\"gameStore.toggleNoteMode\"\n216:       @undo=\"gameStore.undo\"\n217:       @redo=\"gameStore.redo\"\n218:     />\n219: \n220:     <NumberPad\n221:       :cells=\"game.cells\"\n222:       :disabled=\"game.status !== 'PLAYING'\"\n223:       :disable-completed-digit=\"settingsStore.settings.disableCompletedDigit\"\n224:       :show-remaining=\"settingsStore.settings.immediateErrorCheck\"\n225:       :note-mode=\"game.inputMode === 'NOTE'\"\n226:       :active-digit=\"gameStore.activeDigit\"\n227:       @answer=\"gameStore.chooseDigit\"\n228:     />\n229: \n230:     <MoreSheet :model-value=\"moreVisible\" game-mode @update:model-value=\"closeMore\" @action=\"moreAction\" />"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/daily/index.vue",
+      "sha256": "35a68ea8a321f2167a0b6e2ceab1b89965b1b9d070504db5875af517e88bc7cd",
+      "blocks": [
+        {
+          "start": 16,
+          "end": 38,
+          "text": "16: const today = ref(localDate())\n17: const selected = ref(today.value)\n18: const month = ref(today.value.slice(0, 7))\n19: const completed = computed(() => new Set(history.dailyDates))\n20: const streak = computed(() => streaks(history.dailyDates, today.value))\n21: const level = computed(() => createDailyLevel(selected.value))\n22: const days = computed(() => {\n23:   const [year, m] = month.value.split('-').map(Number)\n24:   const start = (new Date(year, m - 1, 1, 12).getDay() + 6) % 7\n25:   const count = new Date(year, m, 0, 12).getDate()\n26:   return [...Array(start).fill(''), ...Array.from({ length: count }, (_, i) => `${month.value}-${String(i + 1).padStart(2, '0')}`)] as string[]\n27: })\n28: function changeMonth(delta: number) {\n29:   const [year, m] = month.value.split('-').map(Number)\n30:   month.value = localDate(new Date(year, m - 1 + delta, 1, 12)).slice(0, 7)\n31: }\n32: function start() {\n33:   if (game.game?.levelId === level.value.id && game.game.status !== 'COMPLETED') return openPage('/pages/game/index')\n34:   const launch = () => { game.startGame(level.value, 'DAILY', selected.value); openPage('/pages/game/index') }\n35:   if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始每日挑战', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })\n36:   else launch()\n37: }\n38: onShow(() => { today.value = localDate(); history.refresh() })"
+        },
+        {
+          "start": 44,
+          "end": 52,
+          "text": "44:       <view class=\"streak-card\"><text>连续 {{ streak.current }} 天</text><text>最长 {{ streak.best }} 天 · 共完成 {{ history.dailyDates.length }} 天</text></view>\n45:       <view class=\"calendar-head\"><button @tap=\"changeMonth(-1)\">‹</button><text>{{ month }}</text><button :disabled=\"month >= today.slice(0, 7)\" @tap=\"changeMonth(1)\">›</button></view>\n46:       <view class=\"calendar\">\n47:         <text v-for=\"week in ['一','二','三','四','五','六','日']\" :key=\"week\" class=\"weekday\">{{ week }}</text>\n48:         <button v-for=\"(date, index) in days\" :key=\"index\" :disabled=\"!date || date > today\" :class=\"{ selected: selected === date, completed: completed.has(date), today: date === today }\" @tap=\"selected = date\"><text>{{ date ? Number(date.slice(-2)) : '' }}</text><text v-if=\"completed.has(date)\" class=\"check\">✓</text></button>\n49:       </view>\n50:       <text class=\"date-title\">{{ selected }} · {{ tierName(level.tier) }}</text>\n51:       <text class=\"secondary-copy\">同一天的题目在本机离线生成；可以补玩以前的挑战。每日完成只计一次天数，重复练习计入局数，不增加关卡积分。</text>\n52:       <button class=\"primary-action\" @tap=\"start\">{{ completed.has(selected) ? '再玩这一天' : '开始挑战' }}</button>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/result/index.vue",
+      "sha256": "bcffdc3a3ca8d226688fde2a7521a52a05b4346e61d119bcc149d77b1ef61221",
+      "blocks": [
+        {
+          "start": 26,
+          "end": 55,
+          "text": "26: function home() {\n27:   generationToken++\n28:   try { gameStore.discard() } catch { /* Completed result is already durable. */ }\n29:   uni.reLaunch({ url: '/pages/home/index' })\n30: }\n31: \n32: function replay() {\n33:   if (!gameStore.restartCurrent()) return home()\n34:   uni.redirectTo({ url: '/pages/game/index' })\n35: }\n36: \n37: async function nextLevel() {\n38:   if (loading.value || !game.value) return\n39:   const practice = game.value.mode === 'PRACTICE'\n40:   if (!practice && !next.value) return home()\n41:   const difficultyId = game.value.difficultyId\n42:   const nextId = next.value?.id\n43:   loading.value = true\n44:   const token = ++generationToken\n45:   try {\n46:     const level = practice\n47:       ? await requestPracticeLevel(difficultyId as PuzzleTier, () => token !== generationToken)\n48:       : await requestCampaignLevel(nextId!, () => token !== generationToken)\n49:     if (token !== generationToken) return\n50:     gameStore.startGame(level, practice ? 'PRACTICE' : 'CAMPAIGN')\n51:     uni.redirectTo({ url: '/pages/game/index' })\n52:   }\n53:   catch (e) { if (!(e instanceof GenerationCancelled)) uni.showToast({ title: e instanceof Error ? e.message : '生成失败', icon: 'none' }) }\n54:   finally { if (token === generationToken) loading.value = false }\n55: }"
+        },
+        {
+          "start": 75,
+          "end": 92,
+          "text": "75:     <view v-if=\"campaign\" class=\"score-card\">\n76:       <text class=\"score-label\">{{ completion.firstCompletion ? '获得积分' : '本关积分已获得' }}</text>\n77:       <text class=\"score\">{{ completion.firstCompletion ? `+${completion.scoreAwarded}` : completion.baseScore }}</text>\n78:       <text class=\"score-sub\">闯关基础分 {{ completion.baseScore }}</text>\n79:     </view>\n80: \n81:     <view class=\"stats-card\">\n82:       <view><text>用时</text><text>{{ formatDuration(game.accumulatedTime) }}</text></view>\n83:       <view><text>错误</text><text>{{ game.mistakeCount }}</text></view>\n84:       <view><text>提示</text><text>{{ game.hintCount }}</text></view>\n85:     </view>\n86: \n87:     <button v-if=\"next || game.mode === 'PRACTICE'\" class=\"primary\" :loading=\"loading\" :disabled=\"loading\" @tap=\"nextLevel\">{{ game.mode === 'PRACTICE' ? '再来一道新题' : '下一关' }}</button>\n88:     <text v-if=\"next\" class=\"score-sub next-copy\">下一关：第 {{ next.levelNo }} 关 · 关卡持续生成</text>\n89:     <button v-if=\"loading\" class=\"secondary\" @tap=\"generationToken++; loading = false\">取消生成</button>\n90:     <button class=\"secondary\" :disabled=\"loading\" @tap=\"replay\">再玩一次</button>\n91:     <text v-if=\"game.mode === 'DAILY'\" class=\"home-link\" @tap=\"openPage('/pages/daily/index')\">查看挑战日历</text>\n92:     <text class=\"home-link\" @tap=\"home\">返回首页</text>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/history/index.vue",
+      "sha256": "7043b08805dd03b24960c73b0ed61fe145ab00da091187edf97d450042dba4c4",
+      "blocks": [
+        {
+          "start": 15,
+          "end": 22,
+          "text": "15: const limit = ref(20)\n16: const records = computed(() => historyStore.records.slice(0, limit.value))\n17: \n18: function done() {\n19:   uni.navigateBack({ fail: () => uni.reLaunch({ url: '/pages/home/index' }) })\n20: }\n21: \n22: onShow(() => historyStore.refresh())"
+        },
+        {
+          "start": 32,
+          "end": 43,
+          "text": "32:     <view v-if=\"records.length === 0\" class=\"empty\">\n33:       <text class=\"empty-icon\">◷</text>\n34:       <text class=\"empty-title\">还没有历史记录</text>\n35:       <text class=\"empty-sub\">完成一局数独后会自动保存在这里</text>\n36:     </view>\n37: \n38:     <view v-else class=\"records\">\n39:       <view\n40:         v-for=\"(record, index) in records\"\n41:         :key=\"record.id\"\n42:         class=\"record-card\"\n43:         @tap=\"openPage(`/pages/history/detail?id=${record.id}`)\""
+        },
+        {
+          "start": 69,
+          "end": 72,
+          "text": "69:         </view>\n70:       </view>\n71:       <button v-if=\"limit < historyStore.records.length\" class=\"load-more\" @tap=\"limit += 20\">加载更多记录</button>\n72:     </view>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/history/detail.vue",
+      "sha256": "ed7df9fbe157ab15772ea75d8bbe4850917b7355fa1a7395aa46afad14686abf",
+      "blocks": [
+        {
+          "start": 20,
+          "end": 38,
+          "text": "20: onLoad((query) => {\n21:   historyStore.refresh()\n22:   if (query?.id) {\n23:     record.value = historyStore.find(String(query.id))\n24:     replayIndex.value = record.value?.timeline.length ?? 0\n25:   }\n26: })\n27: \n28: const title = computed(() => record.value ? recordTitle(record.value) : '历史详情')\n29: const displayCells = computed<SudokuCell[]>(() => record.value ? replayCells(record.value, replayIndex.value) : [])\n30: \n31: function changeReplay(event: { detail: { value: number } }) {\n32:   replayIndex.value = Math.max(0, Math.min(record.value?.timeline.length ?? 0, Number(event.detail.value) || 0))\n33: }\n34: \n35: function step(delta: number) {\n36:   if (!record.value) return\n37:   replayIndex.value = Math.max(0, Math.min(record.value.timeline.length, replayIndex.value + delta))\n38: }"
+        },
+        {
+          "start": 55,
+          "end": 78,
+          "text": "55:       <view class=\"board-shell\"><SudokuBoard :cells=\"displayCells\" :selected-index=\"null\" :interactive=\"false\" :highlight-related=\"false\" :highlight-same-digit=\"false\" /></view>\n56: \n57:       <view class=\"replay-card\">\n58:         <view class=\"replay-title\"><text>复盘</text><text>{{ replayIndex }} / {{ record.timeline.length }}</text></view>\n59:         <text v-if=\"record.timelineTruncated && record.timeline.length > 0\" class=\"replay-empty\">复盘从保留的起点开始，较早操作已归档。</text>\n60:         <text v-if=\"record.timeline.length === 0\" class=\"replay-empty\">本条记录仅保留最终棋盘。</text>\n61:         <slider\n62:           v-if=\"record.timeline.length > 0\"\n63:           :value=\"replayIndex\"\n64:           :min=\"0\"\n65:           :max=\"record.timeline.length\"\n66:           :step=\"1\"\n67:           active-color=\"#0a7cff\"\n68:           background-color=\"#d9dde3\"\n69:           block-color=\"#0a7cff\"\n70:           block-size=\"18\"\n71:           @changing=\"changeReplay\"\n72:           @change=\"changeReplay\"\n73:         />\n74:         <view v-if=\"record.timeline.length > 0\" class=\"replay-actions\">\n75:           <button :disabled=\"replayIndex <= 0\" @tap=\"step(-1)\">上一步</button>\n76:           <button :disabled=\"replayIndex >= record.timeline.length\" @tap=\"step(1)\">下一步</button>\n77:           <button @tap=\"replayIndex = record.timeline.length\">最终棋盘</button>\n78:         </view>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/import/index.vue",
+      "sha256": "780944eb4f50c91726ca51e6143dddd740947ecb9e3da189bacd26f32a5e1713",
+      "blocks": [
+        {
+          "start": 13,
+          "end": 25,
+          "text": "13: const input = ref('')\n14: const error = ref('')\n15: const checked = ref<SudokuLevel | null>(null)\n16: function validate() {\n17:   try { checked.value = importPuzzle(input.value); error.value = '' }\n18:   catch (e) { checked.value = null; error.value = e instanceof Error ? e.message : '题目校验失败' }\n19: }\n20: function start() {\n21:   validate()\n22:   if (!checked.value) return\n23:   const launch = () => { game.startGame(checked.value!, 'CUSTOM'); openPage('/pages/game/index') }\n24:   if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始自定义题目', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })\n25:   else launch()"
+        },
+        {
+          "start": 31,
+          "end": 38,
+          "text": "31:     <view class=\"content\">\n32:       <text class=\"secondary-copy\">按行粘贴 81 个数字，空格用 0 或 . 表示。可以包含换行、空白或逗号。</text>\n33:       <textarea v-model=\"input\" maxlength=\"1000\" class=\"puzzle-input\" placeholder=\"每行 9 个数字，共 9 行\" @input=\"checked = null; error = ''\" />\n34:       <text v-if=\"error\" class=\"error\">{{ error }}</text>\n35:       <text v-if=\"checked\" class=\"valid\">题目有唯一解 · {{ tierName(checked.tier) }} · {{ checked.clueCount }} 个已知数</text>\n36:       <button class=\"secondary-action\" @tap=\"validate\">检查题目</button>\n37:       <button class=\"primary-action\" @tap=\"start\">开始自定义游戏</button>\n38:       <text class=\"secondary-copy note\">自定义游戏支持存档、提示和复盘，计入游戏统计，不增加闯关积分。</text>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/tutorial/index.vue",
+      "sha256": "1c7af2ca4c1d0807e25ccd39588f10cc254315d6a52678ca546d561cee0560dc",
+      "blocks": [
+        {
+          "start": 23,
+          "end": 38,
+          "text": "23: async function startTraining() {\n24:   if (training.value) return\n25:   const store = useGameStore()\n26:   const launch = async () => {\n27:     training.value = true\n28:     const token = ++generationToken\n29:     try {\n30:       const level = await requestPracticeLevel('beginner', () => token !== generationToken)\n31:       if (token !== generationToken) return\n32:       store.startGame(level, 'PRACTICE'); openPage('/pages/game/index')\n33:     }\n34:     catch (e) { if (!(e instanceof GenerationCancelled)) uni.showToast({ title: '练习生成失败，请重试', icon: 'none' }) }\n35:     finally { if (token === generationToken) training.value = false }\n36:   }\n37:   if (store.game && store.game.status !== 'COMPLETED') uni.showModal({ title: '开始实局练习', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })\n38:   else launch()"
+        },
+        {
+          "start": 49,
+          "end": 64,
+          "text": "49:     <view class=\"content\">\n50:       <button class=\"primary-action\" :loading=\"training\" :disabled=\"training\" @tap=\"startTraining\">用入门题实局练习</button>\n51:       <text class=\"secondary-copy\">练习中点击解法，逐步查看推导，也可以先记录草稿。</text>\n52:       <view v-for=\"section in sections\" :key=\"section.id\" class=\"section\">\n53:         <view class=\"section-head\"><text class=\"section-title\">{{ section.title }}</text><text class=\"section-sub\">{{ section.subtitle }}</text></view>\n54:         <view class=\"card\">\n55:           <view\n56:             v-for=\"article in TUTORIAL_ARTICLES.filter(item => item.section === section.id)\"\n57:             :key=\"article.id\"\n58:             class=\"row\"\n59:             @tap=\"openPage(`/pages/tutorial/detail?id=${article.id}`)\"\n60:           >\n61:             <view class=\"doc-icon\">▤</view>\n62:             <view class=\"copy\"><text class=\"name\">{{ article.title }}</text><text class=\"summary\">{{ article.summary }}</text></view>\n63:             <text class=\"arrow\">›</text>\n64:           </view>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/tutorial/detail.vue",
+      "sha256": "9e2227d6c656f4408fbbf3ed4930b399c3df04343fec399781acac2d2375c846",
+      "blocks": [
+        {
+          "start": 24,
+          "end": 33,
+          "text": "24:     <view v-if=\"article\" class=\"content\">\n25:       <text class=\"summary\">{{ article.summary }}</text>\n26:       <view class=\"article-card\">\n27:         <text v-for=\"(paragraph, index) in article.paragraphs\" :key=\"index\" class=\"paragraph\">{{ paragraph }}</text>\n28:       </view>\n29:       <view v-if=\"article.tips?.length\" class=\"tips\">\n30:         <text class=\"tips-title\">要点</text>\n31:         <view v-for=\"tip in article.tips\" :key=\"tip\" class=\"tip\"><text class=\"bullet\">•</text><text>{{ tip }}</text></view>\n32:       </view>\n33:       <view class=\"engine-note\">游戏内“解法”功能与数独逻辑引擎使用同一套技巧定义；当棋盘存在可解释的逻辑步骤时，会优先给出逻辑提示。</view>"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/settings/index.vue",
+      "sha256": "6c28c3318c386721cccc5619ba8c8906d3b018b54df8e5790bcf31f47539ae58",
+      "blocks": [
+        {
+          "start": 39,
+          "end": 49,
+          "text": "39: const items: { key: BooleanSetting; label: string; desc: string }[] = [\n40:   { key: 'largeDigits', label: '大字数字', desc: '放大棋盘数字与候选数' },\n41:   { key: 'highlightRelated', label: '高亮同行列宫', desc: '选中格时突出显示相关区域' },\n42:   { key: 'highlightSameDigit', label: '高亮相同数字', desc: '突出显示与选中数字相同的数字' },\n43:   { key: 'autoRemoveCandidates', label: '自动删除候选', desc: '正确填入后清除同行、同列和同宫中的同数字候选' },\n44:   { key: 'smartNotes', label: '智能草稿', desc: '阻止添加已经被行、列或宫排除的候选数' },\n45:   { key: 'immediateErrorCheck', label: '错误即时提示', desc: '立即标红错误；关闭后错误次数仍计入结算'  },\n46:   { key: 'autoPauseOnBackground', label: '后台自动暂停', desc: '切到后台时停止计时，回到游戏后手动继续' },\n47:   { key: 'disableCompletedDigit', label: '完成数字禁用', desc: '某数字正确填满 9 个后禁用对应数字键' },\n48:   { key: 'sound', label: '音效', desc: '数字输入、错误和完成时播放轻量音效' },\n49:   { key: 'haptics', label: '震动反馈', desc: '操作和错误时触发轻触感' }"
+        },
+        {
+          "start": 56,
+          "end": 80,
+          "text": "56: function resetProgress() {\n57:   uni.showModal({\n58:     title: '重置所有游戏进度',\n59:     content: '将删除关卡成绩、历史记录与当前游戏。设置不会被清除，此操作不可恢复。',\n60:     confirmText: '重置',\n61:     confirmColor: '#ff3b30',\n62:     success: ({ confirm }) => {\n63:       if (!confirm) return\n64:       try {\n65:         resultsRepository.reset()\n66:         gameStore.discard(false)\n67:         try { currentGameRepository.clear() } catch { /* Reset marker rejects a stale current game. */ }\n68:         progressStore.reload()\n69:         historyStore.refresh()\n70:         try { resetPracticeCache() } catch { /* Auxiliary cache can be rebuilt. */ }\n71:         campaignRepository.clear()\n72:       } catch { uni.showToast({ title: '重置失败，请稍后再试', icon: 'none' }); return }\n73:       uni.showToast({ title: '游戏进度已重置', icon: 'none' })\n74:     }\n75:   })\n76: }\n77: \n78: function resetSettings() {\n79:   try { store.reset() } catch { uni.showToast({ title: '恢复设置失败', icon: 'none' }); return }\n80:   uni.showToast({ title: '设置已恢复默认', icon: 'none' })"
+        },
+        {
+          "start": 91,
+          "end": 121,
+          "text": "91:       <view class=\"section preference-section\">\n92:         <text class=\"label\">显示主题</text>\n93:         <view class=\"choices\"><button :class=\"{ chosen: store.settings.theme === 'light' }\" @tap=\"store.setSetting('theme', 'light')\">浅色</button><button :class=\"{ chosen: store.settings.theme === 'dark' }\" @tap=\"store.setSetting('theme', 'dark')\">深色</button></view>\n94:         <text class=\"label\">棋盘配色</text>\n95:         <text class=\"desc palette-desc\">选择后立即生效，下次打开仍保留</text>\n96:         <view class=\"choices board-color-choices\">\n97:           <button class=\"board-color-blue\" :class=\"{ chosen: store.settings.boardColor === 'blue' }\" :aria-pressed=\"store.settings.boardColor === 'blue'\" @tap=\"store.setSetting('boardColor', 'blue')\">\n98:             <view class=\"palette-name\"><view class=\"color-swatch blue\"></view><text>经典蓝色</text></view>\n99:             <text class=\"palette-status\">{{ store.settings.boardColor === 'blue' ? '✓ 已选' : '选择' }}</text>\n100:           </button>\n101:           <button class=\"board-color-green\" :class=\"{ chosen: store.settings.boardColor === 'green' }\" :aria-pressed=\"store.settings.boardColor === 'green'\" @tap=\"store.setSetting('boardColor', 'green')\">\n102:             <view class=\"palette-name\"><view class=\"color-swatch green\"></view><text>护眼绿色</text></view>\n103:             <text class=\"palette-status\">{{ store.settings.boardColor === 'green' ? '✓ 已选' : '选择' }}</text>\n104:           </button>\n105:         </view>\n106:         <text class=\"label\">输入方式</text>\n107:         <view class=\"choices\"><button :class=\"{ chosen: store.settings.inputStyle === 'cell-first' }\" @tap=\"store.setSetting('inputStyle', 'cell-first')\">先选格再填数</button><button :class=\"{ chosen: store.settings.inputStyle === 'number-first' }\" @tap=\"store.setSetting('inputStyle', 'number-first')\">先选数字再点格</button></view>\n108:       </view>\n109:       <view class=\"section\">\n110:         <view v-for=\"item in items\" :key=\"item.key\" class=\"setting-row\">\n111:           <view class=\"text\"><text class=\"label\">{{ item.label }}</text><text class=\"desc\">{{ item.desc }}</text></view>\n112:           <switch :checked=\"store.settings[item.key]\" color=\"#0a7cff\" @change=\"update(item.key, $event)\" />\n113:         </view>\n114:       </view>\n115: \n116:       <view class=\"section action-section\">\n117:         <button class=\"action-row replay-onboarding\" @tap=\"replayOnboarding\"><text>重新查看新手引导</text><text aria-hidden=\"true\">›</text></button>\n118:         <view class=\"action-row\" @tap=\"resetSettings\"><text>恢复默认设置</text><text>›</text></view>\n119:         <view class=\"action-row danger\" @tap=\"resetProgress\"><text>重置游戏进度</text><text>›</text></view>\n120:       </view>\n121:       <text class=\"version\">数独 · V1.0.0 · 数据仅保存在本机</text>"
+        }
+      ]
+    },
+    {
+      "file": "src/components/sudoku/NumberPad.vue",
+      "sha256": "3fca339d75673bcca8a55928ab3a0f4bdc5f19404b9526cfcff81d3ad34f8484",
+      "blocks": [
+        {
+          "start": 4,
+          "end": 14,
+          "text": "4: const props = withDefaults(defineProps<{ cells: SudokuCell[]; disabled?: boolean; disableCompletedDigit?: boolean; noteMode?: boolean; activeDigit?: number | null; showRemaining?: boolean }>(), { disabled: false, disableCompletedDigit: true, noteMode: false, activeDigit: null, showRemaining: true })\n5: const emit = defineEmits<{ (event: 'answer', digit: number): void }>()\n6: const digits = Array.from({ length: 9 }, (_, i) => i + 1)\n7: const remaining = computed(() => digits.map(d => Math.max(0, 9 - props.cells.filter(c => c.value === d && c.value === c.solution).length)))\n8: function blocked(d: number) { return props.disabled || Boolean(!props.noteMode && props.disableCompletedDigit && remaining.value[d - 1] === 0) }\n9: </script>\n10: <template>\n11:   <view class=\"number-pad\" :class=\"{ disabled, 'note-mode': noteMode }\">\n12:     <button v-for=\"digit in digits\" :key=\"digit\" class=\"answer-key\" :class=\"{ completed: blocked(digit), active: digit === activeDigit }\" :disabled=\"blocked(digit)\" :aria-label=\"`${noteMode ? '候选' : '数字'} ${digit}${showRemaining ? '，还剩 ' + remaining[digit - 1] + ' 个' : ''}`\" @tap=\"!blocked(digit) && emit('answer', digit)\">\n13:       <text class=\"digit\">{{ digit }}</text><text class=\"remaining\">{{ noteMode ? '草稿' : showRemaining ? `余 ${remaining[digit - 1]}` : '填写' }}</text>\n14:     </button>"
+        }
+      ]
+    },
+    {
+      "file": "src/components/sudoku/HintSheet.vue",
+      "sha256": "1b306de6897b5dcdebcf8ef53533ac85c2b1aa733ab3a2b30bd2514f41a2fa75",
+      "blocks": [
+        {
+          "start": 12,
+          "end": 22,
+          "text": "12:   <BottomSheet :model-value=\"modelValue\" title=\"分步解法\" @update:model-value=\"emit('update:modelValue', $event)\">\n13:     <view v-if=\"hint\" class=\"hint-content\">\n14:       <text class=\"position\">观察第 {{ Math.floor(hint.index / 9) + 1 }} 行第 {{ hint.index % 9 + 1 }} 列</text>\n15:       <text class=\"intro\">先查看高亮区域和候选数，尝试自己推导。查看解法会计入一次提示。</text>\n16:       <text v-for=\"(message, i) in steps.slice(0, cursor + 1)\" :key=\"i\" class=\"step\">{{ i + 1 }}. {{ message }}</text>\n17:       <button v-if=\"cursor < steps.length - 1\" class=\"primary-action\" @tap=\"cursor++\">{{ cursor < 0 ? '查看推导' : '展开下一步' }}</button>\n18:       <template v-else>\n19:         <text class=\"answer\">这个格可填 {{ hint.digit }}</text>\n20:         <button class=\"primary-action\" @tap=\"emit('apply'); emit('update:modelValue', false)\">填入答案</button>\n21:       </template>\n22:       <button class=\"secondary-action\" @tap=\"emit('update:modelValue', false)\">返回自己尝试</button>"
+        }
+      ]
+    },
+    {
+      "file": "src/components/sudoku/GameToolbar.vue",
+      "sha256": "d68374e3a53df48431d094efe2862b528692b5e4cc6126bf6c7408bb37e6a24c",
+      "blocks": [
+        {
+          "start": 21,
+          "end": 40,
+          "text": "21:   <view class=\"toolbar-wrap\" :class=\"{ disabled }\">\n22:     <view class=\"toolbar\">\n23:       <view class=\"tool\" @tap=\"emit('candidates')\" @longpress=\"emit('candidates-all')\">\n24:         <view class=\"icon-circle\"><text class=\"glyph flag\">⚑</text></view><text class=\"label\"><text class=\"dot\">●</text>候选</text>\n25:       </view>\n26:       <view class=\"tool\" @tap=\"emit('hint')\">\n27:         <view class=\"icon-circle\"><text class=\"glyph\">✣</text></view><text class=\"label\"><text class=\"dot\">●</text>解法</text>\n28:       </view>\n29:       <view class=\"tool\" @tap=\"emit('erase')\">\n30:         <view class=\"icon-circle\"><text class=\"glyph\">◇</text></view><text class=\"label\">擦除</text>\n31:       </view>\n32:       <view class=\"tool\" :class=\"{ active: noteMode }\" @tap=\"emit('note')\">\n33:         <view class=\"icon-circle\"><text class=\"glyph pencil\">✎</text></view><text class=\"label\">草稿</text>\n34:       </view>\n35:     </view>\n36:     <view class=\"undo-row\">\n37:       <text class=\"undo\" :class=\"{ off: !canUndo }\" @tap=\"canUndo && emit('undo')\">↶ 撤销</text>\n38:       <text class=\"divider\">·</text>\n39:       <text class=\"undo\" :class=\"{ off: !canRedo }\" @tap=\"canRedo && emit('redo')\">重做 ↷</text>\n40:     </view>"
+        }
+      ]
+    },
+    {
+      "file": "src/components/sudoku/SudokuCell.vue",
+      "sha256": "b2a00d4a7f65c94cb71099285a858a1c0d7bc70aa0d586e60973ca8f6184dc88",
+      "blocks": [
+        {
+          "start": 23,
+          "end": 47,
+          "text": "23:   <view\n24:     class=\"cell\"\n25:     :class=\"{\n26:       selected,\n27:       related,\n28:       same: sameValue,\n29:       error: cell.error,\n30:       given: cell.origin === 'GIVEN',\n31:       user: cell.origin === 'USER',\n32:       hint: cell.origin === 'HINT',\n33:       focus,\n34:       'strong-right': col === 2 || col === 5,\n35:       'strong-bottom': row === 2 || row === 5,\n36:       'last-col': col === 8,\n37:       'last-row': row === 8\n38:     }\"\n39:     :aria-label=\"`第 ${row + 1} 行第 ${col + 1} 列，${cell.origin === 'GIVEN' ? '题目数字' : cell.origin === 'HINT' ? '提示数字' : '可编辑'}，${cell.value || '空格'}${cell.error ? '，填写有误' : ''}${cell.notesMask ? '，候选 ' + noteDigits.filter(d => hasDigit(cell.notesMask, d)).join('、') : ''}`\"\n40:     @tap=\"$emit('select', cell.index)\"\n41:   >\n42:     <text v-if=\"cell.value\" class=\"value\">{{ cell.value }}</text>\n43:     <view v-else-if=\"cell.notesMask\" class=\"notes\">\n44:       <text v-for=\"digit in noteDigits\" :key=\"digit\" class=\"note\" :class=\"{ 'note-highlight': highlightDigit === digit && hasDigit(cell.notesMask, digit) }\">{{ hasDigit(cell.notesMask, digit) ? digit : '' }}</text>\n45:     </view>\n46:     <text v-if=\"cell.error\" class=\"error-mark\">!</text>\n47:     <view v-if=\"cell.origin === 'HINT'\" class=\"hint-dot\"></view>"
+        }
+      ]
+    },
+    {
+      "file": "src/components/common/BottomSheet.vue",
+      "sha256": "2522ef0eba6e38b7e3516835c70aae55cb80a68942c7ba13f99d76d87e242e4b",
+      "blocks": [
+        {
+          "start": 19,
+          "end": 32,
+          "text": "19: <template>\n20:   <view v-if=\"modelValue\" class=\"sheet-layer\">\n21:     <view class=\"sheet-mask\" @tap=\"maskTap\" @touchmove.stop.prevent></view>\n22:     <view class=\"sheet\" @touchmove.stop>\n23:       <view class=\"grabber\"></view>\n24:       <view v-if=\"title\" class=\"sheet-header\">\n25:         <text class=\"sheet-title\">{{ title }}</text>\n26:         <view class=\"close\" @tap=\"close\">×</view>\n27:       </view>\n28:       <scroll-view scroll-y class=\"sheet-content\">\n29:         <slot />\n30:       </scroll-view>\n31:       <view class=\"safe-bottom\"></view>\n32:     </view>"
+        }
+      ]
+    },
+    {
+      "file": "src/components/common/OnboardingGuide.vue",
+      "sha256": "39340cc96e9dfc771ddc4c79220786ee6aa80575f87108dc30a9ae7fa58920b4",
+      "blocks": [
+        {
+          "start": 81,
+          "end": 94,
+          "text": "81:   <view class=\"onboarding-guide\" :style=\"safeAreaStyle\" role=\"dialog\" aria-modal=\"true\" aria-label=\"数独新手引导\" @touchmove.stop>\n82:     <view class=\"guide-header\">\n83:       <view class=\"guide-brand\"><text class=\"guide-eyebrow\">数独 · 新手引导</text><text class=\"guide-progress\" aria-live=\"polite\">{{ step + 1 }} / 3</text></view>\n84:       <button class=\"guide-button guide-skip\" @tap=\"finish('skip')\">跳过</button>\n85:     </view>\n86:     <scroll-view :key=\"step\" scroll-y class=\"guide-scroll\">\n87:       <view class=\"guide-body\">\n88:         <template v-if=\"step === 0\">\n89:           <text class=\"guide-title\">从一个空格开始</text>\n90:           <text class=\"guide-description\">把空格填满。每行、每列、每个宫中的 1 到 9 都不能重复，不用做算术。</text>\n91:           <view class=\"rule-tabs\">\n92:             <button class=\"guide-button\" :class=\"{ chosen: rule === 'row' }\" :aria-pressed=\"rule === 'row'\" @tap=\"rule = 'row'\">看行</button>\n93:             <button class=\"guide-button\" :class=\"{ chosen: rule === 'column' }\" :aria-pressed=\"rule === 'column'\" @tap=\"rule = 'column'\">看列</button>\n94:             <button class=\"guide-button\" :class=\"{ chosen: rule === 'box' }\" :aria-pressed=\"rule === 'box'\" @tap=\"rule = 'box'\">看宫</button>"
+        },
+        {
+          "start": 103,
+          "end": 124,
+          "text": "103:         <template v-else-if=\"step === 1\">\n104:           <text class=\"guide-title\">试着填入一个数字</text>\n105:           <text class=\"guide-description\">这是棋盘中的一个 3×3 宫，已经有 1 到 8，空格该填什么？</text>\n106:           <text class=\"demo-instruction\">{{ instruction }}</text>\n107:           <view class=\"demo-board\">\n108:             <button v-for=\"digit in digits.slice(0, 8)\" :key=\"digit\" class=\"guide-button demo-given\" :aria-label=\"`给定数字 ${digit}，不可修改`\" @tap=\"feedback = '这是题目给定的数字，不能修改。'\">{{ digit }}</button>\n109:             <button class=\"guide-button demo-empty\" :class=\"{ selected, filled: value }\" :aria-pressed=\"selected\" :aria-label=\"`示例空格${value ? '，已填 9' : note ? '，候选 9' : '，尚未填写'}`\" @tap=\"selectCell\">\n110:               <text v-if=\"value\" class=\"demo-value\">{{ value }}</text>\n111:               <text v-else-if=\"note\" class=\"demo-note\">9</text>\n112:               <text v-else class=\"demo-placeholder\">空格</text>\n113:             </button>\n114:           </view>\n115:           <view class=\"demo-tools\">\n116:             <button class=\"guide-button demo-notes\" :class=\"{ chosen: noteMode }\" :aria-pressed=\"noteMode\" @tap=\"toggleNotes\">{{ noteMode ? '草稿已开启' : '草稿' }}</button>\n117:             <button class=\"guide-button demo-erase\" @tap=\"erase\">擦除</button>\n118:           </view>\n119:           <view class=\"demo-pad\">\n120:             <button v-for=\"digit in digits\" :key=\"digit\" class=\"guide-button demo-digit\" :class=\"{ chosen: activeDigit === digit }\" :aria-label=\"`示例${noteMode ? '候选' : '数字'} ${digit}`\" @tap=\"chooseDigit(digit)\">{{ digit }}</button>\n121:           </view>\n122:           <text class=\"demo-feedback\" role=\"status\" aria-live=\"polite\">{{ feedback || '可以试着填数，也可以直接进入下一步。' }}</text>\n123:           <text class=\"guide-tip\">这里只是演示，不计时、不计分，也不会修改你的游戏。</text>\n124:         </template>"
+        },
+        {
+          "start": 127,
+          "end": 146,
+          "text": "127:           <text class=\"guide-title\">按自己的节奏来</text>\n128:           <text class=\"guide-description\">第一次玩，推荐从「无限练习」的入门难度开始。</text>\n129:           <view class=\"guide-modes\">\n130:             <view class=\"guide-mode\"><text class=\"mode-symbol\" aria-hidden=\"true\">∞</text><view><text class=\"mode-name\">无限练习</text><text class=\"mode-description\">自由选难度，从入门到专家。</text></view></view>\n131:             <view class=\"guide-mode\"><text class=\"mode-symbol\" aria-hidden=\"true\">↗</text><view><text class=\"mode-name\">无限闯关</text><text class=\"mode-description\">按关卡前进，难度逐步提升。</text></view></view>\n132:             <view class=\"guide-mode\"><text class=\"mode-symbol\" aria-hidden=\"true\">▦</text><view><text class=\"mode-name\">每日挑战</text><text class=\"mode-description\">每天一道题，离线也能玩。</text></view></view>\n133:           </view>\n134:           <view class=\"guide-help\"><text class=\"help-title\">遇到卡点，慢慢推理</text><text>用草稿记录可能的数字，点「解法」逐步查看推导。使用解法会计入本局提示次数。</text></view>\n135:           <text class=\"guide-tip\">游戏会自动保存进度；首页「技巧课堂」可查看完整教程，设置中可重新查看这份引导。</text>\n136:           <button v-if=\"context === 'home'\" class=\"guide-button guide-practice\" @tap=\"finish('practice')\">去选择入门练习 ›</button>\n137:         </template>\n138:       </view>\n139:     </scroll-view>\n140:     <view class=\"guide-footer\">\n141:       <view class=\"guide-dots\" aria-hidden=\"true\"><view v-for=\"index in 3\" :key=\"index\" :class=\"{ active: step === index - 1 }\"></view></view>\n142:       <view class=\"guide-actions\">\n143:         <button v-if=\"step > 0\" class=\"guide-button guide-previous\" @tap=\"step--\">上一步</button>\n144:         <button v-if=\"step < 2\" class=\"guide-button guide-next\" @tap=\"step++\">下一步</button>\n145:         <button v-else class=\"guide-button guide-done\" @tap=\"finish('done')\">{{ props.context === 'game' ? '回到棋盘' : props.context === 'settings' ? '完成引导' : '准备好了' }}</button>\n146:       </view>"
+        }
+      ]
+    },
+    {
+      "file": "src/stores/game.store.ts",
+      "sha256": "c3ec0996024912eba7b1e8f8b36e5635ab0028125129ffe5815d213239e632e2",
+      "blocks": [
+        {
+          "start": 78,
+          "end": 114,
+          "text": "78:   function flushSave() {\n79:     if (saveTimer) {\n80:       clearTimeout(saveTimer)\n81:       saveTimer = null\n82:     }\n83:     if (game.value && game.value.status !== 'COMPLETED') {\n84:       game.value.updatedAt = Date.now()\n85:       try {\n86:         currentGameRepository.save(cloneState(game.value))\n87:         storageError.value = ''\n88:         return true\n89:       } catch {\n90:         storageError.value = '进度保存失败，请释放设备存储后重试。'\n91:         return false\n92:       }\n93:     }\n94:     return true\n95:   }\n96: \n97:   function restoreGame(): boolean {\n98:     const saved = currentGameRepository.load()\n99:     if (!saved || saved.status === 'COMPLETED') return false\n100:     if (resultsRepository.load().discardedGameId === saved.id) return false\n101:     if (resultsRepository.completionFor(saved.id)) { try { currentGameRepository.clear() } catch { /* Committed settlement is authoritative. */ } return false }\n102:     const settings = useSettingsStore().settings\n103: \n104:     if (saved.status === 'PLAYING' && saved.activeStartedAt != null) {\n105:       const end = settings.autoPauseOnBackground ? (saved.updatedAt || Date.now()) : Date.now()\n106:       saved.accumulatedTime += Math.max(0, end - saved.activeStartedAt)\n107:       saved.status = 'PAUSED'\n108:       saved.activeStartedAt = null\n109:     }\n110:     saved.timeline ??= []\n111:     saved.completion ??= null\n112:     game.value = saved\n113:     pendingHint.value = null\n114:     return true"
+        },
+        {
+          "start": 225,
+          "end": 257,
+          "text": "225:   function currentBoard(clearKnownErrors = false): number[] {\n226:     return game.value?.cells.map((cell) => (clearKnownErrors && cell.value !== cell.solution ? 0 : cell.value)) ?? []\n227:   }\n228: \n229:   function inputNormalDigit(digit: number) {\n230:     if (!game.value || game.value.status !== 'PLAYING') return\n231:     if (!Number.isInteger(digit) || digit < 1 || digit > 9 || game.value.selectedIndex == null) return\n232:     const index = game.value.selectedIndex\n233:     const cell = game.value.cells[index]\n234:     if (cell.origin === 'GIVEN' || cell.value === digit) return\n235: \n236:     const peers = peerIndexes(index)\n237:     const tracked = [index, ...peers]\n238:     const before = capture(tracked)\n239:     const correct = digit === cell.solution\n240:     const settings = useSettingsStore().settings\n241: \n242:     cell.value = digit\n243:     cell.origin = 'USER'\n244:     cell.notesMask = 0\n245:     cell.error = settings.immediateErrorCheck ? !correct : false\n246: \n247:     if (!correct) {\n248:       game.value.mistakeCount += 1\n249:       if (settings.immediateErrorCheck) feedback('error')\n250:       else feedback()\n251:     } else {\n252:       feedback()\n253:     }\n254: \n255:     if (correct && settings.autoRemoveCandidates) {\n256:       const bit = digitBit(digit)\n257:       for (const peerIndex of peers) game.value.cells[peerIndex].notesMask &= ~bit"
+        },
+        {
+          "start": 264,
+          "end": 279,
+          "text": "264:   function inputNoteDigit(digit: number) {\n265:     if (!game.value || game.value.status !== 'PLAYING') return\n266:     if (!Number.isInteger(digit) || digit < 1 || digit > 9 || game.value.selectedIndex == null) return\n267:     const index = game.value.selectedIndex\n268:     const cell = game.value.cells[index]\n269:     if (cell.origin === 'GIVEN' || cell.value !== 0) return\n270: \n271:     const bit = digitBit(digit)\n272:     const settings = useSettingsStore().settings\n273:     const hasNote = (cell.notesMask & bit) !== 0\n274:     if (!hasNote && settings.smartNotes) {\n275:       const valid = getCandidateMask(currentBoard(true), index)\n276:       if ((valid & bit) === 0) {\n277:         feedback('error')\n278:         return\n279:       }"
+        },
+        {
+          "start": 314,
+          "end": 355,
+          "text": "314:   function autoCandidates() {\n315:     if (!game.value || game.value.status !== 'PLAYING' || game.value.selectedIndex == null) return\n316:     const index = game.value.selectedIndex\n317:     const cell = game.value.cells[index]\n318:     if (cell.origin === 'GIVEN' || cell.value !== 0) return\n319:     const before = capture([index])\n320:     cell.notesMask = getCandidateMask(currentBoard(true), index)\n321:     commitAction('SET_NOTES', buildChanges([index], before))\n322:     feedback()\n323:   }\n324: \n325:   function autoCandidatesAll() {\n326:     if (!game.value || game.value.status !== 'PLAYING') return\n327:     const indexes = game.value.cells.filter((cell) => cell.origin !== 'GIVEN' && cell.value === 0).map((cell) => cell.index)\n328:     if (!indexes.length) return\n329:     const before = capture(indexes)\n330:     const board = currentBoard(true)\n331:     for (const index of indexes) game.value.cells[index].notesMask = getCandidateMask(board, index)\n332:     commitAction('SET_ALL_NOTES', buildChanges(indexes, before))\n333:     feedback()\n334:   }\n335: \n336:   function requestHint(): HintResult | null {\n337:     if (!game.value || game.value.status !== 'PLAYING') return null\n338:     if (pendingHint.value) return pendingHint.value\n339:     const wrong = game.value.cells.find(c => c.origin !== 'GIVEN' && c.value !== 0 && c.value !== c.solution)\n340:     if (wrong) {\n341:       pendingHint.value = { index: wrong.index, digit: wrong.solution, technique: 'BACKTRACKING', message: `第 ${Math.floor(wrong.index / 9) + 1} 行第 ${wrong.index % 9 + 1} 列的填写有误，请先检查这个格。展开答案可以更正。`, focusIndexes: [wrong.index] }\n342:     } else {\n343:       pendingHint.value = findHint(currentBoard(true))\n344:       if (!pendingHint.value) {\n345:         const target = game.value.cells.find(c => !c.value)\n346:         if (target) pendingHint.value = { index: target.index, digit: target.solution, technique: 'BACKTRACKING', message: '现有教学技巧暂时无法继续推导，可展开答案提示。', focusIndexes: [target.index] }\n347:       }\n348:     }\n349:     if (pendingHint.value) {\n350:       game.value.selectedIndex = pendingHint.value.index\n351:       game.value.hintCount++\n352:       scheduleSave()\n353:     }\n354:     return pendingHint.value\n355:   }"
+        },
+        {
+          "start": 422,
+          "end": 440,
+          "text": "422:   function pause(force = false) {\n423:     if (!game.value || game.value.status !== 'PLAYING') return\n424:     if (force && !useSettingsStore().settings.autoPauseOnBackground) {\n425:       flushSave()\n426:       return\n427:     }\n428:     if (game.value.activeStartedAt != null) game.value.accumulatedTime += Math.max(0, Date.now() - game.value.activeStartedAt)\n429:     game.value.activeStartedAt = null\n430:     game.value.status = 'PAUSED'\n431:     pendingHint.value = null\n432:     flushSave()\n433:   }\n434: \n435:   function resume() {\n436:     if (!game.value || game.value.status !== 'PAUSED') return\n437:     game.value.status = 'PLAYING'\n438:     game.value.activeStartedAt = Date.now()\n439:     feedback()\n440:     scheduleSave()"
+        },
+        {
+          "start": 448,
+          "end": 482,
+          "text": "448:   function completeGame(): boolean {\n449:     if (!game.value || game.value.status === 'COMPLETED' || !game.value.cells.every(c => c.value === c.solution)) return false\n450:     const now = Date.now()\n451:     const duration = elapsed(now)\n452:     const campaign = (game.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN'\n453:     try {\n454:       const completion = resultsRepository.settle(game.value.id, {\n455:         id: `record-${game.value.id}`, levelId: game.value.levelId, difficultyId: game.value.difficultyId,\n456:         levelNo: game.value.level?.levelNo ?? getLevelById(game.value.levelId)?.levelNo ?? 0,\n457:         mode: game.value.mode ?? 'CAMPAIGN', dailyDate: game.value.dailyDate,\n458:         puzzle: game.value.puzzle, solution: game.value.solution,\n459:         finalValues: game.value.cells.map(c => c.value), origins: game.value.cells.map(c => c.origin),\n460:         elapsedTime: duration, mistakeCount: game.value.mistakeCount, hintCount: game.value.hintCount,\n461:         baseScore: campaign ? getDifficulty(game.value.difficultyId).score : 0,\n462:         medal: medalFor(game.value.mistakeCount, game.value.hintCount), startedAt: game.value.startedAt, completedAt: now,\n463:         actions: [], timeline: [...game.value.timeline], timelineBase: game.value.timelineBase, timelineTruncated: game.value.timelineTruncated\n464:       })\n465:       game.value.accumulatedTime = duration\n466:       game.value.activeStartedAt = null\n467:       game.value.status = 'COMPLETED'\n468:       game.value.completion = completion\n469:       storageError.value = ''\n470:       if (saveTimer) clearTimeout(saveTimer)\n471:       saveTimer = null\n472:       useProgressStore().reload()\n473:       useHistoryStore().refresh()\n474:       try { currentGameRepository.clear() } catch { /* A stale save is rejected by its settlement id. */ }\n475:       feedback('success')\n476:       setTimeout(() => uni.redirectTo({ url: '/pages/result/index' }), 80)\n477:       return true\n478:     } catch {\n479:       const saved = flushSave()\n480:       storageError.value = saved\n481:         ? '完成结果保存失败，棋盘已存档。请释放存储后点击重试结算。'\n482:         : '存储不可写，棋盘仅保留在当前页面。请释放存储后重试结算，暂勿关闭游戏。'"
+        }
+      ]
+    },
+    {
+      "file": "src/content/tutorial.ts",
+      "sha256": "8ff205431d46777abeaef35620801aa6f6a4728b8c465141e2c7287fc7aa77ce",
+      "blocks": [
+        {
+          "start": 23,
+          "end": 29,
+          "text": "23:     id: 'controls', section: 'rules', title: '操作说明', summary: '候选、草稿、擦除、提示与暂停',\n24:     paragraphs: [\n25:       '默认先点选棋盘空格，再使用底部数字键填写答案。设置中也可以切换为先选数字、再点空格。',\n26:       '打开“草稿”后，同一个数字键盘用于增删候选，适合连续记录可能的数字。再次点击草稿可恢复普通填写；擦除可以清除选中格的填写或候选。',\n27:       '“候选”会为当前空格自动计算合法候选；长按“候选”可为所有空格填充候选。设置中开启自动删除候选后，正确填写数字会同步清理相关格的候选。',\n28:       '“解法”会优先给出逻辑提示。如果当前选中了空格，也可以直接查看该格的答案。使用提示会被记录在成绩中。',\n29:       '切到后台默认自动暂停。错误次数和提示次数不会因为撤销而减少。'"
+        },
+        {
+          "start": 62,
+          "end": 72,
+          "text": "62:     id: 'x-wing', section: 'advanced', title: 'X-Wing', summary: '两行两列形成矩形锁定',\n63:     paragraphs: ['关注某个数字：如果它在两行中都恰好只能出现在相同的两列，那么这四个候选构成一个矩形。', '无论两行分别选择哪一个端点，这两列都已经各自占用该数字，因此可从这两列的其他行删除该候选。列方向也可以反向使用。']\n64:   },\n65:   {\n66:     id: 'swordfish', section: 'advanced', title: 'Swordfish', summary: 'X-Wing 的三行三列扩展',\n67:     paragraphs: ['Swordfish 把 X-Wing 从两行两列扩展到三行三列。某数字在三行中的所有候选位置只覆盖三列时，可以从这三列的其他行删除该数字。', '这种结构较少出现，通常需要完整候选表才能稳定识别。']\n68:   },\n69:   {\n70:     id: 'xy-wing', section: 'advanced', title: 'XY-Wing', summary: '三个双候选格的枢轴排除',\n71:     paragraphs: ['XY-Wing 由三个双候选格组成：枢轴为 XY，两个翼分别为 XZ 与 YZ，并且两个翼都能看到枢轴。', '无论枢轴最终取 X 还是 Y，两个翼中至少有一个必须取 Z，因此同时能看到两个翼的格子可以删除候选 Z。']\n72:   }"
+        }
+      ]
+    },
+    {
+      "file": "src/repositories/current-game.repository.ts",
+      "sha256": "0d3ed972bd22b5a98ef3d431d5efd7bf46c92eead99f49dfdc925cd1dfd874cb",
+      "blocks": [
+        {
+          "start": 32,
+          "end": 42,
+          "text": "32: export const currentGameRepository = {\n33:   load(): GameState | null {\n34:     return normalize(readStorage<GameState | null>(KEY, null))\n35:   },\n36:   save(game: GameState): void {\n37:     writeStorage(KEY, game)\n38:   },\n39:   clear(): void {\n40:     writeStorage(KEY, null)\n41:     removeStorage(KEY)\n42:   }"
+        }
+      ]
+    },
+    {
+      "file": "src/repositories/results.repository.ts",
+      "sha256": "9ec940cd859ab48b735d726523e4adbc2b4fd834c5c37dbfb11a9eb770795dca",
+      "blocks": [
+        {
+          "start": 35,
+          "end": 39,
+          "text": "35: function addTotals(t: LifetimeTotals, r: GameRecord) {\n36:   t.totalCompletions++; t.totalPlayTime += r.elapsedTime; t.mistakes += r.mistakeCount; t.hints += r.hintCount\n37:   t.byDifficulty[r.difficultyId] = (t.byDifficulty[r.difficultyId] ?? 0) + 1\n38:   t.byMode[r.mode ?? 'CAMPAIGN']++\n39:   t.medals[r.medal]++"
+        },
+        {
+          "start": 62,
+          "end": 69,
+          "text": "62: function save(state: Results) {\n63:   state.history = state.history.slice(0, 1000).map((r, i) => i < 50 ? r : { ...r, timeline: [], actions: [], timelineBase: undefined })\n64:   let size = JSON.stringify(state).length\n65:   for (let i = state.history.length - 1; i > 0 && size > 1_500_000; i--) {\n66:     const r = state.history[i]; if (!r.timeline.length) continue\n67:     state.history[i] = { ...r, timeline: [], timelineBase: undefined }; size = JSON.stringify(state).length\n68:   }\n69:   writeStorage(RESULTS_KEY, state)"
+        },
+        {
+          "start": 93,
+          "end": 106,
+          "text": "93:     const campaign = (input.mode ?? 'CAMPAIGN') === 'CAMPAIGN'\n94:     const existing = state.progress[input.levelId]\n95:     const firstCompletion = campaign && !existing?.completed\n96:     const completion: GameCompletion = { completedAt: input.completedAt, medal: input.medal, baseScore: campaign ? input.baseScore : 0, scoreAwarded: firstCompletion ? input.baseScore : 0, firstCompletion }\n97:     if (campaign) state.progress[input.levelId] = {\n98:       levelId: input.levelId, difficultyId: input.difficultyId, levelNo: input.levelNo, completed: true, baseScore: existing?.baseScore ?? input.baseScore,\n99:       bestMedal: rank(input.medal) > rank(existing?.bestMedal ?? null) ? input.medal : existing?.bestMedal ?? input.medal,\n100:       bestTime: Math.min(existing?.bestTime ?? Infinity, input.elapsedTime), minMistakes: Math.min(existing?.minMistakes ?? Infinity, input.mistakeCount), minHints: Math.min(existing?.minHints ?? Infinity, input.hintCount),\n101:       completionCount: (existing?.completionCount ?? 0) + 1, firstCompletedAt: existing?.firstCompletedAt ?? input.completedAt, lastCompletedAt: input.completedAt\n102:     }\n103:     append(state, { ...input, baseScore: completion.baseScore, scoreAwarded: completion.scoreAwarded })\n104:     state.lastSettlement = { gameId, completion }\n105:     save(state) // One write commits progress, history and counters together.\n106:     return completion"
+        }
+      ]
+    },
+    {
+      "file": "src/services/puzzle.service.ts",
+      "sha256": "c76ba5a1f87e0c72b3084bdb325d3e281ba7b220b439dd437823071ac07865bc",
+      "blocks": [
+        {
+          "start": 25,
+          "end": 38,
+          "text": "25:   const started = Date.now()\n26:   const yieldAndCheck = async () => {\n27:     await new Promise<void>(resolve => setTimeout(resolve, 0))\n28:     if (options.isCancelled?.()) throw new GenerationCancelled()\n29:   }\n30:   // Yield between attempts so Android can paint the loading indicator.\n31:   for (let attempt = 0; attempt < 24; attempt++) {\n32:     await yieldAndCheck()\n33:     if (Date.now() - started > 1500) break\n34:     const actualSeed = (seed + Math.imul(attempt, 2654435761)) >>> 0\n35:     const generated = generatePuzzle({ seed: actualSeed, targetClues: config.clues, symmetry: attempt % 2 === 0 })\n36:     const level = makeLevel(generated.puzzle, generated.solution, `practice-${seed}-${attempt}`, seed)\n37:     if (level.tier === tier && !options.excluded?.has(level.puzzle)) return level\n38:   }"
+        },
+        {
+          "start": 101,
+          "end": 117,
+          "text": "101: export function createDailyLevel(date = localDate()): SudokuLevel {\n102:   const parts = date.split('-').map(Number)\n103:   if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || localDate(new Date(parts[0], parts[1] - 1, parts[2], 12)) !== date) throw new Error('请输入有效日期 YYYY-MM-DD')\n104:   const seed = seedFromText(`sudoku-daily-v${GENERATOR_VERSION}:${date}`)\n105:   const generated = generatePuzzle({ seed, targetClues: 30, symmetry: true })\n106:   return makeLevel(generated.puzzle, generated.solution, `daily-v${GENERATOR_VERSION}-${date}`, seed)\n107: }\n108: export function importPuzzle(text: string): SudokuLevel {\n109:   const puzzleText = text.replace(/[\\s|,，]/g, '').replace(/\\./g, '0')\n110:   if (!/^[0-9]{81}$/.test(puzzleText)) throw new Error('请输入 81 个数字，空格用 0 或 . 表示')\n111:   const puzzle = parseBoard(puzzleText)\n112:   if (!puzzle.some(v => v === 0)) throw new Error('题目已经填满，请至少留一个空格')\n113:   if (!validateBoard(puzzle)) throw new Error('题目数字在行、列或宫内存在重复')\n114:   const count = countSolutions(puzzle, 2)\n115:   if (count === 0) throw new Error('这道题没有解，请检查题目数字')\n116:   if (count !== 1) throw new Error('这道题有多个解，请补充题目数字')\n117:   return makeLevel(puzzle, solve(puzzle)!, `custom-${seedFromText(puzzleText)}`, seedFromText(puzzleText))"
+        }
+      ]
+    },
+    {
+      "file": "src/services/campaign.service.ts",
+      "sha256": "5b0eb5ae6ac31cfc669dad3a89df40256bca12d57436a923ae644ee34dab39c2",
+      "blocks": [
+        {
+          "start": 14,
+          "end": 34,
+          "text": "14: export async function createCampaignLevel(difficultyId: string, levelNo: number, isCancelled?: () => boolean): Promise<SudokuLevel> {\n15:   const slot = campaignSlot(difficultyId, levelNo)\n16:   const yieldAndCheck = async () => {\n17:     await new Promise<void>(resolve => setTimeout(resolve, 0))\n18:     if (isCancelled?.()) throw new GenerationCancelled()\n19:   }\n20:   await yieldAndCheck()\n21:   const original = getLevelById(slot.id)\n22:   if (original) return original\n23:   const profile = campaignProfile(difficultyId, levelNo)!\n24:   const key = `sudoku-campaign-v${CAMPAIGN_GENERATOR_VERSION}:${slot.id}`\n25:   const seed = seedFromText(key)\n26:   const makeLevel = (puzzle: number[], solution: number[]): SudokuLevel => {\n27:     const rating = rateDifficulty(puzzle)\n28:     return { ...slot, puzzle: serializeBoard(puzzle), solution: serializeBoard(solution), tier: classifyDifficulty(rating), difficultyScore: rating.score, techniques: rating.techniques, clueCount: puzzle.filter(Boolean).length, seed, version: CAMPAIGN_GENERATOR_VERSION }\n29:   }\n30:   for (let attempt = 0; attempt < 32; attempt++) {\n31:     await yieldAndCheck()\n32:     const generated = generatePuzzle({ seed: seedFromText(`${key}:fresh:${attempt}`), targetClues: profile.clues, symmetry: attempt % 2 === 0 })\n33:     const level = makeLevel(generated.puzzle, generated.solution)\n34:     if (matchesCampaignProfile(level)) return level"
+        }
+      ]
+    },
+    {
+      "file": "src/services/share.service.ts",
+      "sha256": "c450dbd54334522968ed5c079a2dae339fa5bfd5d0a1e898164b003fa146ea22",
+      "blocks": [
+        {
+          "start": 1,
+          "end": 17,
+          "text": "1: const SHARE_TEXT = '数独：离线关卡、候选笔记、解法提示和历史复盘。'\n2: \n3: export function shareApp(): void {\n4:   // #ifdef APP-PLUS\n5:   try {\n6:     plus.share.sendWithSystem({ type: 'text', content: SHARE_TEXT }, () => {}, () => {})\n7:     return\n8:   } catch {\n9:     // Fall through to clipboard when system share is unavailable.\n10:   }\n11:   // #endif\n12: \n13:   uni.setClipboardData({\n14:     data: SHARE_TEXT,\n15:     success: () => uni.showToast({ title: '分享文案已复制', icon: 'none' })\n16:   })\n17: }"
+        }
+      ]
+    },
+    {
+      "file": "src/stores/statistics.store.ts",
+      "sha256": "390a918ffea93d65802b198f1050eb26f65db6aebb4a66647050f3ee18d7de53",
+      "blocks": [
+        {
+          "start": 13,
+          "end": 34,
+          "text": "13:   const summary = computed(() => {\n14:     const completedProgress = Object.values(progressStore.progressMap).filter((item) => item.completed)\n15:     const totals = historyStore.totals\n16:     return {\n17:       totalScore: progressStore.totalScore,\n18:       completedLevels: completedProgress.length,\n19:       legacyCompletedLevels: LEVELS.filter(level => progressStore.progressMap[level.id]?.completed).length,\n20:       legacyTotal: LEVELS.length,\n21:       gold: completedProgress.filter((item) => item.bestMedal === 'GOLD').length,\n22:       silver: completedProgress.filter((item) => item.bestMedal === 'SILVER').length,\n23:       bronze: completedProgress.filter((item) => item.bestMedal === 'BRONZE').length,\n24:       totalPlayTime: totals.totalPlayTime,\n25:       mistakes: totals.mistakes,\n26:       hints: totals.hints,\n27:       totalCompletions: totals.totalCompletions,\n28:       byMode: totals.byMode,\n29:       medals: totals.medals\n30:     }\n31:   })\n32: \n33:   const byDifficulty = computed(() => DIFFICULTIES.map((difficulty) => {\n34:     const progress = Object.values(progressStore.progressMap).filter((item) => item.difficultyId === difficulty.id && item.completed)"
+        }
+      ]
+    }
+  ]
+}

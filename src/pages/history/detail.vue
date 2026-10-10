@@ -11,7 +11,7 @@ import type { GameRecord } from '@/types/progress'
 import { recordTitle } from '@/utils/game-label'
 import { formatDate, formatDuration } from '@/utils/time'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const historyStore = useHistoryStore()
 const record = ref<GameRecord | null>(null)
@@ -39,7 +39,7 @@ function step(delta: number) {
 </script>
 
 <template>
-  <view class="safe-page detail-page" :class="appearance">
+  <view class="safe-page detail-page" :class="appearance" :style="pageStyle">
     <AppHeader :title="title">
       <template #left><text class="back" @tap="back">‹</text></template>
     </AppHeader>
@@ -88,18 +88,18 @@ function step(delta: number) {
 
 <style scoped lang="scss">
 .detail-page { background: var(--page-bg); }
-.back { color: var(--primary); font-size: 58rpx; line-height: 1; }
+.back { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); line-height: 1; }
 .content { padding: 10rpx 20rpx 40rpx; }
-.summary { display: flex; justify-content: space-around; color: var(--text-secondary); font-size: 23rpx; margin: 12rpx 0 25rpx; }
+.summary { display: flex; justify-content: space-around; color: var(--text-secondary); font-size: clamp(9.78px, 23rpx, 11.5px); margin: 12rpx 0 25rpx; }
 .board-shell { width: 100%; }
 .replay-card { margin-top: 30rpx; padding: 24rpx 20rpx 20rpx; background: var(--surface); border-radius: 22rpx; }
-.replay-title { display: flex; justify-content: space-between; padding: 0 12rpx 6rpx; font-size: 25rpx; color: var(--text-secondary); }
-.replay-title text:first-child { color: var(--text-primary); font-size: 28rpx; font-weight: 650; }
-.replay-empty { display: block; padding: 18rpx 12rpx 10rpx; color: var(--text-secondary); font-size: 22rpx; line-height: 1.5; }
+.replay-title { display: flex; justify-content: space-between; padding: 0 12rpx 6rpx; font-size: clamp(10.63px, 25rpx, 12.5px); color: var(--text-secondary); }
+.replay-title text:first-child { color: var(--text-primary); font-size: clamp(11.9px, 28rpx, 14px); font-weight: 650; }
+.replay-empty { display: block; padding: 18rpx 12rpx 10rpx; color: var(--text-secondary); font-size: clamp(9.35px, 22rpx, 11px); line-height: 1.5; }
 .replay-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; margin-top: 8rpx; }
-.replay-actions button { height: 72rpx; border-radius: 15rpx; background: var(--cell-bg); color: var(--primary); font-size: 24rpx; display: flex; align-items: center; justify-content: center; }
+.replay-actions button { height: 72rpx; border-radius: 15rpx; background: var(--cell-bg); color: var(--primary); font-size: clamp(10.2px, 24rpx, 12px); display: flex; align-items: center; justify-content: center; }
 .replay-actions button[disabled] { color: #b8bbc0; opacity: .6; }
-.legend { margin-top: 24rpx; display: flex; justify-content: center; gap: 36rpx; color: var(--text-secondary); font-size: 23rpx; }
+.legend { margin-top: 24rpx; display: flex; justify-content: center; gap: 36rpx; color: var(--text-secondary); font-size: clamp(9.78px, 23rpx, 11.5px); }
 .legend-item { display: flex; align-items: center; gap: 9rpx; }
 .legend-dot { width: 14rpx; height: 14rpx; border-radius: 50%; }
 .legend-dot.given { background: var(--board-given, var(--given-number)); }

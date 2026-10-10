@@ -9,7 +9,7 @@ import { useHistoryStore } from '@/stores/history.store'
 import { recordTitle } from '@/utils/game-label'
 import { formatDate, formatDuration } from '@/utils/time'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const historyStore = useHistoryStore()
 const limit = ref(20)
@@ -23,7 +23,7 @@ onShow(() => historyStore.refresh())
 </script>
 
 <template>
-  <view class="safe-page history-page" :class="appearance">
+  <view class="safe-page history-page" :class="appearance" :style="pageStyle">
     <AppHeader title="历史记录">
       <template #left><text class="back" @tap="done">‹</text></template>
       <template #right><text class="done" @tap="done">完成</text></template>
@@ -75,25 +75,31 @@ onShow(() => historyStore.refresh())
 
 <style scoped lang="scss">
 .history-page { background: var(--surface); }
-.back { color: var(--primary); font-size: 58rpx; line-height: 1; }
-.done { color: var(--primary); font-size: 32rpx; font-weight: 650; }
+.back { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); line-height: 1; }
+.done { color: var(--primary); font-size: clamp(13.6px, 32rpx, 16px); font-weight: 650; }
 .load-more { min-height: 48px; background: var(--primary-soft); color: var(--primary); border-radius: 16rpx; }
-.records { padding: 20rpx 30rpx 40rpx; }
+.records { width: 100%; max-width: 960px; margin: 0 auto; padding: 16px; }
 .empty { padding-top: 210rpx; display: flex; flex-direction: column; align-items: center; color: var(--text-secondary); }
-.empty-icon { font-size: 72rpx; }
-.empty-title { margin-top: 26rpx; color: var(--text-primary); font-size: 30rpx; font-weight: 650; }
-.empty-sub { margin-top: 10rpx; font-size: 23rpx; }
+.empty-icon { font-size: clamp(30.6px, 72rpx, 36px); }
+.empty-title { margin-top: 26rpx; color: var(--text-primary); font-size: clamp(12.75px, 30rpx, 15px); font-weight: 650; }
+.empty-sub { margin-top: 10rpx; font-size: clamp(9.78px, 23rpx, 11.5px); }
 .record-card { background: var(--cell-bg); border-radius: 30rpx; padding: 34rpx 40rpx 40rpx; margin-bottom: 28rpx; box-shadow: 0 9rpx 30rpx rgba(0,0,0,.035); }
 .topline { min-height: 80rpx; display: flex; align-items: center; justify-content: space-between; }
-.serial { font-size: 70rpx; line-height: 1; font-weight: 850; }
-.meta { display: flex; justify-content: space-between; align-items: flex-end; font-size: 26rpx; margin: 20rpx 0 24rpx; }
+.serial { font-size: clamp(29.75px, 70rpx, 35px); line-height: 1; font-weight: 850; }
+.meta { display: flex; justify-content: space-between; align-items: flex-end; font-size: clamp(11.05px, 26rpx, 13px); margin: 20rpx 0 24rpx; }
 .meta view { display: flex; flex-direction: column; gap: 8rpx; }
-.duration { font-size: 28rpx; font-weight: 600; font-variant-numeric: tabular-nums; }
+.duration { font-size: clamp(11.9px, 28rpx, 14px); font-weight: 600; font-variant-numeric: tabular-nums; }
 .mini-board { display: grid; grid-template-columns: repeat(9, 1fr); border: 3rpx solid var(--line-strong); }
-.mini-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-right: 1rpx solid var(--line); border-bottom: 1rpx solid var(--line); font-size: 28rpx; font-weight: 620; }
+.mini-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-right: 1rpx solid var(--line); border-bottom: 1rpx solid var(--line); font-size: clamp(11.9px, 28rpx, 14px); font-weight: 620; }
 .mini-cell.user { color: var(--primary); }
 .mini-cell.strong-right { border-right: 3rpx solid var(--line-strong); }
 .mini-cell.strong-bottom { border-bottom: 3rpx solid var(--line-strong); }
 .mini-cell.last-col { border-right: 0; }
 .mini-cell.last-row { border-bottom: 0; }
+@media (min-width: 640px) {
+  .records { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .record-card { min-width: 0; padding: 16px; margin-bottom: 0; }
+  .meta { flex-wrap: wrap; gap: 8px; }
+  .load-more { grid-column: 1 / -1; }
+}
 </style>

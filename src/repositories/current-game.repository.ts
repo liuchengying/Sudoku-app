@@ -25,6 +25,7 @@ function normalize(raw: unknown): GameState | null {
     timeline: Array.isArray(game.timeline) ? game.timeline.filter(safeEvent) : [],
     timelineBase: safeSnapshots(game.timelineBase) ? game.timelineBase : undefined,
     bookmark: safeSnapshots(game.bookmark) ? game.bookmark : undefined,
+    lastHintKey: typeof game.lastHintKey === 'string' && game.lastHintKey.length <= 128 ? game.lastHintKey : undefined,
     completion: null
   }
 }

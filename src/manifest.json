@@ -10,7 +10,10 @@
     "nvueStyleCompiler": "uni-app",
     "compilerVersion": 3,
     "screenOrientation": [
-      "portrait-primary"
+      "portrait-primary",
+      "portrait-secondary",
+      "landscape-primary",
+      "landscape-secondary"
     ],
     "statusbar": {
       "immersed": true,

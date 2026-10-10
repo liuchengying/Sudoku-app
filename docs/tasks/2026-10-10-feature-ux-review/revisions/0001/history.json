@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-10T01:42:57.297Z",
+  "reason": "用户补充 Android 折叠屏为高频使用场景；在原功能交互评估中增加首批适配要求与验收矩阵，保留原检查和不修改业务代码的范围。",
+  "previousStatus": "awaiting_owner",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/task.json",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/brief.md",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/plan.md",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/plan.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/review.json",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/review.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/delivery.md",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/delivery.md"
+    }
+  ]
+}

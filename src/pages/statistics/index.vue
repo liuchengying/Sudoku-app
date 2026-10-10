@@ -9,7 +9,7 @@ import { useHistoryStore } from '@/stores/history.store'
 import { useStatisticsStore } from '@/stores/statistics.store'
 import { formatDuration, formatLongDuration } from '@/utils/time'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const progressStore = useProgressStore()
 const historyStore = useHistoryStore()
@@ -24,7 +24,7 @@ onShow(() => {
 </script>
 
 <template>
-  <view class="safe-page stats-page" :class="appearance">
+  <view class="safe-page stats-page" :class="appearance" :style="pageStyle">
     <AppHeader title="统计与成就">
       <template #left><text class="back" @tap="back">‹</text></template>
     </AppHeader>
@@ -71,25 +71,26 @@ onShow(() => {
 
 <style scoped lang="scss">
 .achievements { display: flex; flex-wrap: wrap; gap: 12rpx; }
-.achievements text { padding: 18rpx; background: var(--divider); color: var(--text-secondary); border-radius: 12rpx; font-size: 24rpx; }
+.achievements text { padding: 18rpx; background: var(--divider); color: var(--text-secondary); border-radius: 12rpx; font-size: clamp(10.2px, 24rpx, 12px); }
 .achievements .unlocked { background: var(--primary-soft); color: var(--primary); }
 .stats-page { background: var(--surface); }
-.back { color: var(--primary); font-size: 58rpx; line-height: 1; }
+.back { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); line-height: 1; }
 .content { padding: 16rpx 28rpx 40rpx; }
 .hero { background: var(--cell-bg); border-radius: 28rpx; padding: 42rpx; display: flex; flex-direction: column; align-items: center; }
-.score { font-size: 76rpx; font-weight: 850; color: var(--primary); font-variant-numeric: tabular-nums; }
-.label { color: var(--text-primary); margin-top: 3rpx; font-size: 28rpx; font-weight: 650; }
-.sub { color: var(--text-secondary); font-size: 20rpx; margin-top: 8rpx; }
+.score { font-size: clamp(32.3px, 76rpx, 38px); font-weight: 850; color: var(--primary); font-variant-numeric: tabular-nums; }
+.label { color: var(--text-primary); margin-top: 3rpx; font-size: clamp(11.9px, 28rpx, 14px); font-weight: 650; }
+.sub { color: var(--text-secondary); font-size: clamp(8.5px, 20rpx, 10px); margin-top: 8rpx; }
 .grid { margin-top: 24rpx; background: var(--cell-bg); border-radius: 28rpx; padding: 14rpx; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rpx; overflow: hidden; }
 .grid view { min-height: 118rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--surface); }
-.grid view text:first-child { font-size: 31rpx; font-weight: 720; text-align: center; }
-.grid view text:last-child { color: var(--text-secondary); font-size: 22rpx; margin-top: 7rpx; }
-.section-title { display: block; margin: 34rpx 10rpx 12rpx; color: var(--text-secondary); font-size: 25rpx; }
+.grid view text:first-child { font-size: clamp(13.18px, 31rpx, 15.5px); font-weight: 720; text-align: center; }
+.grid view text:last-child { color: var(--text-secondary); font-size: clamp(9.35px, 22rpx, 11px); margin-top: 7rpx; }
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.section-title { display: block; margin: 34rpx 10rpx 12rpx; color: var(--text-secondary); font-size: clamp(10.63px, 25rpx, 12.5px); }
 .difficulty-card { margin-bottom: 18rpx; background: var(--cell-bg); border-radius: 22rpx; padding: 24rpx 28rpx; }
-.difficulty-top { display: flex; align-items: center; justify-content: space-between; font-size: 26rpx; }
-.name { font-size: 31rpx; font-weight: 700; }
-.stage-copy { display: block; color: var(--text-secondary); font-size: 23rpx; margin-top: 12rpx; }
+.difficulty-top { display: flex; align-items: center; justify-content: space-between; font-size: clamp(11.05px, 26rpx, 13px); }
+.name { font-size: clamp(13.18px, 31rpx, 15.5px); font-weight: 700; }
+.stage-copy { display: block; color: var(--text-secondary); font-size: clamp(9.78px, 23rpx, 11.5px); margin-top: 12rpx; }
 .progress-track { height: 12rpx; border-radius: 999rpx; background: var(--divider); overflow: hidden; margin-top: 19rpx; }
 .progress-fill { height: 100%; background: var(--primary); border-radius: inherit; }
-.difficulty-meta { margin-top: 16rpx; display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 21rpx; }
+.difficulty-meta { margin-top: 16rpx; display: flex; justify-content: space-between; color: var(--text-secondary); font-size: clamp(8.92px, 21rpx, 10.5px); }
 </style>

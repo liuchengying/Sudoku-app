@@ -1,0 +1,65 @@
+{
+  "method": "Node script using transpiled current TypeScript and Vue script-setup code, with mocked uni APIs, in-memory storage, controlled dates and inert timers; no UI rendered or app started.",
+  "confirmsObservedBehavior": true,
+  "assertsExpectedProductBehavior": false,
+  "observations": [
+    {
+      "id": "hint-counts-on-open",
+      "observed": {
+        "countBefore": 0,
+        "countAfter": 1,
+        "panelOpened": true,
+        "derivationExpanded": false,
+        "answerApplied": false
+      },
+      "conclusion": "The hint count changes on requesting the panel, before expanding a teaching step."
+    },
+    {
+      "id": "hint-does-not-target-selection",
+      "observed": {
+        "chosenIndex": 0,
+        "suggestedIndex": 24
+      },
+      "conclusion": "The global logical hint overrides the selected empty cell; the controls article promises a selected-cell answer."
+    },
+    {
+      "id": "paused-bookmark-resumes",
+      "observed": {
+        "statusBefore": "PAUSED",
+        "statusAfter": "PLAYING",
+        "bookmarkSaved": true
+      },
+      "conclusion": "Saving a bookmark via More resumes a previously paused game."
+    },
+    {
+      "id": "hidden-checking-disabled-key-leaks-correctness",
+      "observed": {
+        "digit": 4,
+        "visibleBefore": 9,
+        "visibleAfter": 9,
+        "blockedBefore": true,
+        "blockedAfter": false,
+        "showRemaining": false
+      },
+      "conclusion": "With remaining labels hidden, key disabling still distinguishes nine correct entries from nine visible entries containing a wrong one."
+    },
+    {
+      "id": "resume-entry-inconsistent",
+      "observed": {
+        "homeResumeStatus": "PLAYING",
+        "selectionResumeStatus": "PAUSED"
+      },
+      "conclusion": "Home Continue resumes timing; Continue this level only navigates and leaves the paused overlay."
+    },
+    {
+      "id": "daily-date-stale-on-return",
+      "observed": {
+        "selectionBefore": "2026-09-30",
+        "todayAfter": "2026-10-01",
+        "selectionAfter": "2026-09-30",
+        "displayedMonthAfter": "2026-09"
+      },
+      "conclusion": "Returning to a retained daily page updates today, while the selected challenge and displayed month remain unchanged."
+    }
+  ]
+}

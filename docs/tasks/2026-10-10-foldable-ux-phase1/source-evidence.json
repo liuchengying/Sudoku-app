@@ -1,0 +1,263 @@
+{
+  "method": "Current changed-file hashes and source excerpts; same-session review; Node unit and Vue in-memory renderer only; no device or browser validation.",
+  "sources": [
+    {
+      "file": "docs/ARCHITECTURE.md",
+      "sha256": "a9631e65949dc13b523d22900cda7f3750159e8c5e90f601c8a7483200094b86"
+    },
+    {
+      "file": "docs/PROJECT_OVERVIEW.md",
+      "sha256": "918fc1a93fae230123e62713edcfe8a53e04c9eb5effadd5e519806e6cf3e254"
+    },
+    {
+      "file": "docs/validation/foldable-window.spec.ts",
+      "sha256": "3a765a236e2ecdbe8768c25ab81ce12613baca1290da548ec7bd8ddbcb99122f"
+    },
+    {
+      "file": "docs/validation/game-flows.spec.ts",
+      "sha256": "23fb25834916cc7a7ab5db2d810042a062c07cb9234ed4c83fd5b011881de7cb"
+    },
+    {
+      "file": "src/App.vue",
+      "sha256": "d01f38d05564445187e8afb8ac5a5f6887a8e899d19540874caad9d478e28181"
+    },
+    {
+      "file": "src/components/common/AppHeader.vue",
+      "sha256": "51a66ebf9aafd244c328c7583a67d74b7cf9e23edf976366d1bdcd413c0157f6"
+    },
+    {
+      "file": "src/components/common/BottomSheet.vue",
+      "sha256": "1f0129cbd0f7629ac3d1d6eeec0726946a10dd2fe0edd9edc984c193d005f60b"
+    },
+    {
+      "file": "src/components/common/MedalBadge.vue",
+      "sha256": "b6cd74bc7ac3966f023919587f3fd8d6fa8463bccf55abd531330d732690890d"
+    },
+    {
+      "file": "src/components/common/MoreSheet.vue",
+      "sha256": "683f4bfcd8a2ae4dc2482dd62601b5c1648035d5faae19a51991dbd4bbc89837"
+    },
+    {
+      "file": "src/components/common/OnboardingGuide.vue",
+      "sha256": "2418e593f426ceac22f9b5636d207d7da1e1fed74f48bcb0a29f933bb922476c"
+    },
+    {
+      "file": "src/components/home/LevelGrid.vue",
+      "sha256": "64b3df04d751bbb8245fe1053e87f3e97c59b36e2778227381d1acf9a17d4976"
+    },
+    {
+      "file": "src/components/sudoku/GameToolbar.vue",
+      "sha256": "63596369c6b125e5df1c0a0bc0f7e3244182e6bc62b38b11b5d5dabd5d1fcf82"
+    },
+    {
+      "file": "src/components/sudoku/HintSheet.vue",
+      "sha256": "d3a7e64921d6e72a43b3f5ad7b62446049522280e02e7d966111d93f4ff03318"
+    },
+    {
+      "file": "src/components/sudoku/NumberPad.vue",
+      "sha256": "5befc67b1a766b27bdbbcff99fd9e9a077c0a7309ea814b9d7c98b191fe8c151"
+    },
+    {
+      "file": "src/components/sudoku/SudokuBoard.vue",
+      "sha256": "22e2db8e6a74642147efd8eafea4a9f1e1544f168ec7c2b616a4745324063b94"
+    },
+    {
+      "file": "src/components/sudoku/SudokuCell.vue",
+      "sha256": "4a96df5ee9abcd13aa21633112aa83e25b955ac632f9e25be91469c8b536b897"
+    },
+    {
+      "file": "src/composables/useAppearance.ts",
+      "sha256": "dc55236ead97c43ff8ae9f437abd4ad84eae1d5e43749cbde211e1b058dd8aa3"
+    },
+    {
+      "file": "src/composables/useNavigation.ts",
+      "sha256": "4cb106ff61713b8fde87bc1f8f2884275f075a20de357e98fff39aa860be27d5"
+    },
+    {
+      "file": "src/composables/useSafeArea.ts",
+      "sha256": "2e5ae25f14f22d9a7597004931f627ae94cd864b3a242bf608d0e8a00bb5a10a"
+    },
+    {
+      "file": "src/composables/useWindowMetrics.ts",
+      "sha256": "1154d4e72596c906d3384244e231d2153453f980198a7186f34fc04db1a4eff8"
+    },
+    {
+      "file": "src/content/tutorial.ts",
+      "sha256": "656fe0d798927b1a1f0739cef89820f42e064688d641241698c4f11ca2fe5f77"
+    },
+    {
+      "file": "src/core/sudoku/types.ts",
+      "sha256": "6f99c80f7ec8b4a288609284436d4b14ce8f2bef709451168798e873561b9746"
+    },
+    {
+      "file": "src/manifest.json",
+      "sha256": "460e6fb7598296bc7731e5500ae393e4d3f34c18f1475db4afc47c043f9b8a3b"
+    },
+    {
+      "file": "src/pages/daily/index.vue",
+      "sha256": "0e39915f8a7a2df33bc5c58a72a2c081dcf1a7c6ef0139ae24bb5a7ff716590b"
+    },
+    {
+      "file": "src/pages/game/index.vue",
+      "sha256": "d93ac367ea96546486a8691017ceda78975aebcb1a79accee86782dc74fef4bf"
+    },
+    {
+      "file": "src/pages/history/detail.vue",
+      "sha256": "a698eaa338178b39b91c57cc4c74e20eff9ef4ed4b1e0db90493ac41e2cb3246"
+    },
+    {
+      "file": "src/pages/history/index.vue",
+      "sha256": "43c6e8fa1d8225b5d54e661deab8fc499f8a18d614e2a70927c076705c2e2a8e"
+    },
+    {
+      "file": "src/pages/home/index.vue",
+      "sha256": "1a948530e010abfaa9e2d6c16c133c24245e6e68be0af9dbb854b9d7de54bad1"
+    },
+    {
+      "file": "src/pages/import/index.vue",
+      "sha256": "179441c4689a3e04e601a2e37ce0da21232575699ec0374df233327e554b7c04"
+    },
+    {
+      "file": "src/pages/levels/index.vue",
+      "sha256": "70d1fd84d33657f627a94e8cd31662635342bb0f4d65caf6f6f9612da07fef81"
+    },
+    {
+      "file": "src/pages/result/index.vue",
+      "sha256": "2ffdd2f5e5dfb707da23a1a3ccff97ac527d92859f7408fde434dc2749098ffb"
+    },
+    {
+      "file": "src/pages/settings/index.vue",
+      "sha256": "88bc3d341c35b166379f98a05222b9e4510d295b4d75f1c053e9d9ded13c28c0"
+    },
+    {
+      "file": "src/pages/statistics/index.vue",
+      "sha256": "e5c62cb7025fabacf1ba92436812c4fe5e1af2cbda73914e1d2acecd45843ac3"
+    },
+    {
+      "file": "src/pages/tutorial/detail.vue",
+      "sha256": "a6cc19ebfe78a09cf5da7061e7ec8f9335719164dfa3b9e74d3bab917f52418c"
+    },
+    {
+      "file": "src/pages/tutorial/index.vue",
+      "sha256": "57738a909d631b3d3dd7f5144c37499f73ac35343e7384c30e334061f5dea649"
+    },
+    {
+      "file": "src/repositories/current-game.repository.ts",
+      "sha256": "f007489bc3398b8ed7a396f2b039a69cc20a9c72c329ab4aebed0451bd87d9cb"
+    },
+    {
+      "file": "src/stores/game.store.ts",
+      "sha256": "261fd0b964c1e3d3717c109a1b32be28b7ad600eaff8431f84a88a81cc365a45"
+    },
+    {
+      "file": "src/styles.scss",
+      "sha256": "46d068f240e910c17680d8f24a53b856b5d49cce52e5d0ae582ee2d674a1e0b7"
+    },
+    {
+      "file": "src/types/settings.ts",
+      "sha256": "df7b7bf6bc867cb327fa20ef86041964862b45383e7873df730350d0b0c6d64e"
+    },
+    {
+      "file": "src/utils/window-layout.ts",
+      "sha256": "2c8975151d06da24d293743114cd221bd96f341a0f261732491262058c0ddc30"
+    }
+  ],
+  "blocks": [
+    {
+      "file": "src/composables/useWindowMetrics.ts",
+      "start": 1,
+      "end": 51,
+      "text": "1: import { computed, onScopeDispose, reactive, readonly } from 'vue'\n2: import { onResize, onShow } from '@dcloudio/uni-app'\n3: import type { WindowMetrics } from '@/utils/window-layout'\n4: \n5: const metrics = reactive<WindowMetrics>({ width: 375, height: 667, statusBarHeight: 0, safeTop: 0, safeBottom: 0, safeLeft: 0, safeRight: 0 })\n6: let users = 0\n7: let listening = false\n8: \n9: function nonnegative(value: unknown, fallback = 0) {\n10:   return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : fallback\n11: }\n12: \n13: export function refreshWindowMetrics(size?: { windowWidth?: number; windowHeight?: number }) {\n14:   let info: Partial<UniNamespace.GetWindowInfoResult> = {}\n15:   try { info = uni.getWindowInfo() } catch {\n16:     try { info = uni.getSystemInfoSync() } catch { /* Keep the last usable metrics. */ }\n17:   }\n18:   const width = nonnegative(size?.windowWidth, nonnegative(info.windowWidth, metrics.width))\n19:   const height = nonnegative(size?.windowHeight, nonnegative(info.windowHeight, metrics.height))\n20:   if (width > 0) metrics.width = width\n21:   if (height > 0) metrics.height = height\n22:   metrics.statusBarHeight = nonnegative(info.statusBarHeight, metrics.statusBarHeight)\n23:   const safe = info.safeAreaInsets\n24:   metrics.safeTop = nonnegative(safe?.top, Math.max(metrics.safeTop, metrics.statusBarHeight))\n25:   metrics.safeBottom = nonnegative(safe?.bottom, metrics.safeBottom)\n26:   metrics.safeLeft = nonnegative(safe?.left, metrics.safeLeft)\n27:   metrics.safeRight = nonnegative(safe?.right, metrics.safeRight)\n28: }\n29: \n30: const resize = (event: UniNamespace.WindowResizeResult) => refreshWindowMetrics(event.size)\n31: \n32: export function useWindowMetrics() {\n33:   refreshWindowMetrics()\n34:   users++\n35:   if (!listening && typeof uni.onWindowResize === 'function' && typeof uni.offWindowResize === 'function') {\n36:     try { uni.onWindowResize(resize); listening = true } catch { /* Page onResize remains available. */ }\n37:   }\n38:   // Components can use the page hook too; refreshed on return from cached pages.\n39:   onShow(() => refreshWindowMetrics())\n40:   onResize(event => refreshWindowMetrics(event.size))\n41:   onScopeDispose(() => {\n42:     users--\n43:     if (users === 0 && listening) {\n44:       try { uni.offWindowResize?.(resize) } catch { /* Best-effort on older runtimes. */ }\n45:       listening = false\n46:     }\n47:   })\n48:   return { metrics: readonly(metrics), refresh: refreshWindowMetrics,\n49:     safeStyle: computed(() => ({ paddingLeft: `${metrics.safeLeft}px`, paddingRight: `${metrics.safeRight}px` })) }\n50: }\n51: "
+    },
+    {
+      "file": "src/utils/window-layout.ts",
+      "start": 1,
+      "end": 25,
+      "text": "1: export interface WindowMetrics {\n2:   width: number\n3:   height: number\n4:   statusBarHeight: number\n5:   safeTop: number\n6:   safeBottom: number\n7:   safeLeft: number\n8:   safeRight: number\n9: }\n10: \n11: // These are CSS/uni window pixels, not physical screen pixels or native dp.\n12: export function gameWindowLayout(window: WindowMetrics) {\n13:   const width = Math.max(0, window.width - window.safeLeft - window.safeRight)\n14:   const height = Math.max(0, window.height - Math.max(window.statusBarHeight, window.safeTop) - window.safeBottom)\n15:   const split = width >= 640 && height >= 320\n16:   const controls = split ? Math.min(320, Math.max(240, width * .32)) : 0\n17:   const available = Math.max(0, Math.min(width, 1120) - 24 - (split ? controls + 24 : 0))\n18:   // A short viewport scrolls instead of forcing an unreadable 9×9 grid.\n19:   // Reserve room for the stable header/context block. Extra notices or large\n20:   // system text can still grow the page; keep a readable minimum and scroll.\n21:   const heightLimit = Math.max(306, height - 168)\n22:   const boardSize = Math.floor(Math.min(available, heightLimit, split ? 600 : 520))\n23:   return { split, boardSize, controlsWidth: controls }\n24: }\n25: "
+    },
+    {
+      "file": "src/composables/useAppearance.ts",
+      "start": 1,
+      "end": 21,
+      "text": "1: import { computed } from 'vue'\n2: import { useSettingsStore } from '@/stores/settings.store'\n3: import { useWindowMetrics } from './useWindowMetrics'\n4: export function useAppearance() {\n5:   const store = useSettingsStore()\n6:   const { metrics } = useWindowMetrics()\n7:   const appearance = computed(() => ({\n8:     'theme-dark': store.settings.theme === 'dark',\n9:     'board-green': store.settings.boardColor === 'green',\n10:     'large-digits': store.settings.largeDigits,\n11:     'wide-window': metrics.width - metrics.safeLeft - metrics.safeRight >= 640\n12:   }))\n13:   const pageStyle = computed(() => ({\n14:     '--safe-top': `${Math.max(metrics.statusBarHeight, metrics.safeTop)}px`,\n15:     '--safe-bottom': `${metrics.safeBottom}px`,\n16:     '--safe-left': `${metrics.safeLeft}px`,\n17:     '--safe-right': `${metrics.safeRight}px`\n18:   }))\n19:   return { appearance, pageStyle }\n20: }\n21: "
+    },
+    {
+      "file": "src/composables/useSafeArea.ts",
+      "start": 1,
+      "end": 12,
+      "text": "1: import { computed } from 'vue'\n2: import { useWindowMetrics } from './useWindowMetrics'\n3: \n4: export function useSafeArea() {\n5:   const { metrics } = useWindowMetrics()\n6:   return {\n7:     statusBarHeight: computed(() => Math.max(metrics.statusBarHeight, metrics.safeTop)),\n8:     bottomSafeArea: computed(() => metrics.safeBottom),\n9:     topStyle: computed(() => ({ paddingTop: `${Math.max(metrics.statusBarHeight, metrics.safeTop)}px`, paddingLeft: `${metrics.safeLeft}px`, paddingRight: `${metrics.safeRight}px` }))\n10:   }\n11: }\n12: "
+    },
+    {
+      "file": "src/components/common/BottomSheet.vue",
+      "start": 1,
+      "end": 57,
+      "text": "1: <script setup lang=\"ts\">\n2: import { computed } from 'vue'\n3: import { useWindowMetrics } from '@/composables/useWindowMetrics'\n4: \n5: const { metrics } = useWindowMetrics()\n6: const windowStyle = computed(() => ({\n7:   '--sheet-height': `${Math.max(0, Math.floor(Math.min(metrics.height * .82, metrics.height - Math.max(metrics.statusBarHeight, metrics.safeTop) - 24)))}px`,\n8:   '--sheet-bottom': `${metrics.safeBottom}px`,\n9:   '--sheet-left': `${metrics.safeLeft}px`, '--sheet-right': `${metrics.safeRight}px`\n10: }))\n11: const props = withDefaults(defineProps<{\n12:   modelValue: boolean\n13:   title?: string\n14:   closeOnMask?: boolean\n15: }>(), { title: '', closeOnMask: true })\n16: \n17: const emit = defineEmits<{ (event: 'update:modelValue', value: boolean): void }>()\n18: \n19: function close() {\n20:   emit('update:modelValue', false)\n21: }\n22: \n23: function maskTap() {\n24:   if (props.closeOnMask) close()\n25: }\n26: </script>\n27: \n28: <template>\n29:   <view v-if=\"modelValue\" class=\"sheet-layer\" :class=\"{ wide: metrics.width - metrics.safeLeft - metrics.safeRight >= 640 }\" :style=\"windowStyle\">\n30:     <view class=\"sheet-mask\" @tap=\"maskTap\" @touchmove.stop.prevent></view>\n31:     <view class=\"sheet\" role=\"dialog\" aria-modal=\"true\" :aria-label=\"title || '操作面板'\" @touchmove.stop>\n32:       <view class=\"grabber\"></view>\n33:       <view v-if=\"title\" class=\"sheet-header\">\n34:         <text class=\"sheet-title\">{{ title }}</text>\n35:         <button class=\"close\" aria-label=\"关闭面板\" @tap=\"close\">×</button>\n36:       </view>\n37:       <scroll-view scroll-y class=\"sheet-content\">\n38:         <slot />\n39:       </scroll-view>\n40:       <view class=\"safe-bottom\"></view>\n41:     </view>\n42:   </view>\n43: </template>\n44: \n45: <style scoped lang=\"scss\">\n46: .sheet-layer { position: fixed; inset: 0; z-index: 1000; }\n47: .sheet-mask { position: absolute; inset: 0; background: rgba(0,0,0,.20); backdrop-filter: blur(7px); }\n48: .sheet { position: absolute; left: var(--sheet-left); right: var(--sheet-right); bottom: 0; height: var(--sheet-height); display: flex; flex-direction: column; background: var(--surface); border-radius: 18px 18px 0 0; overflow: hidden; box-shadow: 0 -6px 20px rgba(0,0,0,.10); }\n49: .wide .sheet { left: 50%; right: auto; bottom: 12px; transform: translateX(-50%); width: min(560px, calc(100% - 32px)); border-radius: 18px; }\n50: .grabber { flex-shrink: 0; width: 38px; height: 4px; border-radius: 999px; background: var(--divider); margin: 8px auto 0; }\n51: .sheet-header { flex-shrink: 0; position: relative; min-height: 62px; padding: 8px 64px; display: flex; align-items: center; justify-content: center; }\n52: .sheet-title { font-size: 19px; font-weight: 700; text-align: center; }\n53: .close { position: absolute; right: 8px; width: 48px; height: 48px; border-radius: 50%; background: var(--divider); color: var(--text-primary); font-size: 28px; line-height: 48px; text-align: center; font-weight: 300; }\n54: .sheet-content { flex: 1; min-height: 0; height: 0; }\n55: .safe-bottom { flex-shrink: 0; height: calc(12px + max(var(--sheet-bottom), env(safe-area-inset-bottom))); }\n56: </style>\n57: "
+    },
+    {
+      "file": "src/components/common/AppHeader.vue",
+      "start": 1,
+      "end": 25,
+      "text": "1: <script setup lang=\"ts\">\n2: import { useSafeArea } from '@/composables/useSafeArea'\n3: \n4: withDefaults(defineProps<{ title?: string }>(), { title: '数独' })\n5: const { topStyle } = useSafeArea()\n6: </script>\n7: \n8: <template>\n9:   <view class=\"header-shell\" :style=\"topStyle\">\n10:     <view class=\"app-header\">\n11:       <view class=\"left\"><slot name=\"left\" /></view>\n12:       <text class=\"header-title\">{{ title }}</text>\n13:       <view class=\"right\"><slot name=\"right\" /></view>\n14:     </view>\n15:   </view>\n16: </template>\n17: \n18: <style scoped lang=\"scss\">\n19: .header-shell { width: 100%; background: var(--page-bg); }\n20: .app-header { position: relative; min-height: 56px; padding: 4px 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }\n21: .left, .right { min-width: 64px; min-height: 48px; display: flex; align-items: center; gap: 8px; z-index: 1; }\n22: .right { justify-content: flex-end; }\n23: .header-title { flex: 1; min-width: 0; font-size: 20px; font-weight: 700; color: var(--text-primary); text-align: center; overflow-wrap: anywhere; }\n24: </style>\n25: "
+    },
+    {
+      "file": "src/components/sudoku/HintSheet.vue",
+      "start": 1,
+      "end": 42,
+      "text": "1: <script setup lang=\"ts\">\n2: import { ref, watch, computed } from 'vue'\n3: import BottomSheet from '@/components/common/BottomSheet.vue'\n4: import { techniqueName, type HintResult } from '@/core/sudoku'\n5: const props = defineProps<{ modelValue: boolean; hint: HintResult | null }>()\n6: const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void; (e: 'reveal'): void; (e: 'apply'): void }>()\n7: const cursor = ref(-1)\n8: watch(() => props.modelValue, open => { if (open) cursor.value = -1 })\n9: const steps = computed(() => props.hint?.steps?.length ? props.hint.steps.map(s => `${techniqueName(s.technique)}：${s.message}`) : [props.hint?.message ?? ''])\n10: function reveal() { emit('reveal'); cursor.value = 0 }\n11: </script>\n12: <template>\n13:   <BottomSheet :model-value=\"modelValue\" title=\"分步解法\" @update:model-value=\"emit('update:modelValue', $event)\">\n14:     <view class=\"hint-content\">\n15:       <template v-if=\"cursor < 0\">\n16:         <text class=\"position\">寻找全盘下一步</text>\n17:         <text class=\"intro\">先检查已有填写，再寻找可推导的空格。提示目标可能与当前选中格不同。打开或关闭这段说明不计提示。</text>\n18:         <text class=\"intro\">查看有效推导计 1 次提示，本局完成后将获得铜牌。棋盘未改变时重复查看同一步不重复计数。</text>\n19:         <button class=\"primary-action reveal-hint\" @tap=\"reveal\">查看下一步推导</button>\n20:       </template>\n21:       <template v-else-if=\"hint\">\n22:       <text class=\"position\">观察第 {{ Math.floor(hint.index / 9) + 1 }} 行第 {{ hint.index % 9 + 1 }} 列</text>\n23:       <text class=\"intro\">已查看这一步提示。继续展开或填入同一步答案不会重复计数。</text>\n24:       <text v-for=\"(message, i) in steps.slice(0, cursor + 1)\" :key=\"i\" class=\"step\">{{ i + 1 }}. {{ message }}</text>\n25:       <button v-if=\"cursor < steps.length - 1\" class=\"primary-action\" @tap=\"cursor++\">{{ cursor < 0 ? '查看推导' : '展开下一步' }}</button>\n26:       <template v-else>\n27:         <text class=\"answer\">这个格可填 {{ hint.digit }}</text>\n28:         <button class=\"primary-action\" @tap=\"emit('apply'); emit('update:modelValue', false)\">填入答案</button>\n29:       </template>\n30:       </template>\n31:       <button class=\"secondary-action\" @tap=\"emit('update:modelValue', false)\">返回自己尝试</button>\n32:     </view>\n33:   </BottomSheet>\n34: </template>\n35: <style scoped>\n36: .hint-content { padding: 12rpx 32rpx 28rpx; }\n37: .position { display: block; font-size: clamp(13.6px, 32rpx, 16px); font-weight: 650; }\n38: .intro, .step { display: block; margin: 22rpx 0; line-height: 1.7; font-size: clamp(11.9px, 28rpx, 14px); color: var(--text-secondary); }\n39: .step { color: var(--text-primary); padding: 18rpx; background: var(--cell-bg); border-radius: 14rpx; }\n40: .answer { display: block; margin: 18rpx 0; font-size: clamp(12.75px, 30rpx, 15px); color: var(--primary); }\n41: </style>\n42: "
+    },
+    {
+      "file": "src/pages/game/index.vue",
+      "start": 22,
+      "end": 103,
+      "text": "22: import { gameWindowLayout } from '@/utils/window-layout'\n23: \n24: const { appearance, pageStyle } = useAppearance()\n25: const { metrics } = useWindowMetrics()\n26: const layout = computed(() => gameWindowLayout(metrics))\n27: \n28: const gameStore = useGameStore()\n29: const settingsStore = useSettingsStore()\n30: const now = ref(Date.now())\n31: const moreVisible = ref(false)\n32: const hintVisible = ref(false)\n33: const hintRevealed = ref(false)\n34: const onboardingVisible = ref(false)\n35: const guide = ref<InstanceType<typeof OnboardingGuide> | null>(null)\n36: let wasPlayingBeforeOnboarding = false\n37: let wasPlayingBeforeMenu = false\n38: let menuActionChosen = false\n39: let timer: ReturnType<typeof setInterval> | null = null\n40: let closeMenuTimer: ReturnType<typeof setTimeout> | null = null\n41: let menuSession = 0\n42: let menuGameId = ''\n43: let pageVisible = true\n44: \n45: const game = computed(() => gameStore.game)\n46: const title = computed(() => game.value ? gameTitle(game.value) : '数独')\n47: const level = computed(() => game.value ? game.value.level ?? getLevelById(game.value.levelId) : null)\n48: const profile = computed(() => game.value && (game.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN' && level.value ? campaignProfile(level.value.difficultyId, level.value.levelNo) : null)\n49: const elapsedText = computed(() => formatDuration(gameStore.elapsed(now.value)))\n50: const instantChecking = computed(() => settingsStore.settings.immediateErrorCheck && !settingsStore.settings.independentMode)\n51: const windowStyle = computed(() => ({\n52:   '--controls-width': `${layout.value.controlsWidth}px`,\n53:   '--digit-font-size': `${Math.min(settingsStore.settings.largeDigits ? 34 : 32, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .72 : .64))}px`,\n54:   '--note-font-size': `${Math.min(settingsStore.settings.largeDigits ? 13 : 12, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .25 : .23))}px`,\n55:   paddingLeft: `${metrics.safeLeft}px`, paddingRight: `${metrics.safeRight}px`,\n56:   paddingBottom: `${16 + metrics.safeBottom}px`\n57: }))\n58: \n59: function ensureTimer() {\n60:   if (timer) return\n61:   timer = setInterval(() => { now.value = Date.now() }, 250)\n62: }\n63: \n64: function togglePause() {\n65:   if (!game.value) return\n66:   if (game.value.status === 'PAUSED') gameStore.resume()\n67:   else gameStore.pause()\n68: }\n69: \n70: function hint() {\n71:   if (game.value?.status !== 'PLAYING') return\n72:   hintRevealed.value = false\n73:   hintVisible.value = true\n74: }\n75: function revealHint() {\n76:   if (gameStore.requestHint()) hintRevealed.value = true\n77:   else { hintVisible.value = false; uni.showToast({ title: '当前棋盘暂无可用提示', icon: 'none' }) }\n78: }\n79: function restoreMenuState(session = menuSession) {\n80:   if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return\n81:   if (wasPlayingBeforeMenu) gameStore.resume()\n82:   wasPlayingBeforeMenu = false\n83: }\n84: function closeMore(value: boolean) {\n85:   moreVisible.value = value\n86:   if (closeMenuTimer) clearTimeout(closeMenuTimer)\n87:   if (!value) {\n88:     const session = menuSession\n89:     closeMenuTimer = setTimeout(() => { closeMenuTimer = null; if (!menuActionChosen) restoreMenuState(session) }, 0)\n90:   }\n91: }\n92: function finishOnboarding() {\n93:   onboardingVisible.value = false\n94:   if (wasPlayingBeforeOnboarding) gameStore.resume()\n95:   wasPlayingBeforeOnboarding = false\n96: }\n97: function openStatistics() { gameStore.pause(); openPage('/pages/statistics/index') }\n98: \n99: function openMore() {\n100:   menuSession++\n101:   menuGameId = game.value?.id ?? ''\n102:   wasPlayingBeforeMenu = game.value?.status === 'PLAYING'\n103:   menuActionChosen = false"
+    },
+    {
+      "file": "src/pages/game/index.vue",
+      "start": 110,
+      "end": 212,
+      "text": "110:   gameStore.flushSave()\n111:   uni.navigateBack({ fail: () => uni.reLaunch({ url: '/pages/home/index' }) })\n112: }\n113: \n114: function restart() {\n115:   const session = menuSession\n116:   uni.showModal({\n117:     title: '重新开始本关',\n118:     content: '当前填写、候选和计时都会清除，确定重新开始吗？',\n119:     confirmText: '重新开始',\n120:     confirmColor: '#ff3b30',\n121:     success: ({ confirm }) => {\n122:       if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return\n123:       if (confirm) {\n124:         const playing = wasPlayingBeforeMenu\n125:         gameStore.restartCurrent()\n126:         if (!playing) gameStore.pause()\n127:         wasPlayingBeforeMenu = false\n128:       } else restoreMenuState(session)\n129:     }\n130:   })\n131: }\n132: \n133: function moreAction(action: string) {\n134:   menuActionChosen = true\n135:   if (['check', 'bookmark', 'restore-bookmark'].includes(action)) {\n136:     if (action === 'check') uni.showToast({ title: gameStore.checkBoard(true) ? '已标出错误填写' : '当前填写没有错误', icon: 'none' })\n137:     if (action === 'bookmark') { gameStore.saveBookmark(true); uni.showToast({ title: gameStore.storageError || '棋盘书签已保存', icon: 'none' }) }\n138:     if (action === 'restore-bookmark') {\n139:       if (!game.value?.bookmark) { uni.showToast({ title: '本局还没有书签', icon: 'none' }); restoreMenuState() }\n140:       else {\n141:         const session = menuSession\n142:         uni.showModal({ title: '恢复书签', content: '将恢复书签棋盘，计时、错误和提示次数保留；可以撤销恢复。', success: ({ confirm }) => {\n143:           if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return\n144:           if (confirm) gameStore.restoreBookmark(true)\n145:           restoreMenuState(session)\n146:         } })\n147:       }\n148:     } else {\n149:       restoreMenuState()\n150:     }\n151:     return\n152:   }\n153:   if (action === 'exit') return exitAndSave()\n154:   if (action === 'home') { gameStore.pause(); gameStore.flushSave(); uni.reLaunch({ url: '/pages/home/index' }); return }\n155:   if (action === 'restart') return restart()\n156:   if (action === 'fill-candidates') {\n157:     gameStore.autoCandidatesAll(true)\n158:     restoreMenuState()\n159:     return\n160:   }\n161:   if (action === 'share') { if (wasPlayingBeforeMenu) gameStore.resume(); return shareApp() }\n162: \n163:   const routes: Record<string, string> = {\n164:     history: '/pages/history/index',\n165:     statistics: '/pages/statistics/index',\n166:     basic: '/pages/tutorial/index?section=basic',\n167:     advanced: '/pages/tutorial/index?section=advanced',\n168:     rules: '/pages/tutorial/index?section=rules',\n169:     settings: '/pages/settings/index',\n170:     daily: '/pages/daily/index',\n171:     import: '/pages/import/index'\n172:   }\n173:   const url = routes[action]\n174:   if (url) uni.navigateTo({ url })\n175: }\n176: \n177: \n178: onShow(() => {\n179:   pageVisible = true\n180:   if (!game.value && !gameStore.restoreGame()) {\n181:     uni.reLaunch({ url: '/pages/home/index' })\n182:     return\n183:   }\n184:   ensureTimer()\n185:   now.value = Date.now()\n186:   if (settingsStore.shouldShowOnboarding && game.value?.status !== 'COMPLETED' && !onboardingVisible.value) {\n187:     wasPlayingBeforeOnboarding = game.value?.status === 'PLAYING'\n188:     gameStore.pause()\n189:     onboardingVisible.value = true\n190:   }\n191: })\n192: onHide(() => {\n193:   pageVisible = false; menuSession++; wasPlayingBeforeMenu = false; wasPlayingBeforeOnboarding = false\n194:   if (closeMenuTimer) clearTimeout(closeMenuTimer)\n195:   closeMenuTimer = null\n196:   gameStore.pause(true); gameStore.flushSave(); if (timer) clearInterval(timer); timer = null\n197:   moreVisible.value = false; hintVisible.value = false\n198: })\n199: \n200: onBackPress(() => {\n201:   if (onboardingVisible.value) { guide.value?.dismiss(); return true }\n202:   if (hintVisible.value) { hintVisible.value = false; return true }\n203:   if (moreVisible.value) {\n204:     closeMore(false)\n205:     return true\n206:   }\n207:   uni.showModal({\n208:     title: '退出本局？',\n209:     content: '当前进度会自动保存，下次可以继续。',\n210:     confirmText: '退出',\n211:     success: ({ confirm }) => confirm && exitAndSave()\n212:   })"
+    },
+    {
+      "file": "src/pages/game/index.vue",
+      "start": 226,
+      "end": 321,
+      "text": "226:   <view v-if=\"game\" class=\"safe-page game-page\" :class=\"appearance\" :style=\"[pageStyle, windowStyle]\">\n227:     <template v-if=\"!onboardingVisible\">\n228:     <AppHeader title=\"数独\">\n229:       <template #left><text class=\"pause-button\" @tap=\"togglePause\">{{ game.status === 'PAUSED' ? '▶' : 'Ⅱ' }}</text></template>\n230:       <template #right>\n231:         <text class=\"stats-button\" @tap=\"openStatistics\">▥</text>\n232:         <view class=\"more-button\" @tap=\"openMore\">•••</view>\n233:       </template>\n234:     </AppHeader>\n235: \n236:     <view class=\"game-context\"><text>{{ title }}</text><text>{{ tierName(level?.tier) }}</text></view>\n237:     <text v-if=\"profile\" class=\"input-help\">第 {{ profile.stage }} 阶段 · {{ profile.label }}</text>\n238:     <view class=\"meta\">\n239:       <text>{{ game.inputMode === 'NOTE' ? '草稿模式' : settingsStore.settings.inputStyle === 'number-first' ? '先选数字' : '填数模式' }}</text>\n240:       <text>{{ elapsedText }}</text>\n241:       <text>{{ instantChecking ? '错误:' : '检查:' }} <text class=\"blue\">{{ instantChecking ? game.mistakeCount : '手动' }}</text></text>\n242:     </view>\n243: \n244:     <view v-if=\"gameStore.storageError || gameStore.needsSettlement\" class=\"save-error\"><text>{{ gameStore.storageError || '棋盘已完成，请保存完成结果。' }}</text><button @tap=\"gameStore.needsSettlement ? gameStore.completeGame() : gameStore.flushSave()\">{{ gameStore.needsSettlement ? '重试结算' : '重试保存' }}</button></view>\n245:     <text class=\"input-help\">{{ settingsStore.settings.inputStyle === 'number-first' ? (gameStore.activeDigit ? `已选 ${gameStore.activeDigit}，点击空格填写；再次点数字取消` : '先点下方数字，再点棋盘空格') : '先点棋盘空格，再点下方数字' }}</text>\n246:     <view class=\"game-layout\" :class=\"{ split: layout.split }\">\n247:     <view class=\"board-shell\">\n248:       <view class=\"board-wrap\" :class=\"{ paused: game.status === 'PAUSED' }\" :style=\"{ width: `${layout.boardSize}px` }\">\n249:         <SudokuBoard\n250:           :cells=\"game.cells\"\n251:           :selected-index=\"game.selectedIndex\"\n252:           :active-digit=\"settingsStore.settings.inputStyle === 'number-first' ? gameStore.activeDigit : null\"\n253:           :focus-indexes=\"hintVisible && hintRevealed ? gameStore.pendingHint?.focusIndexes : []\"\n254:           :show-errors=\"!settingsStore.settings.independentMode || gameStore.manualCheckVisible\"\n255:           :interactive=\"game.status === 'PLAYING'\"\n256:           :highlight-related=\"settingsStore.settings.highlightRelated\"\n257:           :highlight-same-digit=\"settingsStore.settings.highlightSameDigit\"\n258:           @select=\"gameStore.selectCell\"\n259:         />\n260:         <view v-if=\"game.status === 'PAUSED'\" class=\"pause-overlay\" @tap=\"gameStore.resume\">\n261:           <view class=\"play\">▶</view>\n262:           <text>点击继续</text>\n263:         </view>\n264:       </view>\n265:     </view>\n266: \n267:     <view class=\"game-controls\">\n268:     <GameToolbar\n269:       :disabled=\"game.status !== 'PLAYING'\"\n270:       :note-mode=\"game.inputMode === 'NOTE'\"\n271:       :can-undo=\"game.undoStack.length > 0\"\n272:       :can-redo=\"game.redoStack.length > 0\"\n273:       @candidates=\"gameStore.autoCandidates\"\n274:       @candidates-all=\"gameStore.autoCandidatesAll\"\n275:       @hint=\"hint\"\n276:       @erase=\"gameStore.erase\"\n277:       @note=\"gameStore.toggleNoteMode\"\n278:       @undo=\"gameStore.undo\"\n279:       @redo=\"gameStore.redo\"\n280:     />\n281: \n282:     <NumberPad\n283:       :cells=\"game.cells\"\n284:       :disabled=\"game.status !== 'PLAYING'\"\n285:       :disable-completed-digit=\"settingsStore.settings.disableCompletedDigit\"\n286:       :show-remaining=\"instantChecking\"\n287:       :answer-aware=\"!settingsStore.settings.independentMode\"\n288:       :note-mode=\"game.inputMode === 'NOTE'\"\n289:       :active-digit=\"gameStore.activeDigit\"\n290:       @answer=\"gameStore.chooseDigit\"\n291:     />\n292:     </view>\n293:     </view>\n294: \n295:     <MoreSheet :model-value=\"moreVisible\" game-mode @update:model-value=\"closeMore\" @action=\"moreAction\" />\n296:     <HintSheet v-model=\"hintVisible\" :hint=\"gameStore.pendingHint\" @reveal=\"revealHint\" @apply=\"gameStore.applyHint\" />\n297:     </template>\n298:     <OnboardingGuide v-if=\"onboardingVisible\" ref=\"guide\" context=\"game\" @finish=\"finishOnboarding\" />\n299:   </view>\n300: </template>\n301: \n302: <style scoped lang=\"scss\">\n303: .input-help { display: block; padding: 6rpx 24rpx; font-size: clamp(9.35px, 22rpx, 11px); color: var(--text-secondary); }\n304: .save-error { margin: 12rpx 24rpx; padding: 22rpx; background: var(--primary-soft); border-radius: 18rpx; font-size: clamp(11.05px, 26rpx, 13px); line-height: 1.6; }\n305: .save-error button { min-height: 48px; color: var(--primary); }\n306: .game-page { background: var(--page-bg); color: var(--text-primary); overflow: visible; }\n307: .pause-button { color: var(--primary); font-size: clamp(20.4px, 48rpx, 24px); font-weight: 700; min-width: 48px; min-height: 48px; display: flex; align-items: center; }\n308: .stats-button { color: var(--primary); font-size: clamp(19.55px, 46rpx, 23px); line-height: 1; min-width: 48px; min-height: 48px; display: flex; align-items: center; justify-content: center; }\n309: .more-button { width: 48px; height: 48px; border: 4rpx solid var(--primary); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: clamp(11.48px, 27rpx, 13.5px); font-weight: 800; }\n310: .game-context { margin-top: 4rpx; padding: 0 22rpx; display: flex; justify-content: space-between; color: var(--text-secondary); font-size: clamp(8.5px, 20rpx, 10px); }\n311: .meta { padding: 6rpx 22rpx 10rpx; display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: clamp(11.9px, 28rpx, 14px); color: var(--text-secondary); font-variant-numeric: tabular-nums; }\n312: .meta > text:nth-child(2) { text-align: center; }\n313: .meta > text:nth-child(3) { text-align: right; }\n314: .blue { color: var(--primary); }\n315: .game-layout { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }\n316: .game-layout.split { grid-template-columns: minmax(0, 1fr) minmax(0, var(--controls-width)); gap: 24px; }\n317: .game-controls { min-width: 0; width: 100%; max-width: 520px; margin: 0 auto; }\n318: .board-shell { width: 100%; min-width: 0; display: flex; justify-content: center; }\n319: .board-wrap { position: relative; max-width: 100%; }\n320: .board-wrap.paused :deep(.board) { filter: blur(5px); opacity: .18; }\n321: .pause-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18rpx; background: var(--surface); color: var(--text-secondary); opacity: .94; font-size: clamp(11.9px, 28rpx, 14px); z-index: 10; }"
+    },
+    {
+      "file": "src/pages/daily/index.vue",
+      "start": 14,
+      "end": 80,
+      "text": "14: const history = useHistoryStore()\n15: const game = useGameStore()\n16: const today = ref(localDate())\n17: const selected = ref(today.value)\n18: const month = ref(today.value.slice(0, 7))\n19: const followToday = ref(true)\n20: const canContinue = computed(() => game.game?.mode === 'DAILY' && game.game.dailyDate === selected.value && game.game.status !== 'COMPLETED')\n21: const completed = computed(() => new Set(history.dailyDates))\n22: const streak = computed(() => streaks(history.dailyDates, today.value))\n23: const level = computed(() => createDailyLevel(selected.value))\n24: const days = computed(() => {\n25:   const [year, m] = month.value.split('-').map(Number)\n26:   const start = (new Date(year, m - 1, 1, 12).getDay() + 6) % 7\n27:   const count = new Date(year, m, 0, 12).getDate()\n28:   return [...Array(start).fill(''), ...Array.from({ length: count }, (_, i) => `${month.value}-${String(i + 1).padStart(2, '0')}`)] as string[]\n29: })\n30: function changeMonth(delta: number) {\n31:   const [year, m] = month.value.split('-').map(Number)\n32:   month.value = localDate(new Date(year, m - 1 + delta, 1, 12)).slice(0, 7)\n33: }\n34: function selectDate(date: string) {\n35:   selected.value = date\n36:   followToday.value = date === today.value\n37: }\n38: function returnToday() {\n39:   followToday.value = true\n40:   selected.value = today.value\n41:   month.value = today.value.slice(0, 7)\n42: }\n43: function start() {\n44:   if (canContinue.value) return continueGame()\n45:   const launch = () => { game.startGame(level.value, 'DAILY', selected.value); openPage('/pages/game/index') }\n46:   if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始每日挑战', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })\n47:   else launch()\n48: }\n49: onShow(() => {\n50:   today.value = localDate()\n51:   if (followToday.value) returnToday()\n52:   history.refresh()\n53: })\n54: </script>\n55: <template>\n56:   <view class=\"safe-page daily-page\" :class=\"appearance\" :style=\"pageStyle\">\n57:     <AppHeader title=\"每日挑战\"><template #left><text class=\"back\" @tap=\"back\">‹</text></template></AppHeader>\n58:     <view class=\"content\">\n59:       <view class=\"streak-card\"><text>连续 {{ streak.current }} 天</text><text>最长 {{ streak.best }} 天 · 共完成 {{ history.dailyDates.length }} 天</text></view>\n60:       <view class=\"calendar-head\"><button @tap=\"changeMonth(-1)\">‹</button><text>{{ month }}</text><button :disabled=\"month >= today.slice(0, 7)\" @tap=\"changeMonth(1)\">›</button></view>\n61:       <button class=\"today-button secondary-action\" @tap=\"returnToday\">回到今天</button>\n62:       <view class=\"calendar\">\n63:         <text v-for=\"week in ['一','二','三','四','五','六','日']\" :key=\"week\" class=\"weekday\">{{ week }}</text>\n64:         <button v-for=\"(date, index) in days\" :key=\"index\" :disabled=\"!date || date > today\" :class=\"{ selected: selected === date, completed: completed.has(date), today: date === today }\" @tap=\"selectDate(date)\"><text>{{ date ? Number(date.slice(-2)) : '' }}</text><text v-if=\"completed.has(date)\" class=\"check\">✓</text></button>\n65:       </view>\n66:       <text class=\"date-title\">{{ selected }} · {{ selected === today ? '今日挑战' : '补玩' }} · {{ tierName(level.tier) }}</text>\n67:       <text class=\"secondary-copy\">同一天的题目在本机离线生成；可以补玩以前的挑战。每日完成只计一次天数，重复练习计入局数，不增加关卡积分。</text>\n68:       <button class=\"primary-action\" @tap=\"start\">{{ canContinue ? '继续这一天' : completed.has(selected) ? '再玩这一天' : selected === today ? '开始今日挑战' : '开始补玩' }}</button>\n69:     </view>\n70:   </view>\n71: </template>\n72: <style scoped>\n73: .daily-page { background: var(--page-bg); }\n74: .back { font-size: clamp(24.65px, 58rpx, 29px); color: var(--primary); }\n75: .content { padding: 16rpx 24rpx 40rpx; max-width: 900rpx; margin: auto; }\n76: .streak-card { padding: 28rpx; background: var(--primary-soft); border-radius: 20rpx; display: flex; flex-direction: column; gap: 12rpx; color: var(--primary); font-size: clamp(16.15px, 38rpx, 19px); }\n77: .streak-card text:last-child { font-size: clamp(11.05px, 26rpx, 13px); }\n78: .calendar-head { display: flex; align-items: center; justify-content: space-between; margin: 24rpx 0; font-size: clamp(13.6px, 32rpx, 16px); }\n79: .calendar-head button { min-width: 48px; min-height: 48px; color: var(--primary); background: var(--surface); }\n80: .calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6rpx; }"
+    },
+    {
+      "file": "src/composables/useNavigation.ts",
+      "start": 1,
+      "end": 16,
+      "text": "1: import { useGameStore } from '@/stores/game.store'\n2: \n3: export function back() { uni.navigateBack({ fail: () => uni.reLaunch({ url: '/pages/home/index' }) }) }\n4: export function openPage(url: string) { uni.navigateTo({ url }) }\n5: \n6: export function continueGame() {\n7:   const store = useGameStore()\n8:   if (!store.game || store.game.status === 'COMPLETED') return\n9:   const id = store.game.id\n10:   store.resume()\n11:   uni.navigateTo({ url: '/pages/game/index', fail: () => {\n12:     if (store.game?.id === id) store.pause()\n13:     uni.showToast({ title: '暂时无法打开棋盘，请再试一次', icon: 'none' })\n14:   } })\n15: }\n16: "
+    },
+    {
+      "file": "src/stores/game.store.ts",
+      "start": 238,
+      "end": 368,
+      "text": "238:     if (cell.origin === 'GIVEN' || cell.value === digit) return\n239: \n240:     const peers = peerIndexes(index)\n241:     const tracked = [index, ...peers]\n242:     const before = capture(tracked)\n243:     const correct = digit === cell.solution\n244:     const settings = useSettingsStore().settings\n245: \n246:     cell.value = digit\n247:     cell.origin = 'USER'\n248:     cell.notesMask = 0\n249:     const instantChecking = settings.immediateErrorCheck && !settings.independentMode\n250:     manualCheckVisible.value = false\n251:     cell.error = instantChecking ? !correct : false\n252: \n253:     if (!correct) {\n254:       game.value.mistakeCount += 1\n255:       if (instantChecking) feedback('error')\n256:       else feedback()\n257:     } else {\n258:       feedback()\n259:     }\n260: \n261:     if ((correct || settings.independentMode) && settings.autoRemoveCandidates) {\n262:       const bit = digitBit(digit)\n263:       for (const peerIndex of peers) game.value.cells[peerIndex].notesMask &= ~bit\n264:     }\n265: \n266:     commitAction('SET_VALUE', buildChanges(tracked, before))\n267:     checkCompletion()\n268:   }\n269: \n270:   function inputNoteDigit(digit: number) {\n271:     if (!game.value || game.value.status !== 'PLAYING') return\n272:     if (!Number.isInteger(digit) || digit < 1 || digit > 9 || game.value.selectedIndex == null) return\n273:     const index = game.value.selectedIndex\n274:     const cell = game.value.cells[index]\n275:     if (cell.origin === 'GIVEN' || cell.value !== 0) return\n276: \n277:     const bit = digitBit(digit)\n278:     const settings = useSettingsStore().settings\n279:     const hasNote = (cell.notesMask & bit) !== 0\n280:     if (!hasNote && settings.smartNotes) {\n281:       const valid = getCandidateMask(currentBoard(!settings.independentMode), index)\n282:       if ((valid & bit) === 0) {\n283:         feedback('error')\n284:         return\n285:       }\n286:     }\n287: \n288:     const before = capture([index])\n289:     cell.notesMask ^= bit\n290:     commitAction('TOGGLE_NOTE', buildChanges([index], before))\n291:     feedback()\n292:   }\n293: \n294:   function inputDigit(digit: number) {\n295:     if (!game.value) return\n296:     if (game.value.inputMode === 'NOTE') inputNoteDigit(digit)\n297:     else inputNormalDigit(digit)\n298:   }\n299: \n300:   function erase() {\n301:     if (!game.value || game.value.status !== 'PLAYING' || game.value.selectedIndex == null) return\n302:     const index = game.value.selectedIndex\n303:     const cell = game.value.cells[index]\n304:     if (cell.origin === 'GIVEN') return\n305: \n306:     const before = capture([index])\n307:     if (cell.value !== 0) {\n308:       cell.value = 0\n309:       cell.origin = null\n310:       cell.error = false\n311:     } else if (cell.notesMask !== 0) {\n312:       cell.notesMask = 0\n313:     } else {\n314:       return\n315:     }\n316:     commitAction('CLEAR_VALUE', buildChanges([index], before))\n317:     feedback()\n318:   }\n319: \n320:   function autoCandidates() {\n321:     if (!game.value || game.value.status !== 'PLAYING' || game.value.selectedIndex == null) return\n322:     const index = game.value.selectedIndex\n323:     const cell = game.value.cells[index]\n324:     if (cell.origin === 'GIVEN' || cell.value !== 0) return\n325:     const before = capture([index])\n326:     cell.notesMask = getCandidateMask(currentBoard(!useSettingsStore().settings.independentMode), index)\n327:     commitAction('SET_NOTES', buildChanges([index], before))\n328:     feedback()\n329:   }\n330: \n331:   function toolAvailable(allowPaused: boolean) {\n332:     return Boolean(game.value && (game.value.status === 'PLAYING' || (allowPaused === true && game.value.status === 'PAUSED')))\n333:   }\n334: \n335:   function autoCandidatesAll(allowPaused = false) {\n336:     if (!game.value || !toolAvailable(allowPaused)) return\n337:     const indexes = game.value.cells.filter((cell) => cell.origin !== 'GIVEN' && cell.value === 0).map((cell) => cell.index)\n338:     if (!indexes.length) return\n339:     const before = capture(indexes)\n340:     const board = currentBoard(!useSettingsStore().settings.independentMode)\n341:     for (const index of indexes) game.value.cells[index].notesMask = getCandidateMask(board, index)\n342:     commitAction('SET_ALL_NOTES', buildChanges(indexes, before))\n343:     feedback()\n344:   }\n345: \n346:   function requestHint(): HintResult | null {\n347:     if (!game.value || game.value.status !== 'PLAYING') return null\n348:     if (pendingHint.value) return pendingHint.value\n349:     const wrong = game.value.cells.find(c => c.origin !== 'GIVEN' && c.value !== 0 && c.value !== c.solution)\n350:     if (wrong) {\n351:       pendingHint.value = { index: wrong.index, digit: wrong.solution, technique: 'BACKTRACKING', message: `第 ${Math.floor(wrong.index / 9) + 1} 行第 ${wrong.index % 9 + 1} 列的填写有误，请先检查这个格。展开答案可以更正。`, focusIndexes: [wrong.index] }\n352:     } else {\n353:       pendingHint.value = findHint(currentBoard(true))\n354:       if (!pendingHint.value) {\n355:         const target = game.value.cells.find(c => !c.value)\n356:         if (target) pendingHint.value = { index: target.index, digit: target.solution, technique: 'BACKTRACKING', message: '现有教学技巧暂时无法继续推导，可展开答案提示。', focusIndexes: [target.index] }\n357:       }\n358:     }\n359:     if (pendingHint.value) {\n360:       game.value.selectedIndex = pendingHint.value.index\n361:       const key = `${currentBoard().join('')}:${pendingHint.value.index}:${pendingHint.value.digit}:${pendingHint.value.technique}`\n362:       if (game.value.lastHintKey !== key) game.value.hintCount++\n363:       game.value.lastHintKey = key\n364:       scheduleSave()\n365:     }\n366:     return pendingHint.value\n367:   }\n368: "
+    },
+    {
+      "file": "src/stores/game.store.ts",
+      "start": 493,
+      "end": 533,
+      "text": "493:       const saved = flushSave()\n494:       storageError.value = saved\n495:         ? '完成结果保存失败，棋盘已存档。请释放存储后点击重试结算。'\n496:         : '存储不可写，棋盘仅保留在当前页面。请释放存储后重试结算，暂勿关闭游戏。'\n497:       return false\n498:     }\n499:   }\n500: \n501:   function checkBoard(allowPaused = false): number {\n502:     if (!game.value || !toolAvailable(allowPaused)) return 0\n503:     manualCheckVisible.value = true\n504:     const indexes = game.value.cells.filter(c => c.origin !== 'GIVEN').map(c => c.index)\n505:     const before = capture(indexes)\n506:     for (const index of indexes) {\n507:       const cell = game.value.cells[index]\n508:       cell.error = cell.value !== 0 && cell.value !== cell.solution\n509:     }\n510:     commitAction('CHECK', buildChanges(indexes, before))\n511:     return game.value.cells.filter(c => c.error).length\n512:   }\n513: \n514:   function chooseDigit(digit: number) {\n515:     if (!isActive.value || !Number.isInteger(digit) || digit < 1 || digit > 9) return\n516:     if (useSettingsStore().settings.inputStyle === 'number-first') activeDigit.value = activeDigit.value === digit ? null : digit\n517:     else inputDigit(digit)\n518:   }\n519: \n520:   function saveBookmark(allowPaused = false) {\n521:     if (!game.value || !toolAvailable(allowPaused)) return\n522:     game.value.bookmark = game.value.cells.map(snapshotCell)\n523:     flushSave()\n524:   }\n525: \n526:   function restoreBookmark(allowPaused = false): boolean {\n527:     if (!game.value?.bookmark || !toolAvailable(allowPaused)) return false\n528:     const indexes = game.value.cells.filter(c => c.origin !== 'GIVEN').map(c => c.index)\n529:     const before = capture(indexes)\n530:     indexes.forEach(i => applySnapshot(i, game.value!.bookmark![i]))\n531:     commitAction('RESTORE_BOOKMARK', buildChanges(indexes, before))\n532:     checkCompletion()\n533:     return true"
+    },
+    {
+      "file": "src/repositories/current-game.repository.ts",
+      "start": 16,
+      "end": 34,
+      "text": "16:   const safeEvent = (v: unknown) => event(v) && v.changes.every(c => game.puzzle[c.index] === '0' && c.before.origin !== 'GIVEN' && c.after.origin !== 'GIVEN')\n17:   const safeSnapshots = (v: unknown) => snapshots(v) && v.every((c, i) => game.puzzle[i] === '0' ? c.origin !== 'GIVEN' : c.origin === 'GIVEN' && c.value === Number(game.puzzle[i]))\n18:   return {\n19:     ...game,\n20:     selectedIndex: Number.isInteger(game.selectedIndex) && Number(game.selectedIndex) >= 0 && Number(game.selectedIndex) < 81 ? game.selectedIndex : null,\n21:     mode,\n22:     level,\n23:     undoStack: Array.isArray(game.undoStack) ? game.undoStack.filter(safeAction) : [],\n24:     redoStack: Array.isArray(game.redoStack) ? game.redoStack.filter(safeAction) : [],\n25:     timeline: Array.isArray(game.timeline) ? game.timeline.filter(safeEvent) : [],\n26:     timelineBase: safeSnapshots(game.timelineBase) ? game.timelineBase : undefined,\n27:     bookmark: safeSnapshots(game.bookmark) ? game.bookmark : undefined,\n28:     lastHintKey: typeof game.lastHintKey === 'string' && game.lastHintKey.length <= 128 ? game.lastHintKey : undefined,\n29:     completion: null\n30:   }\n31: }\n32: \n33: export const currentGameRepository = {\n34:   load(): GameState | null {"
+    },
+    {
+      "file": "src/types/settings.ts",
+      "start": 1,
+      "end": 38,
+      "text": "1: export interface AppSettings {\n2:   highlightRelated: boolean\n3:   highlightSameDigit: boolean\n4:   autoRemoveCandidates: boolean\n5:   immediateErrorCheck: boolean\n6:   autoPauseOnBackground: boolean\n7:   disableCompletedDigit: boolean\n8:   smartNotes: boolean\n9:   independentMode: boolean\n10:   sound: boolean\n11:   haptics: boolean\n12:   theme: 'light' | 'dark'\n13:   boardColor: 'blue' | 'green'\n14:   largeDigits: boolean\n15:   inputStyle: 'cell-first' | 'number-first'\n16:   onboardingSeen: boolean\n17: }\n18: \n19: export const DEFAULT_SETTINGS: AppSettings = {\n20:   highlightRelated: true,\n21:   highlightSameDigit: true,\n22:   autoRemoveCandidates: true,\n23:   immediateErrorCheck: true,\n24:   autoPauseOnBackground: true,\n25:   disableCompletedDigit: true,\n26:   smartNotes: true,\n27:   independentMode: false,\n28:   sound: true,\n29:   haptics: true,\n30:   theme: 'light',\n31:   boardColor: 'blue',\n32:   largeDigits: false,\n33:   inputStyle: 'cell-first',\n34:   onboardingSeen: false\n35: }\n36: \n37: export type BooleanSetting = { [K in keyof AppSettings]: AppSettings[K] extends boolean ? K : never }[keyof AppSettings]\n38: "
+    }
+  ]
+}

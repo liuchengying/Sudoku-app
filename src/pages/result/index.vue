@@ -12,7 +12,7 @@ import { requestCampaignLevel } from '@/services/campaign.service'
 import { formatDuration } from '@/utils/time'
 import MedalBadge from '@/components/common/MedalBadge.vue'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 
 const gameStore = useGameStore()
 const game = computed(() => gameStore.game)
@@ -67,7 +67,7 @@ onBackPress(() => {
 </script>
 
 <template>
-  <view v-if="game && completion" class="safe-page result-page" :class="appearance">
+  <view v-if="game && completion" class="safe-page result-page" :class="appearance" :style="pageStyle">
     <view class="medal-large"><MedalBadge :medal="completion.medal" /></view>
     <text class="title">完成</text>
     <text class="subtitle">{{ title }}</text>
@@ -94,21 +94,22 @@ onBackPress(() => {
 </template>
 
 <style scoped lang="scss">
-.result-page { display: flex; flex-direction: column; align-items: center; padding: calc(118rpx + env(safe-area-inset-top)) 42rpx 30rpx; background: var(--page-bg); }
+.result-page { display: flex; flex-direction: column; align-items: center; padding: calc(60px + max(var(--safe-top, 0px), env(safe-area-inset-top))) calc(20px + max(var(--safe-right, 0px), env(safe-area-inset-right))) calc(16px + max(var(--safe-bottom, 0px), env(safe-area-inset-bottom))) calc(20px + max(var(--safe-left, 0px), env(safe-area-inset-left))); background: var(--page-bg); }
 .medal-large { transform: scale(1.75); margin: 40rpx 0 42rpx; }
-.title { font-size: 58rpx; font-weight: 750; }
-.subtitle { color: var(--text-secondary); margin-top: 10rpx; font-size: 28rpx; }
+.title { font-size: clamp(24.65px, 58rpx, 29px); font-weight: 750; }
+.subtitle { color: var(--text-secondary); margin-top: 10rpx; font-size: clamp(11.9px, 28rpx, 14px); }
 .score-card { width: 100%; margin-top: 42rpx; padding: 28rpx; border-radius: 26rpx; background: var(--primary-soft); display: flex; flex-direction: column; align-items: center; }
-.score-label { color: var(--text-secondary); font-size: 24rpx; }
-.score { color: var(--primary); font-size: 58rpx; font-weight: 800; margin: 3rpx 0; }
-.score-sub { color: var(--text-secondary); font-size: 21rpx; }
+.result-page > view, .result-page > button { max-width: 720px; }
+.score-label { color: var(--text-secondary); font-size: clamp(10.2px, 24rpx, 12px); }
+.score { color: var(--primary); font-size: clamp(24.65px, 58rpx, 29px); font-weight: 800; margin: 3rpx 0; }
+.score-sub { color: var(--text-secondary); font-size: clamp(8.92px, 21rpx, 10.5px); }
 .next-copy { margin-top: 12rpx; }
 .stats-card { width: 100%; background: var(--surface); border-radius: 24rpx; margin-top: 24rpx; padding: 10rpx 28rpx; }
-.stats-card view { height: 80rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid var(--divider); font-size: 29rpx; }
+.stats-card view { height: 80rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid var(--divider); font-size: clamp(12.33px, 29rpx, 14.5px); }
 .stats-card view:last-child { border-bottom: 0; }
 .stats-card view text:last-child { font-weight: 650; font-variant-numeric: tabular-nums; }
-.primary, .secondary { width: 100%; height: 100rpx; border-radius: 24rpx; font-size: 34rpx; font-weight: 650; display: flex; align-items: center; justify-content: center; }
+.primary, .secondary { width: 100%; height: 100rpx; border-radius: 24rpx; font-size: clamp(14.45px, 34rpx, 17px); font-weight: 650; display: flex; align-items: center; justify-content: center; }
 .primary { margin-top: 44rpx; background: var(--primary); color: var(--page-bg); }
 .secondary { margin-top: 16rpx; background: var(--primary-soft); color: var(--primary); }
-.home-link { margin-top: 30rpx; color: var(--primary); font-size: 29rpx; font-weight: 600; }
+.home-link { margin-top: 30rpx; color: var(--primary); font-size: clamp(12.33px, 29rpx, 14.5px); font-weight: 600; }
 </style>

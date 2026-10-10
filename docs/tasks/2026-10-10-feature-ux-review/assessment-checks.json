@@ -1,0 +1,58 @@
+{
+  "sourceHashesCurrent": 30,
+  "sourceExcerptsCurrent": true,
+  "reportLinksValid": 42,
+  "linkScope": "All local Markdown links and referenced line numbers; external references reviewed from official docs.",
+  "businessSourceChanges": [],
+  "outsideScope": [],
+  "interactionPaths": 6,
+  "foldableMatrixRows": 8,
+  "foldableDeviceCategories": [
+    "内外屏切换",
+    "左右大折叠",
+    "上下小折叠",
+    "阔折叠"
+  ],
+  "deviceValidated": false,
+  "verification": {
+    "run": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b",
+    "result": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/result.json",
+    "checks": [
+      {
+        "id": "adapter",
+        "passed": true,
+        "durationMs": 86,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/adapter.log"
+      },
+      {
+        "id": "typecheck",
+        "passed": true,
+        "durationMs": 2928,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/typecheck.log"
+      },
+      {
+        "id": "unit",
+        "passed": true,
+        "durationMs": 43052,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/unit.log"
+      },
+      {
+        "id": "puzzles",
+        "passed": true,
+        "durationMs": 378,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/puzzles.log"
+      },
+      {
+        "id": "ui",
+        "passed": true,
+        "durationMs": 837,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/ui.log"
+      }
+    ],
+    "totalTests": 74,
+    "passedTests": 74,
+    "failedTests": 0,
+    "pendingTests": 0,
+    "testFiles": 22
+  }
+}

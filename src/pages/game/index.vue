@@ -18,26 +18,43 @@ import { campaignProfile } from '@/config/campaign'
 import { getLevelById } from '@/assets/puzzles'
 import { formatDuration } from '@/utils/time'
 import { shareApp } from '@/services/share.service'
+import { useWindowMetrics } from '@/composables/useWindowMetrics'
+import { gameWindowLayout } from '@/utils/window-layout'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
+const { metrics } = useWindowMetrics()
+const layout = computed(() => gameWindowLayout(metrics))
 
 const gameStore = useGameStore()
 const settingsStore = useSettingsStore()
 const now = ref(Date.now())
 const moreVisible = ref(false)
 const hintVisible = ref(false)
+const hintRevealed = ref(false)
 const onboardingVisible = ref(false)
 const guide = ref<InstanceType<typeof OnboardingGuide> | null>(null)
 let wasPlayingBeforeOnboarding = false
 let wasPlayingBeforeMenu = false
 let menuActionChosen = false
 let timer: ReturnType<typeof setInterval> | null = null
+let closeMenuTimer: ReturnType<typeof setTimeout> | null = null
+let menuSession = 0
+let menuGameId = ''
+let pageVisible = true
 
 const game = computed(() => gameStore.game)
 const title = computed(() => game.value ? gameTitle(game.value) : '数独')
 const level = computed(() => game.value ? game.value.level ?? getLevelById(game.value.levelId) : null)
 const profile = computed(() => game.value && (game.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN' && level.value ? campaignProfile(level.value.difficultyId, level.value.levelNo) : null)
 const elapsedText = computed(() => formatDuration(gameStore.elapsed(now.value)))
+const instantChecking = computed(() => settingsStore.settings.immediateErrorCheck && !settingsStore.settings.independentMode)
+const windowStyle = computed(() => ({
+  '--controls-width': `${layout.value.controlsWidth}px`,
+  '--digit-font-size': `${Math.min(settingsStore.settings.largeDigits ? 34 : 32, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .72 : .64))}px`,
+  '--note-font-size': `${Math.min(settingsStore.settings.largeDigits ? 13 : 12, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .25 : .23))}px`,
+  paddingLeft: `${metrics.safeLeft}px`, paddingRight: `${metrics.safeRight}px`,
+  paddingBottom: `${16 + metrics.safeBottom}px`
+}))
 
 function ensureTimer() {
   if (timer) return
@@ -51,12 +68,26 @@ function togglePause() {
 }
 
 function hint() {
-  if (gameStore.requestHint()) hintVisible.value = true
-  else uni.showToast({ title: '当前棋盘暂无可用提示', icon: 'none' })
+  if (game.value?.status !== 'PLAYING') return
+  hintRevealed.value = false
+  hintVisible.value = true
+}
+function revealHint() {
+  if (gameStore.requestHint()) hintRevealed.value = true
+  else { hintVisible.value = false; uni.showToast({ title: '当前棋盘暂无可用提示', icon: 'none' }) }
+}
+function restoreMenuState(session = menuSession) {
+  if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return
+  if (wasPlayingBeforeMenu) gameStore.resume()
+  wasPlayingBeforeMenu = false
 }
 function closeMore(value: boolean) {
   moreVisible.value = value
-  if (!value) setTimeout(() => { if (!menuActionChosen && wasPlayingBeforeMenu) gameStore.resume() }, 0)
+  if (closeMenuTimer) clearTimeout(closeMenuTimer)
+  if (!value) {
+    const session = menuSession
+    closeMenuTimer = setTimeout(() => { closeMenuTimer = null; if (!menuActionChosen) restoreMenuState(session) }, 0)
+  }
 }
 function finishOnboarding() {
   onboardingVisible.value = false
@@ -66,6 +97,8 @@ function finishOnboarding() {
 function openStatistics() { gameStore.pause(); openPage('/pages/statistics/index') }
 
 function openMore() {
+  menuSession++
+  menuGameId = game.value?.id ?? ''
   wasPlayingBeforeMenu = game.value?.status === 'PLAYING'
   menuActionChosen = false
   if (wasPlayingBeforeMenu) gameStore.pause()
@@ -79,24 +112,41 @@ function exitAndSave() {
 }
 
 function restart() {
+  const session = menuSession
   uni.showModal({
     title: '重新开始本关',
     content: '当前填写、候选和计时都会清除，确定重新开始吗？',
     confirmText: '重新开始',
     confirmColor: '#ff3b30',
-    success: ({ confirm }) => { if (confirm) gameStore.restartCurrent(); else if (wasPlayingBeforeMenu) gameStore.resume() }
+    success: ({ confirm }) => {
+      if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return
+      if (confirm) {
+        const playing = wasPlayingBeforeMenu
+        gameStore.restartCurrent()
+        if (!playing) gameStore.pause()
+        wasPlayingBeforeMenu = false
+      } else restoreMenuState(session)
+    }
   })
 }
 
 function moreAction(action: string) {
   menuActionChosen = true
   if (['check', 'bookmark', 'restore-bookmark'].includes(action)) {
-    gameStore.resume()
-    if (action === 'check') uni.showToast({ title: gameStore.checkBoard() ? '已标出错误填写' : '当前填写没有错误', icon: 'none' })
-    if (action === 'bookmark') { gameStore.saveBookmark(); uni.showToast({ title: gameStore.storageError || '棋盘书签已保存', icon: 'none' }) }
+    if (action === 'check') uni.showToast({ title: gameStore.checkBoard(true) ? '已标出错误填写' : '当前填写没有错误', icon: 'none' })
+    if (action === 'bookmark') { gameStore.saveBookmark(true); uni.showToast({ title: gameStore.storageError || '棋盘书签已保存', icon: 'none' }) }
     if (action === 'restore-bookmark') {
-      if (!game.value?.bookmark) uni.showToast({ title: '本局还没有书签', icon: 'none' })
-      else uni.showModal({ title: '恢复书签', content: '将恢复书签棋盘，计时、错误和提示次数保留；可以撤销恢复。', success: ({ confirm }) => { if (confirm) gameStore.restoreBookmark() } })
+      if (!game.value?.bookmark) { uni.showToast({ title: '本局还没有书签', icon: 'none' }); restoreMenuState() }
+      else {
+        const session = menuSession
+        uni.showModal({ title: '恢复书签', content: '将恢复书签棋盘，计时、错误和提示次数保留；可以撤销恢复。', success: ({ confirm }) => {
+          if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return
+          if (confirm) gameStore.restoreBookmark(true)
+          restoreMenuState(session)
+        } })
+      }
+    } else {
+      restoreMenuState()
     }
     return
   }
@@ -104,8 +154,8 @@ function moreAction(action: string) {
   if (action === 'home') { gameStore.pause(); gameStore.flushSave(); uni.reLaunch({ url: '/pages/home/index' }); return }
   if (action === 'restart') return restart()
   if (action === 'fill-candidates') {
-    if (game.value?.status === 'PAUSED') gameStore.resume()
-    gameStore.autoCandidatesAll()
+    gameStore.autoCandidatesAll(true)
+    restoreMenuState()
     return
   }
   if (action === 'share') { if (wasPlayingBeforeMenu) gameStore.resume(); return shareApp() }
@@ -126,6 +176,7 @@ function moreAction(action: string) {
 
 
 onShow(() => {
+  pageVisible = true
   if (!game.value && !gameStore.restoreGame()) {
     uni.reLaunch({ url: '/pages/home/index' })
     return
@@ -138,7 +189,13 @@ onShow(() => {
     onboardingVisible.value = true
   }
 })
-onHide(() => { wasPlayingBeforeOnboarding = false; gameStore.pause(true); gameStore.flushSave(); if (timer) clearInterval(timer); timer = null; moreVisible.value = false; hintVisible.value = false })
+onHide(() => {
+  pageVisible = false; menuSession++; wasPlayingBeforeMenu = false; wasPlayingBeforeOnboarding = false
+  if (closeMenuTimer) clearTimeout(closeMenuTimer)
+  closeMenuTimer = null
+  gameStore.pause(true); gameStore.flushSave(); if (timer) clearInterval(timer); timer = null
+  moreVisible.value = false; hintVisible.value = false
+})
 
 onBackPress(() => {
   if (onboardingVisible.value) { guide.value?.dismiss(); return true }
@@ -157,6 +214,8 @@ onBackPress(() => {
 })
 
 onBeforeUnmount(() => {
+  pageVisible = false; menuSession++
+  if (closeMenuTimer) clearTimeout(closeMenuTimer)
   if (timer) clearInterval(timer)
   timer = null
   gameStore.flushSave()
@@ -164,7 +223,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <view v-if="game" class="safe-page game-page" :class="appearance">
+  <view v-if="game" class="safe-page game-page" :class="appearance" :style="[pageStyle, windowStyle]">
     <template v-if="!onboardingVisible">
     <AppHeader title="数独">
       <template #left><text class="pause-button" @tap="togglePause">{{ game.status === 'PAUSED' ? '▶' : 'Ⅱ' }}</text></template>
@@ -179,18 +238,20 @@ onBeforeUnmount(() => {
     <view class="meta">
       <text>{{ game.inputMode === 'NOTE' ? '草稿模式' : settingsStore.settings.inputStyle === 'number-first' ? '先选数字' : '填数模式' }}</text>
       <text>{{ elapsedText }}</text>
-      <text>{{ settingsStore.settings.immediateErrorCheck ? '错误:' : '检查:' }} <text class="blue">{{ settingsStore.settings.immediateErrorCheck ? game.mistakeCount : '手动' }}</text></text>
+      <text>{{ instantChecking ? '错误:' : '检查:' }} <text class="blue">{{ instantChecking ? game.mistakeCount : '手动' }}</text></text>
     </view>
 
     <view v-if="gameStore.storageError || gameStore.needsSettlement" class="save-error"><text>{{ gameStore.storageError || '棋盘已完成，请保存完成结果。' }}</text><button @tap="gameStore.needsSettlement ? gameStore.completeGame() : gameStore.flushSave()">{{ gameStore.needsSettlement ? '重试结算' : '重试保存' }}</button></view>
     <text class="input-help">{{ settingsStore.settings.inputStyle === 'number-first' ? (gameStore.activeDigit ? `已选 ${gameStore.activeDigit}，点击空格填写；再次点数字取消` : '先点下方数字，再点棋盘空格') : '先点棋盘空格，再点下方数字' }}</text>
+    <view class="game-layout" :class="{ split: layout.split }">
     <view class="board-shell">
-      <view class="board-wrap" :class="{ paused: game.status === 'PAUSED' }">
+      <view class="board-wrap" :class="{ paused: game.status === 'PAUSED' }" :style="{ width: `${layout.boardSize}px` }">
         <SudokuBoard
           :cells="game.cells"
           :selected-index="game.selectedIndex"
           :active-digit="settingsStore.settings.inputStyle === 'number-first' ? gameStore.activeDigit : null"
-          :focus-indexes="hintVisible ? gameStore.pendingHint?.focusIndexes : []"
+          :focus-indexes="hintVisible && hintRevealed ? gameStore.pendingHint?.focusIndexes : []"
+          :show-errors="!settingsStore.settings.independentMode || gameStore.manualCheckVisible"
           :interactive="game.status === 'PLAYING'"
           :highlight-related="settingsStore.settings.highlightRelated"
           :highlight-same-digit="settingsStore.settings.highlightSameDigit"
@@ -203,6 +264,7 @@ onBeforeUnmount(() => {
       </view>
     </view>
 
+    <view class="game-controls">
     <GameToolbar
       :disabled="game.status !== 'PLAYING'"
       :note-mode="game.inputMode === 'NOTE'"
@@ -221,37 +283,43 @@ onBeforeUnmount(() => {
       :cells="game.cells"
       :disabled="game.status !== 'PLAYING'"
       :disable-completed-digit="settingsStore.settings.disableCompletedDigit"
-      :show-remaining="settingsStore.settings.immediateErrorCheck"
+      :show-remaining="instantChecking"
+      :answer-aware="!settingsStore.settings.independentMode"
       :note-mode="game.inputMode === 'NOTE'"
       :active-digit="gameStore.activeDigit"
       @answer="gameStore.chooseDigit"
     />
+    </view>
+    </view>
 
     <MoreSheet :model-value="moreVisible" game-mode @update:model-value="closeMore" @action="moreAction" />
-    <HintSheet v-model="hintVisible" :hint="gameStore.pendingHint" @apply="gameStore.applyHint" />
+    <HintSheet v-model="hintVisible" :hint="gameStore.pendingHint" @reveal="revealHint" @apply="gameStore.applyHint" />
     </template>
     <OnboardingGuide v-if="onboardingVisible" ref="guide" context="game" @finish="finishOnboarding" />
   </view>
 </template>
 
 <style scoped lang="scss">
-.input-help { display: block; padding: 6rpx 24rpx; font-size: 22rpx; color: var(--text-secondary); }
-.save-error { margin: 12rpx 24rpx; padding: 22rpx; background: var(--primary-soft); border-radius: 18rpx; font-size: 26rpx; line-height: 1.6; }
+.input-help { display: block; padding: 6rpx 24rpx; font-size: clamp(9.35px, 22rpx, 11px); color: var(--text-secondary); }
+.save-error { margin: 12rpx 24rpx; padding: 22rpx; background: var(--primary-soft); border-radius: 18rpx; font-size: clamp(11.05px, 26rpx, 13px); line-height: 1.6; }
 .save-error button { min-height: 48px; color: var(--primary); }
 .game-page { background: var(--page-bg); color: var(--text-primary); overflow: visible; }
-.pause-button { color: var(--primary); font-size: 48rpx; font-weight: 700; min-width: 48px; min-height: 48px; display: flex; align-items: center; }
-.stats-button { color: var(--primary); font-size: 46rpx; line-height: 1; min-width: 48px; min-height: 48px; display: flex; align-items: center; justify-content: center; }
-.more-button { width: 48px; height: 48px; border: 4rpx solid var(--primary); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 27rpx; font-weight: 800; }
-.game-context { margin-top: 4rpx; padding: 0 22rpx; display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 20rpx; }
-.meta { padding: 6rpx 22rpx 10rpx; display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: 28rpx; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.pause-button { color: var(--primary); font-size: clamp(20.4px, 48rpx, 24px); font-weight: 700; min-width: 48px; min-height: 48px; display: flex; align-items: center; }
+.stats-button { color: var(--primary); font-size: clamp(19.55px, 46rpx, 23px); line-height: 1; min-width: 48px; min-height: 48px; display: flex; align-items: center; justify-content: center; }
+.more-button { width: 48px; height: 48px; border: 4rpx solid var(--primary); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: clamp(11.48px, 27rpx, 13.5px); font-weight: 800; }
+.game-context { margin-top: 4rpx; padding: 0 22rpx; display: flex; justify-content: space-between; color: var(--text-secondary); font-size: clamp(8.5px, 20rpx, 10px); }
+.meta { padding: 6rpx 22rpx 10rpx; display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: clamp(11.9px, 28rpx, 14px); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .meta > text:nth-child(2) { text-align: center; }
 .meta > text:nth-child(3) { text-align: right; }
 .blue { color: var(--primary); }
-.board-shell { width: 100%; padding: 0 12rpx; display: flex; justify-content: center; }
-.board-wrap { position: relative; width: 100%; max-width: 760rpx; max-width: min(760rpx, max(280px, calc(100dvh - 360px))); }
+.game-layout { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }
+.game-layout.split { grid-template-columns: minmax(0, 1fr) minmax(0, var(--controls-width)); gap: 24px; }
+.game-controls { min-width: 0; width: 100%; max-width: 520px; margin: 0 auto; }
+.board-shell { width: 100%; min-width: 0; display: flex; justify-content: center; }
+.board-wrap { position: relative; max-width: 100%; }
 .board-wrap.paused :deep(.board) { filter: blur(5px); opacity: .18; }
-.pause-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18rpx; background: var(--surface); color: var(--text-secondary); opacity: .94; font-size: 28rpx; z-index: 10; }
-.play { width: 94rpx; height: 94rpx; border-radius: 50%; background: var(--cell-bg); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 43rpx; padding-left: 7rpx; box-shadow: 0 5rpx 18rpx rgba(0,0,0,.08); }
+.pause-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18rpx; background: var(--surface); color: var(--text-secondary); opacity: .94; font-size: clamp(11.9px, 28rpx, 14px); z-index: 10; }
+.play { width: 94rpx; height: 94rpx; border-radius: 50%; background: var(--cell-bg); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: clamp(18.27px, 43rpx, 21.5px); padding-left: 7rpx; box-shadow: 0 5rpx 18rpx rgba(0,0,0,.08); }
 @media (max-height: 700px) {
   .game-context { margin-top: 0; }
   .meta { padding-bottom: 4rpx; }

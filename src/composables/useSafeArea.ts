@@ -1,19 +1,11 @@
 import { computed } from 'vue'
+import { useWindowMetrics } from './useWindowMetrics'
 
 export function useSafeArea() {
-  let statusBarHeight = 0
-  let bottom = 0
-  try {
-    const info = typeof uni.getWindowInfo === 'function' ? uni.getWindowInfo() : uni.getSystemInfoSync()
-    statusBarHeight = Number(info.statusBarHeight ?? 0)
-    const safeBottom = info.safeAreaInsets?.bottom
-    bottom = typeof safeBottom === 'number' ? safeBottom : 0
-  } catch {
-    // H5 / test environments may not expose window metrics.
-  }
+  const { metrics } = useWindowMetrics()
   return {
-    statusBarHeight,
-    bottomSafeArea: bottom,
-    topStyle: computed(() => ({ paddingTop: `${statusBarHeight}px` }))
+    statusBarHeight: computed(() => Math.max(metrics.statusBarHeight, metrics.safeTop)),
+    bottomSafeArea: computed(() => metrics.safeBottom),
+    topStyle: computed(() => ({ paddingTop: `${Math.max(metrics.statusBarHeight, metrics.safeTop)}px`, paddingLeft: `${metrics.safeLeft}px`, paddingRight: `${metrics.safeRight}px` }))
   }
 }

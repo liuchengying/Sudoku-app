@@ -49,6 +49,7 @@ export const useGameStore = defineStore('game', () => {
   const pendingHint = ref<HintResult | null>(null)
   const storageError = ref('')
   const activeDigit = ref<number | null>(null)
+  const manualCheckVisible = ref(false)
   watch(() => useSettingsStore().settings.inputStyle, () => { activeDigit.value = null })
 
   const isActive = computed(() => game.value?.status === 'PLAYING')
@@ -111,6 +112,7 @@ export const useGameStore = defineStore('game', () => {
     saved.completion ??= null
     game.value = saved
     pendingHint.value = null
+    manualCheckVisible.value = false
     return true
   }
 
@@ -146,6 +148,7 @@ export const useGameStore = defineStore('game', () => {
     }
     pendingHint.value = null
     activeDigit.value = null
+    manualCheckVisible.value = false
     storageError.value = ''
     flushSave()
   }
@@ -206,6 +209,7 @@ export const useGameStore = defineStore('game', () => {
 
   function commitAction(type: GameActionType, changes: CellChange[]) {
     if (!game.value || changes.length === 0) return
+    if (type !== 'CHECK') manualCheckVisible.value = false
     const action: GameAction = { id: createId('action'), type, changes, timestamp: Date.now() }
     game.value.undoStack.push(action)
     if (game.value.undoStack.length > 500) game.value.undoStack.shift()
@@ -242,17 +246,19 @@ export const useGameStore = defineStore('game', () => {
     cell.value = digit
     cell.origin = 'USER'
     cell.notesMask = 0
-    cell.error = settings.immediateErrorCheck ? !correct : false
+    const instantChecking = settings.immediateErrorCheck && !settings.independentMode
+    manualCheckVisible.value = false
+    cell.error = instantChecking ? !correct : false
 
     if (!correct) {
       game.value.mistakeCount += 1
-      if (settings.immediateErrorCheck) feedback('error')
+      if (instantChecking) feedback('error')
       else feedback()
     } else {
       feedback()
     }
 
-    if (correct && settings.autoRemoveCandidates) {
+    if ((correct || settings.independentMode) && settings.autoRemoveCandidates) {
       const bit = digitBit(digit)
       for (const peerIndex of peers) game.value.cells[peerIndex].notesMask &= ~bit
     }
@@ -272,7 +278,7 @@ export const useGameStore = defineStore('game', () => {
     const settings = useSettingsStore().settings
     const hasNote = (cell.notesMask & bit) !== 0
     if (!hasNote && settings.smartNotes) {
-      const valid = getCandidateMask(currentBoard(true), index)
+      const valid = getCandidateMask(currentBoard(!settings.independentMode), index)
       if ((valid & bit) === 0) {
         feedback('error')
         return
@@ -317,17 +323,21 @@ export const useGameStore = defineStore('game', () => {
     const cell = game.value.cells[index]
     if (cell.origin === 'GIVEN' || cell.value !== 0) return
     const before = capture([index])
-    cell.notesMask = getCandidateMask(currentBoard(true), index)
+    cell.notesMask = getCandidateMask(currentBoard(!useSettingsStore().settings.independentMode), index)
     commitAction('SET_NOTES', buildChanges([index], before))
     feedback()
   }
 
-  function autoCandidatesAll() {
-    if (!game.value || game.value.status !== 'PLAYING') return
+  function toolAvailable(allowPaused: boolean) {
+    return Boolean(game.value && (game.value.status === 'PLAYING' || (allowPaused === true && game.value.status === 'PAUSED')))
+  }
+
+  function autoCandidatesAll(allowPaused = false) {
+    if (!game.value || !toolAvailable(allowPaused)) return
     const indexes = game.value.cells.filter((cell) => cell.origin !== 'GIVEN' && cell.value === 0).map((cell) => cell.index)
     if (!indexes.length) return
     const before = capture(indexes)
-    const board = currentBoard(true)
+    const board = currentBoard(!useSettingsStore().settings.independentMode)
     for (const index of indexes) game.value.cells[index].notesMask = getCandidateMask(board, index)
     commitAction('SET_ALL_NOTES', buildChanges(indexes, before))
     feedback()
@@ -348,7 +358,9 @@ export const useGameStore = defineStore('game', () => {
     }
     if (pendingHint.value) {
       game.value.selectedIndex = pendingHint.value.index
-      game.value.hintCount++
+      const key = `${currentBoard().join('')}:${pendingHint.value.index}:${pendingHint.value.digit}:${pendingHint.value.technique}`
+      if (game.value.lastHintKey !== key) game.value.hintCount++
+      game.value.lastHintKey = key
       scheduleSave()
     }
     return pendingHint.value
@@ -390,6 +402,7 @@ export const useGameStore = defineStore('game', () => {
     if (!game.value || game.value.status !== 'PLAYING') return
     const action = game.value.undoStack.pop()
     if (!action) return
+    manualCheckVisible.value = false
     for (const change of action.changes) applySnapshot(change.index, change.before)
     game.value.redoStack.push(action)
     appendTimeline('REVERT', action)
@@ -402,6 +415,7 @@ export const useGameStore = defineStore('game', () => {
     if (!game.value || game.value.status !== 'PLAYING') return
     const action = game.value.redoStack.pop()
     if (!action) return
+    manualCheckVisible.value = false
     for (const change of action.changes) applySnapshot(change.index, change.after)
     game.value.undoStack.push(action)
     appendTimeline('APPLY', action)
@@ -484,8 +498,9 @@ export const useGameStore = defineStore('game', () => {
     }
   }
 
-  function checkBoard(): number {
-    if (!game.value || game.value.status !== 'PLAYING') return 0
+  function checkBoard(allowPaused = false): number {
+    if (!game.value || !toolAvailable(allowPaused)) return 0
+    manualCheckVisible.value = true
     const indexes = game.value.cells.filter(c => c.origin !== 'GIVEN').map(c => c.index)
     const before = capture(indexes)
     for (const index of indexes) {
@@ -502,14 +517,14 @@ export const useGameStore = defineStore('game', () => {
     else inputDigit(digit)
   }
 
-  function saveBookmark() {
-    if (!game.value || game.value.status !== 'PLAYING') return
+  function saveBookmark(allowPaused = false) {
+    if (!game.value || !toolAvailable(allowPaused)) return
     game.value.bookmark = game.value.cells.map(snapshotCell)
     flushSave()
   }
 
-  function restoreBookmark(): boolean {
-    if (!game.value?.bookmark || game.value.status !== 'PLAYING') return false
+  function restoreBookmark(allowPaused = false): boolean {
+    if (!game.value?.bookmark || !toolAvailable(allowPaused)) return false
     const indexes = game.value.cells.filter(c => c.origin !== 'GIVEN').map(c => c.index)
     const before = capture(indexes)
     indexes.forEach(i => applySnapshot(i, game.value!.bookmark![i]))
@@ -524,6 +539,7 @@ export const useGameStore = defineStore('game', () => {
     saveTimer = null
     storageError.value = ''
     activeDigit.value = null
+    manualCheckVisible.value = false
     game.value = null
     pendingHint.value = null
   }
@@ -533,6 +549,7 @@ export const useGameStore = defineStore('game', () => {
     pendingHint,
     storageError,
     activeDigit,
+    manualCheckVisible,
     chooseDigit,
     checkBoard,
     saveBookmark,

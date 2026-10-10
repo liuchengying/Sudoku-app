@@ -1,0 +1,40 @@
+{
+  "id": "2026-10-10T02-11-15-043Z-e7e9886d",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-10T02:11:15.043Z",
+  "fingerprint": "0d23b884e6a280299ed73101074986dfb843a8e47f1e6d6f498c59f10ddbac9f",
+  "passed": true,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 54,
+      "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-11-15-043Z-e7e9886d/adapter.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2769,
+      "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-11-15-043Z-e7e9886d/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "durationMs": 41765,
+      "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-11-15-043Z-e7e9886d/unit.log"
+    },
+    {
+      "id": "puzzles",
+      "passed": true,
+      "durationMs": 347,
+      "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-11-15-043Z-e7e9886d/puzzles.log"
+    },
+    {
+      "id": "ui",
+      "passed": true,
+      "durationMs": 697,
+      "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-11-15-043Z-e7e9886d/ui.log"
+    }
+  ],
+  "finishedAt": "2026-10-10T02:12:00.791Z"
+}

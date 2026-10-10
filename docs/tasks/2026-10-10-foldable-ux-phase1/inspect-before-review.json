@@ -1,0 +1,130 @@
+{
+  "workflow": "ai-delivery",
+  "version": "0.5.1",
+  "project": "sudoku-uniapp",
+  "task": "2026-10-10-foldable-ux-phase1",
+  "title": "首批折叠屏适配与游戏交互优化",
+  "stage": "verified",
+  "label": "检查通过",
+  "event": {
+    "at": "2026-10-10T02:14:42.216Z",
+    "action": "verification-passed",
+    "status": "verified",
+    "note": "",
+    "toolVersion": "0.5.1"
+  },
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true
+    },
+    {
+      "id": "typecheck",
+      "passed": true
+    },
+    {
+      "id": "unit",
+      "passed": true
+    },
+    {
+      "id": "puzzles",
+      "passed": true
+    },
+    {
+      "id": "ui",
+      "passed": true
+    }
+  ],
+  "evidenceCurrent": true,
+  "reasons": [],
+  "category": "active",
+  "action": "review",
+  "next": "逐项复核",
+  "ownerAction": "无需逐步操作",
+  "attempts": {
+    "used": 2,
+    "limit": 4,
+    "remaining": 2,
+    "repairRounds": 1,
+    "repairLimit": 3,
+    "repairsRemaining": 2
+  },
+  "statusFile": "docs/workflow/STATUS.md",
+  "integrity": {
+    "current": true,
+    "verification": {
+      "passed": true,
+      "inputsCurrent": true,
+      "evidenceCurrent": true,
+      "resultConsistent": true
+    },
+    "revisionsCurrent": true,
+    "review": {
+      "required": false,
+      "current": false
+    },
+    "delivery": {
+      "required": false,
+      "current": false
+    },
+    "reasons": []
+  },
+  "changes": {
+    "watched": [
+      "docs/ARCHITECTURE.md",
+      "docs/PROJECT_OVERVIEW.md",
+      "docs/validation/foldable-window.spec.ts",
+      "docs/validation/game-flows.spec.ts",
+      "src/App.vue",
+      "src/components/common/AppHeader.vue",
+      "src/components/common/BottomSheet.vue",
+      "src/components/common/MedalBadge.vue",
+      "src/components/common/MoreSheet.vue",
+      "src/components/common/OnboardingGuide.vue",
+      "src/components/home/LevelGrid.vue",
+      "src/components/sudoku/GameToolbar.vue",
+      "src/components/sudoku/HintSheet.vue",
+      "src/components/sudoku/NumberPad.vue",
+      "src/components/sudoku/SudokuBoard.vue",
+      "src/components/sudoku/SudokuCell.vue",
+      "src/composables/useAppearance.ts",
+      "src/composables/useNavigation.ts",
+      "src/composables/useSafeArea.ts",
+      "src/composables/useWindowMetrics.ts",
+      "src/content/tutorial.ts",
+      "src/core/sudoku/types.ts",
+      "src/manifest.json",
+      "src/pages/daily/index.vue",
+      "src/pages/game/index.vue",
+      "src/pages/history/detail.vue",
+      "src/pages/history/index.vue",
+      "src/pages/home/index.vue",
+      "src/pages/import/index.vue",
+      "src/pages/levels/index.vue",
+      "src/pages/result/index.vue",
+      "src/pages/settings/index.vue",
+      "src/pages/statistics/index.vue",
+      "src/pages/tutorial/detail.vue",
+      "src/pages/tutorial/index.vue",
+      "src/repositories/current-game.repository.ts",
+      "src/stores/game.store.ts",
+      "src/styles.scss",
+      "src/types/settings.ts",
+      "src/utils/window-layout.ts"
+    ],
+    "outsideScope": []
+  },
+  "materials": {
+    "task": "docs/tasks/2026-10-10-foldable-ux-phase1/task.json",
+    "brief": "docs/tasks/2026-10-10-foldable-ux-phase1/brief.md",
+    "plan": "docs/tasks/2026-10-10-foldable-ux-phase1/plan.md",
+    "checks": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
+    "review": null,
+    "delivery": null,
+    "revisions": []
+  },
+  "runtime": {
+    "exists": false,
+    "alive": false
+  }
+}

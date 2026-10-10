@@ -74,6 +74,7 @@ export interface GameState {
   status: GameStatus
   mistakeCount: number
   hintCount: number
+  lastHintKey?: string
   startedAt: number
   accumulatedTime: number
   activeStartedAt: number | null

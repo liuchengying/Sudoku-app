@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { onLoad, onShow, onHide } from '@dcloudio/uni-app'
 import { useAppearance } from '@/composables/useAppearance'
-import { back, openPage } from '@/composables/useNavigation'
+import { back, continueGame, openPage } from '@/composables/useNavigation'
 import { DIFFICULTIES } from '@/config/difficulty'
 import { PRACTICE_TIERS, tierName } from '@/config/practice'
 import { campaignPage, campaignProfile, campaignSlot, CAMPAIGN_PAGE_SIZE, parseCampaignId, suggestedCampaignLevel, type CampaignSlot } from '@/config/campaign'
@@ -15,7 +15,7 @@ import { useGameStore } from '@/stores/game.store'
 import { requestPracticeLevel, GenerationCancelled } from '@/services/puzzle.service'
 import { gameTitle } from '@/utils/game-label'
 
-const appearance = useAppearance()
+const { appearance, pageStyle } = useAppearance()
 const progressStore = useProgressStore()
 const gameStore = useGameStore()
 const difficultyIndex = ref(0)
@@ -63,7 +63,7 @@ function replaceCurrent(launch: () => void | Promise<void>) {
 }
 function startSelected() {
   if (loading.value) return
-  if (current.value?.levelId === selected.value.id) return openPage('/pages/game/index')
+  if (current.value?.levelId === selected.value.id) return continueGame()
   const id = selected.value.id
   replaceCurrent(async () => {
     if (loading.value) return
@@ -106,10 +106,10 @@ onShow(() => {
 onHide(cancelGeneration)
 </script>
 <template>
-  <view class="safe-page levels-page" :class="appearance">
+  <view class="safe-page levels-page" :class="appearance" :style="pageStyle">
     <AppHeader title="选择游戏"><template #left><button class="link back-link" @tap="back">‹ 返回</button></template><template #right><button class="link" @tap="openPage('/pages/tutorial/index?section=rules')">玩法</button></template></AppHeader>
     <view class="content">
-      <button v-if="current" class="resume-card" @tap="openPage('/pages/game/index')"><text>继续上次游戏</text><text>{{ gameTitle(current) }} ›</text></button>
+      <button v-if="current" class="resume-card" @tap="continueGame"><text>继续上次游戏</text><text>{{ gameTitle(current) }} ›</text></button>
       <text class="page-intro">{{ mode === 'campaign' ? '选择难度，从这一关开始。' : '选一个适合今天的难度，自由练习。' }}</text>
       <view class="tabs"><button :disabled="loading" :class="{ active: mode === 'campaign' }" @tap="mode = 'campaign'">无限闯关</button><button :disabled="loading" :class="{ active: mode === 'practice' }" @tap="mode = 'practice'">无限练习</button></view>
       <template v-if="mode === 'campaign'">
@@ -136,19 +136,19 @@ onHide(cancelGeneration)
 <style scoped>
 .levels-page { background: var(--page-bg); }
 .content { padding: 12rpx 24rpx 40rpx; max-width: 900rpx; margin: 0 auto; }
-.link { min-width: 48px; min-height: 48px; display: flex; align-items: center; color: var(--primary); background: transparent; font-size: 29rpx; }
-.page-intro { display: block; font-size: 28rpx; color: var(--text-secondary); margin: 20rpx 0; }
-.resume-card { display: flex; flex-direction: column; align-items: flex-start; padding: 22rpx; gap: 8rpx; background: var(--primary-soft); border-radius: 18rpx; color: var(--primary); font-size: 28rpx; min-height: 48px; }
-.resume-card text:last-child { font-size: 24rpx; }
+.link { min-width: 48px; min-height: 48px; display: flex; align-items: center; color: var(--primary); background: transparent; font-size: clamp(12.33px, 29rpx, 14.5px); }
+.page-intro { display: block; font-size: clamp(11.9px, 28rpx, 14px); color: var(--text-secondary); margin: 20rpx 0; }
+.resume-card { display: flex; flex-direction: column; align-items: flex-start; padding: 22rpx; gap: 8rpx; background: var(--primary-soft); border-radius: 18rpx; color: var(--primary); font-size: clamp(11.9px, 28rpx, 14px); min-height: 48px; }
+.resume-card text:last-child { font-size: clamp(10.2px, 24rpx, 12px); }
 .tabs, .difficulty-tabs { display: flex; gap: 12rpx; margin: 20rpx 0; }
-.tabs button, .difficulty-tabs button { flex: 1; min-height: 48px; border-radius: 14rpx; background: var(--surface); color: var(--text-primary); font-size: 28rpx; display: flex; align-items: center; justify-content: center; }
+.tabs button, .difficulty-tabs button { flex: 1; min-height: 48px; border-radius: 14rpx; background: var(--surface); color: var(--text-primary); font-size: clamp(11.9px, 28rpx, 14px); display: flex; align-items: center; justify-content: center; }
 .tabs .active, .difficulty-tabs .active, .tier-card.active { background: var(--primary-soft); color: var(--primary); box-shadow: inset 0 0 0 2rpx var(--primary); }
-.selection { display: block; font-size: 26rpx; color: var(--text-secondary); margin: 20rpx 0 8rpx; }
+.selection { display: block; font-size: clamp(11.05px, 26rpx, 13px); color: var(--text-secondary); margin: 20rpx 0 8rpx; }
 .footnote { display: block; margin-top: 20rpx; }
 .pagination, .jump-row { display: flex; align-items: center; gap: 12rpx; margin-top: 18rpx; }
-.pagination text { flex: 1; text-align: center; font-size: 26rpx; }
-.pagination button, .jump-row button { margin: 0; min-height: 48px; padding: 0 18rpx; font-size: 24rpx; border-radius: 12rpx; color: var(--primary); background: var(--primary-soft); display: flex; align-items: center; }
-.jump-input { flex: 1; min-width: 0; min-height: 48px; padding: 0 12rpx; font-size: 24rpx; border-radius: 12rpx; color: var(--text-primary); background: var(--surface); }
-.tier-card { text-align: left; display: flex; flex-direction: column; gap: 8rpx; padding: 24rpx; margin-top: 16rpx; border-radius: 18rpx; background: var(--surface); color: var(--text-primary); font-size: 31rpx; min-height: 48px; }
-.tier-card text:last-child { font-size: 24rpx; color: var(--text-secondary); }
+.pagination text { flex: 1; text-align: center; font-size: clamp(11.05px, 26rpx, 13px); }
+.pagination button, .jump-row button { margin: 0; min-height: 48px; padding: 0 18rpx; font-size: clamp(10.2px, 24rpx, 12px); border-radius: 12rpx; color: var(--primary); background: var(--primary-soft); display: flex; align-items: center; }
+.jump-input { flex: 1; min-width: 0; min-height: 48px; padding: 0 12rpx; font-size: clamp(10.2px, 24rpx, 12px); border-radius: 12rpx; color: var(--text-primary); background: var(--surface); }
+.tier-card { text-align: left; display: flex; flex-direction: column; gap: 8rpx; padding: 24rpx; margin-top: 16rpx; border-radius: 18rpx; background: var(--surface); color: var(--text-primary); font-size: clamp(13.18px, 31rpx, 15.5px); min-height: 48px; }
+.tier-card text:last-child { font-size: clamp(10.2px, 24rpx, 12px); color: var(--text-secondary); }
 </style>

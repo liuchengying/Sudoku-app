@@ -6,6 +6,7 @@ export interface AppSettings {
   autoPauseOnBackground: boolean
   disableCompletedDigit: boolean
   smartNotes: boolean
+  independentMode: boolean
   sound: boolean
   haptics: boolean
   theme: 'light' | 'dark'
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   autoPauseOnBackground: true,
   disableCompletedDigit: true,
   smartNotes: true,
+  independentMode: false,
   sound: true,
   haptics: true,
   theme: 'light',
