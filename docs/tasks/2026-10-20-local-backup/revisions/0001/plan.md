@@ -1,0 +1,5 @@
+1. 承接前序任务已完成的实现（基线即当前工作区）：storage.ts 的 readEnvelope/writeEnvelope（legacy 无包装数据包装为 version 0）、results.repository 导出 normalizeProgress、current-game.repository 导出 normalizeCurrentGame、settings.repository 导出 SETTINGS_KEY、src/services/backup.service.ts（buildBackupPayload/summarizeBackup/parseBackup/applyBackup，快照语义、先整体校验后写入）、src/pages/settings/index.vue 的导出/导入 BottomSheet 入口、docs/validation/backup.spec.ts 的 9 条回归、docs/PROJECT_OVERVIEW.md 文档更新。
+2. 补齐 risk-evidence 门槛接线（前序任务验证中发现的适配缺陷，acceptance.test.cjs 契约要求每个注册检查产出 {check}.json 报告而外部命令无生产者）：新增 ai/checks/report.cjs 通用包装器（运行原命令、把命令结果追加进 {evidenceDir}/{check}.json、透传退出码），.ai-agent/project.json 为 typecheck/unit/puzzles/ui 声明 outputs；不改变任何原命令与断言，不删减、不绕过检查。
+3. 本地预跑 typecheck、unit、puzzles、ui 与 adapter-tests 确认可执行后，verify 运行全部注册检查；失败按真实原因修复，不删减检查。
+4. 会话内逐项复核验收条件并填写 review-input.json，finish 交付；设备体验（剪贴板大文本、textarea 粘贴、弹窗面板）如实列入未验证项，由用户手动验收。
+恢复：检查失败保留原始日志，修复授权范围内代码后重新 verify；需求或范围再变化走 amend；不操作 Git、不启动工程。

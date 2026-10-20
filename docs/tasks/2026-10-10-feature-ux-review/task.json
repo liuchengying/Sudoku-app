@@ -2,51 +2,119 @@
   "schemaVersion": 2,
   "toolVersion": "0.5.1",
   "id": "2026-10-10-feature-ux-review",
-  "title": "评估数独功能、交互及 Android 折叠屏适配",
-  "request": "[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 看看目前的功能和交互，有哪些需要补充和优化的\n用户补充：尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多",
+  "title": "评估当前数独功能和交互的补充与优化方向",
+  "request": "[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 看看目前的功能和交互，有哪些需要补充和优化的 验收阶段 amendment：评估交付后工程按评估建议演进（四轮改进、无限闯关、备份功能、弹窗中文化等均为后续任务），工具链亦迁移，输入指纹失效。将监控全量路径纳入范围，按当前工作区重新检查后交付验收；原评估需求与验收条件不变，评估报告作为历史存档保留。",
   "scope": [
-    "docs/tasks/2026-10-10-feature-ux-review"
+    ".ai-agent",
+    "AGENTS.md",
+    "README.md",
+    "ai",
+    "docs/ARCHITECTURE.md",
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/ai-delivery",
+    "docs/design",
+    "docs/generated/pipeline-smoke.json",
+    "docs/implementation",
+    "docs/reviews",
+    "docs/tasks/2026-10-10-feature-ux-review",
+    "docs/validation",
+    "docs/workflow/RULES.md",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "src",
+    "tests",
+    "tools",
+    "tsconfig.json",
+    "vite.config.ts"
   ],
   "criteria": [
     {
       "id": "current-capabilities",
-      "description": "基于当前实际源码梳理主要功能和端到端用户流程，不把已实现能力误列为缺失。"
+      "description": "基于当前实际源码梳理主要功能和端到端用户流程，不把已实现能力误列为缺失。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "evidence-backed-findings",
-      "description": "关键建议说明具体使用场景、影响、源码依据及可核查的改善目标，区分确认行为、体验推断和待设备验证事项。"
+      "description": "关键建议说明具体使用场景、影响、源码依据及可核查的改善目标，区分确认行为、体验推断和待设备验证事项。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "prioritized-roadmap",
-      "description": "按使用阻碍、交互清晰度、学习与数据能力给出有取舍的优先级及分批范围，不擅自实现新功能。"
+      "description": "按使用阻碍、交互清晰度、学习与数据能力给出有取舍的优先级及分批范围，不擅自实现新功能。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "verification-boundaries",
-      "description": "记录当前脚本检查结果及其边界，仅生成 docs 内评估和交付材料，不修改业务代码，不进行 Git、工程启动或电脑/浏览器操作。"
+      "description": "记录当前脚本检查结果及其边界，仅生成 docs 内评估和交付材料，不修改业务代码，不进行 Git、工程启动或电脑/浏览器操作。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "android-foldable-readiness",
-      "description": "把 Android 折叠屏作为首批适配场景，记录当前横竖屏、可用窗口、安全区与布局依据，给出外屏/内屏、展开折叠、横屏、分屏、字体放大和半折叠的改善目标、状态连续性要求及可执行的后续验收矩阵；明确窗口适配和原生折叠姿态能力的边界。"
+      "description": "把 Android 折叠屏作为首批适配场景，记录当前横竖屏、可用窗口、安全区与布局依据，给出外屏/内屏、展开折叠、横屏、分屏、字体放大和半折叠的改善目标、状态连续性要求及可执行的后续验收矩阵；明确窗口适配和原生折叠姿态能力的边界。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
+    },
+    {
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "description": "评估交付后共享路径的后续变化全部来自依据本评估实施的后续已验收任务；本任务按当前工作区重新通过全部注册检查，评估结论与优先级建议的历史存档保持原样。",
+      "id": "post-review-evolution",
+      "impact": {
+        "paths": [
+          "src/services/backup.service.ts",
+          "src/pages/game/index.vue"
+        ],
+        "note": "docs/tasks/2026-10-10-feature-ux-review/impact.md"
+      }
     }
   ],
   "checks": [
     "adapter",
+    "adapter-tests",
     "typecheck",
     "unit",
     "puzzles",
-    "ui"
+    "ui",
+    "risk-evidence"
   ],
   "checkSelection": {
     "checks": [
       "adapter",
+      "adapter-tests",
       "typecheck",
       "unit",
       "puzzles",
-      "ui"
+      "ui",
+      "risk-evidence"
     ],
     "source": "explicit",
     "required": [
-      "adapter"
+      "adapter",
+      "adapter-tests",
+      "typecheck",
+      "unit",
+      "puzzles",
+      "ui",
+      "risk-evidence"
     ],
     "reasons": [
       {
@@ -55,17 +123,68 @@
           "adapter"
         ],
         "paths": []
+      },
+      {
+        "reason": "源码、测试或工程依赖变化需通过项目完整脚本检查。",
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "paths": [
+          "src",
+          "tests",
+          "package.json",
+          "package-lock.json",
+          "tsconfig.json",
+          "vite.config.ts",
+          "index.html"
+        ]
+      },
+      {
+        "reason": "检查脚本和题库样本变化会影响验证有效性，需重新运行完整检查。",
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "paths": [
+          "tools",
+          "docs/validation",
+          "docs/generated/pipeline-smoke.json"
+        ]
+      },
+      {
+        "reason": "交付适配和权限规则变化需确认已注册命令能真实检查项目。",
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "paths": [
+          "ai",
+          ".ai-agent",
+          "docs/workflow/RULES.md"
+        ]
       }
     ]
   },
   "manualChecks": [
     "本次交付为源码与脚本证据支持的评估报告；发现的问题和功能建议尚未实现或修复。",
-    "未启动应用、浏览器或设备；布局、手势、读屏、振动、音效和生成等待的实际设备体验尚需授权后的验证。",
-    "尚未做 Android 折叠屏真机、安装包、窗口重建与铰链姿态验证；本轮新增的是评估要求和后续验收计划，不能宣称已经兼容。"
+    "未启动应用、浏览器或设备；布局、手势、读屏、振动、音效和生成等待的实际设备体验尚需授权后的验证。"
   ],
-  "status": "awaiting_owner",
+  "status": "accepted",
   "createdAt": "2026-10-10T01:21:42.618Z",
-  "updatedAt": "2026-10-10T01:46:50.266Z",
+  "updatedAt": "2026-10-20T07:55:08.761Z",
   "baseline": {
     "docs/ai-delivery/check-adapter.mjs": "9036b31df9d87dca9f8fa769deafb433f7f646d01fbc66e8807d0c1a036b6471",
     "docs/ai-delivery/project.json": "cfb24b92125e74c4956a691490329b4dfc15fad90e397f57b444431d097bafeb",
@@ -178,7 +297,7 @@
     "tsconfig.json": "e730b8c94cba2855d15baa2b8b26ebb6a855a3b5cb8c78958588422762a732b2",
     "vite.config.ts": "21a07594ec80f6d8e11588ea097f1d6cc48d6f95c2d5e6fab57f4c84addd0a1b"
   },
-  "repairRounds": 1,
+  "repairRounds": 3,
   "runs": [
     {
       "id": "2026-10-10T01-27-58-899Z-516f8a19",
@@ -187,6 +306,10 @@
     {
       "id": "2026-10-10T01-44-29-587Z-db692b6b",
       "report": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/result.json"
+    },
+    {
+      "id": "2026-10-20T07-54-02-329Z-e6a40bb1",
+      "report": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/result.json"
     }
   ],
   "events": [
@@ -287,6 +410,69 @@
       "status": "awaiting_owner",
       "note": "",
       "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:53:41.145Z",
+      "action": "rework",
+      "status": "executing",
+      "note": "验收阶段指纹失效：工具链迁移与后续已验收任务演进共享路径，用户指示重检后验收；需求与验收条件不变",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:53:41.264Z",
+      "action": "amended",
+      "status": "received",
+      "note": "重检需要覆盖当前工作区：将监控全量路径纳入范围、补证据类型声明与共享演进重检条件；旧基线包含已被迁移删除的 docs/ai-delivery 文件，临时纳入范围以覆盖删除记录",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:54:02.124Z",
+      "action": "planned",
+      "status": "planned",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:54:02.239Z",
+      "action": "started",
+      "status": "executing",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:54:02.331Z",
+      "action": "verification-started",
+      "status": "verifying",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:54:48.206Z",
+      "action": "verification-passed",
+      "status": "verified",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:08.601Z",
+      "action": "reviewed",
+      "status": "reviewed",
+      "note": "当前会话逐项复核",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:08.651Z",
+      "action": "delivered",
+      "status": "awaiting_owner",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:08.761Z",
+      "action": "owner-decision",
+      "status": "accepted",
+      "note": "用户对功能、交互及折叠屏评估交付明确验收通过（重检七项检查通过后记录；评估建议已由后续任务落地）",
+      "toolVersion": "0.5.1"
     }
   ],
   "revisions": [
@@ -321,126 +507,189 @@
           "sha256": "c7cf995ec377c04702e4da40cf0f8ec78a34789c25f4408b46cefd338a6e1ca1"
         }
       ]
+    },
+    {
+      "id": "0002",
+      "at": "2026-10-20T07:53:41.261Z",
+      "reason": "重检需要覆盖当前工作区：将监控全量路径纳入范围、补证据类型声明与共享演进重检条件；旧基线包含已被迁移删除的 docs/ai-delivery 文件，临时纳入范围以覆盖删除记录",
+      "directory": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002",
+      "evidence": [
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/task.json",
+          "sha256": "df91cd672326922f0038b5e4ac5fb00e0d68599cf40f49f52ca17da2381b1144"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/brief.md",
+          "sha256": "eae73081a8a9258d025e0641229468f218d1f57b815474396d7915740363786c"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/plan.md",
+          "sha256": "6e008f845f20f6cfa2198cabb8aae7fd4fdb52b597a3ec8281e9142adaba5eea"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/history.json",
+          "sha256": "2c04d1464e2c85ac37daf89fa737c171919beb0fceb320a389b05426385fe943"
+        }
+      ]
     }
   ],
   "verification": {
-    "id": "2026-10-10T01-44-29-587Z-db692b6b",
+    "id": "2026-10-20T07-54-02-329Z-e6a40bb1",
     "toolVersion": "0.5.1",
-    "startedAt": "2026-10-10T01:44:29.588Z",
-    "fingerprint": "6b5c70446a320351acc6fa0d8d77687dcb945f8e52bc812369730e5be211101b",
+    "startedAt": "2026-10-20T07:54:02.330Z",
+    "fingerprint": "4a370b934a952c405ef2faffc5ab8990480aae108ac2fc28cc2c22aa0137b786",
     "passed": true,
     "checks": [
       {
         "id": "adapter",
         "passed": true,
-        "durationMs": 86,
-        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/adapter.log"
+        "durationMs": 61,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter.log"
+      },
+      {
+        "id": "adapter-tests",
+        "passed": true,
+        "durationMs": 417,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter-tests.log"
       },
       {
         "id": "typecheck",
         "passed": true,
-        "durationMs": 2928,
-        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/typecheck.log"
+        "durationMs": 2458,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/typecheck.log"
       },
       {
         "id": "unit",
         "passed": true,
-        "durationMs": 43052,
-        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/unit.log"
+        "durationMs": 41512,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/unit.log"
       },
       {
         "id": "puzzles",
         "passed": true,
-        "durationMs": 378,
-        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/puzzles.log"
+        "durationMs": 441,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/puzzles.log"
       },
       {
         "id": "ui",
         "passed": true,
-        "durationMs": 837,
-        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/ui.log"
+        "durationMs": 759,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/ui.log"
+      },
+      {
+        "id": "risk-evidence",
+        "passed": true,
+        "durationMs": 38,
+        "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/risk-evidence.log"
       }
     ],
     "evidence": [
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/input.json",
-        "sha256": "cd9a488f022be79dae1ad1a648e22e2ea94a1aaca9b054e1de9b0c24e60916fe"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/input.json",
+        "sha256": "d723a56d6bb1dc853029f406149360a648b963c428a07cf418b8e1b4863cb4d4"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/result.json",
-        "sha256": "7b98337ce51aff5db8af9cb926237f9f859bf34a738d8203321557057b3ff822"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/result.json",
+        "sha256": "77fc9b832b23267cf594ffee7944dd5a7adcc905e8870649017277c854b3803e"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/adapter.log",
-        "sha256": "417ce872fb28cf664a82b11db835239fc1aec4f62cea1629640813bca661ff13"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter.log",
+        "sha256": "6c0214aec2f30436a41624378e7796f2d68548d61ca24027472b0c7a1ae06cea"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/typecheck.log",
-        "sha256": "e96e8746a7b4426ba2c73d99a8ee8aadcfbc60d0679e145f3d40a588e6fd9425"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter-tests.log",
+        "sha256": "4cf6179d69c787542ebd881ceb59614e4747f400d03cf9e1f99212a12ac55d80"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/unit.log",
-        "sha256": "37b2f657979f5f00c80c3e003269f4f5791016ff3db514c5259cf882cedb1e2b"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/typecheck.log",
+        "sha256": "137d653d82bfd43ec222e24ac3c66927d90052e25ff3104daae50095762ec803"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/puzzles.log",
-        "sha256": "cffb49b9e73be61fb773fffeba1f0ec7cd276554526c733be07f4ab5fbdd1ddc"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/unit.log",
+        "sha256": "76dc39f60f097d20c6f8b33ced2e0a532d660e129c2d4165dc4c421bc7e7c8be"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/ui.log",
-        "sha256": "64ba2c9caa931adba32cfb5938e1e842d6d026ec88a52ab4e0e5be62305f79da"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/puzzles.log",
+        "sha256": "93589efc98e4e970ac6c8dea2b3b1418e60048a94bd449eb8446bfe849d1e260"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/unit-tests.json",
-        "sha256": "a46d2128ec332032bfda13254ad2e10b0a7e6b157281ad032653821cf54e0f37"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/ui.log",
+        "sha256": "163966a97924bb69a0433a94d0e15ef0335235ccf0dfaa5768cff44ce656abe2"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/risk-evidence.log",
+        "sha256": "5ebe34c460ed144b8a29d999c4ee13cb23cbefd22506ebbfc8dc7fd8122b8b10"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter.json",
+        "sha256": "f3e5fbc91281368a774844f958b6918593f3055dbda163238b874cfe5fadb2d7"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter-tests.json",
+        "sha256": "4be77377f813da9709c41da7e2555633e82d74a0f70ca09a92a8ae4b8baeec96"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/typecheck.json",
+        "sha256": "89a65884a4079d62d40546d65970f855603ee0cceabbc6538bae9df526659260"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/unit.json",
+        "sha256": "f68313fbbbff0a7871957bd05aaa186718f59e12f5dba01bb9ea5b2a766a4073"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/unit-tests.json",
+        "sha256": "64894d7c46d0f7d18b91bb60a5fdced0a46d0b85974d2fdca1264704dd0f2b34"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/puzzles.json",
+        "sha256": "d3b9488e35797f3f5a4fcaf558e56928a16a2f4d895328871f28832b2442591a"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/ui.json",
+        "sha256": "c6a770b87e5b6131778f99ab296af86975cdf83c978c28b882ccb9f90009961c"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/risk-evidence.json",
+        "sha256": "66b519e994a3d72a10b45691e762c621798fbf17fcdb38377c91d13f62341639"
       }
     ],
-    "finishedAt": "2026-10-10T01:45:17.028Z"
+    "finishedAt": "2026-10-20T07:54:48.204Z"
   },
   "review": {
     "file": "docs/tasks/2026-10-10-feature-ux-review/review.json",
     "evidence": [
       {
         "path": "docs/tasks/2026-10-10-feature-ux-review/review.json",
-        "sha256": "e7644ccead5fb03ef73b11465f073500252b709834c182348073798d96b71374"
+        "sha256": "11e1812ad32c83a6ae4690a9c686bb3d61e9d163294b601c3920fcfc3a5f313d"
       },
       {
         "path": "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
         "sha256": "b72f9f2b49dde81fd9a2c8818cfd175fd4fd5eea6a43f5df8d007a8a4219d228"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/source-evidence.json",
-        "sha256": "2ca9042e9ea43a6beb5cbbd10b25006edbb12195a873ece32909d0ca65f0b684"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "sha256": "e76a28ba1985f3293e6ee14c3d7f65c1c5d8e95452c8f6bbfa300436596e0acb"
       },
       {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/probe-interactions.cjs",
-        "sha256": "025fc5e7f67f1e4ecde0e5776627a985412999ee92d197aa02636d24ab63605e"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/interaction-probes.json",
-        "sha256": "2963a6beed995d2c565b3451614f9984a4048cd7d63dae25a17db35a3efb3503"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/probe-interactions.log",
-        "sha256": "539b14fc30f4b2179d95d2bf4a470387f83f84c894ff0bbd6c8d5a0f7c549f27"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/assessment-checks.json",
-        "sha256": "20c53dd02ad905832158b43fc94ec2654fe1384d39c46a62388ce9e62deab5b5"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/inspect-before-review.json",
-        "sha256": "488f39862507beb491c91475822eb24de5cd7fd03f950eed4f6ca95699a1c6ab"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/result.json",
-        "sha256": "7b98337ce51aff5db8af9cb926237f9f859bf34a738d8203321557057b3ff822"
+        "path": "docs/tasks/2026-10-10-feature-ux-review/plan.md",
+        "sha256": "e5c9f5aa81ccac6110bfd86cfb0d7c060a8d0a01df295d5b2126c4a812dffe1f"
       }
     ]
   },
   "delivery": {
     "file": "docs/tasks/2026-10-10-feature-ux-review/delivery.md",
-    "sha256": "c1c487b220bc72680152b020c2200b414a9ee706b2133647a2eba99d854ceba1",
-    "fingerprint": "6b5c70446a320351acc6fa0d8d77687dcb945f8e52bc812369730e5be211101b"
-  }
+    "sha256": "0059c10de4d15a20c27f5a6de57907aa4d3d5cc5c24cfabbe9ee11bac5c9cc80",
+    "fingerprint": "4a370b934a952c405ef2faffc5ab8990480aae108ac2fc28cc2c22aa0137b786"
+  },
+  "decisions": [
+    {
+      "source": "explicit-user-message",
+      "reference": "把前面几个待用户验收的都验证通过吧",
+      "note": "用户对功能、交互及折叠屏评估交付明确验收通过（重检七项检查通过后记录；评估建议已由后续任务落地）",
+      "decision": "accept",
+      "recordedAt": "2026-10-20T07:55:08.760Z",
+      "previousStatus": "awaiting_owner",
+      "fingerprint": "4a370b934a952c405ef2faffc5ab8990480aae108ac2fc28cc2c22aa0137b786"
+    }
+  ]
 }

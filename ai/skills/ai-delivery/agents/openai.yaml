@@ -1,0 +1,6 @@
+interface:
+  display_name: "AI 需求交付"
+  short_description: "跨项目执行需求、保存检查证据、显示真实进度并等待用户验收"
+  default_prompt: "使用 $ai-delivery 接入当前项目，并按可追溯的交付流程完成我的需求。"
+policy:
+  allow_implicit_invocation: true

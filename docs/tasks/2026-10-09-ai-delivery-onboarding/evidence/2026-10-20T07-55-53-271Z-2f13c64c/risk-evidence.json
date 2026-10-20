@@ -1,0 +1,116 @@
+{
+  "mode": "risk-evidence",
+  "status": "passed",
+  "files": [],
+  "deleted": [],
+  "commands": [],
+  "criteria": [
+    {
+      "id": "adapter-ready",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "permissions-preserved",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "checks-backed",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "inputs-tracked",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "workflow-usable",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "menu-regression-aligned",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "toolchain-migration-recertified",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "checks": [
+        "ui"
+      ],
+      "testFiles": [],
+      "impact": {
+        "paths": [
+          "ai/scripts/delivery.cjs",
+          ".ai-agent/project.json"
+        ],
+        "note": "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md"
+      }
+    }
+  ],
+  "requiredChecks": [
+    "ui"
+  ],
+  "sharedChanges": [
+    "src/components/common/AppHeader.vue",
+    "src/components/common/BottomSheet.vue",
+    "src/components/common/MedalBadge.vue",
+    "src/components/common/MoreSheet.vue",
+    "src/components/common/OnboardingGuide.vue",
+    "src/components/sudoku/GameToolbar.vue",
+    "src/components/sudoku/HintSheet.vue",
+    "src/components/sudoku/NumberPad.vue",
+    "src/components/sudoku/SudokuBoard.vue",
+    "src/components/sudoku/SudokuCell.vue",
+    "src/core/sudoku/types.ts",
+    "src/repositories/current-game.repository.ts",
+    "src/repositories/results.repository.ts",
+    "src/repositories/settings.repository.ts",
+    "src/repositories/storage.ts",
+    "src/stores/game.store.ts"
+  ],
+  "impacts": [
+    {
+      "criterion": "toolchain-migration-recertified",
+      "note": "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+      "sha256": "a177133fee3fa014c28953b734a34c18d76cf6b872b93f3f0817103cb8340a9c",
+      "paths": [
+        "ai/scripts/delivery.cjs",
+        ".ai-agent/project.json"
+      ]
+    }
+  ],
+  "note": "核对已声明风险和实际脚本结果；业务风险分类及测试断言仍需源码复核，页面观察在复核入口核对。"
+}

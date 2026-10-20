@@ -1,0 +1,11 @@
+{
+  "name": "ai-delivery",
+  "version": "0.5.1",
+  "description": "Project-adapted AI delivery workflow, evidence gates and Codex skill",
+  "type": "module",
+  "bin": { "ai-delivery": "scripts/ai-delivery.mjs" },
+  "engines": { "node": ">=20" },
+  "scripts": { "test": "node --test tests/*.test.mjs" },
+  "files": ["scripts", "SKILL.md", "agents", "references", "README.md", "tests"],
+  "license": "UNLICENSED"
+}

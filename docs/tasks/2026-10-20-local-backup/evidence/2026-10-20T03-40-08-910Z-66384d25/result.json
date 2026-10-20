@@ -1,0 +1,52 @@
+{
+  "id": "2026-10-20T03-40-08-910Z-66384d25",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-20T03:40:08.911Z",
+  "fingerprint": "5507e482319f3f1533d8b938fbdcc20eb162b175e5cf149e2e2e524aac4e2b73",
+  "passed": true,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 63,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/adapter.log"
+    },
+    {
+      "id": "adapter-tests",
+      "passed": true,
+      "durationMs": 423,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/adapter-tests.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2534,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "durationMs": 40715,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/unit.log"
+    },
+    {
+      "id": "puzzles",
+      "passed": true,
+      "durationMs": 433,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/puzzles.log"
+    },
+    {
+      "id": "ui",
+      "passed": true,
+      "durationMs": 749,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/ui.log"
+    },
+    {
+      "id": "risk-evidence",
+      "passed": true,
+      "durationMs": 41,
+      "log": "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T03-40-08-910Z-66384d25/risk-evidence.log"
+    }
+  ],
+  "finishedAt": "2026-10-20T03:40:54.045Z"
+}

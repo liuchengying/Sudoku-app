@@ -1,0 +1,28 @@
+{
+  "mode": "puzzles",
+  "status": "passed",
+  "commands": [
+    {
+      "executable": "node",
+      "args": [
+        "tools/validate-puzzles.mjs"
+      ],
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "master: 25 valid unique puzzles\nking: 25 valid unique puzzles\ngrandmaster: 25 valid unique puzzles\nOK: 75 production puzzles validated\n",
+      "stderr": "",
+      "error": null
+    },
+    {
+      "executable": "node",
+      "args": [
+        "docs/validation/calibrate-puzzles.cjs"
+      ],
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "{\"total\":75,\"counts\":{\"beginner\":9,\"easy\":41,\"expert\":18,\"advanced\":7}}\n",
+      "stderr": "",
+      "error": null
+    }
+  ]
+}

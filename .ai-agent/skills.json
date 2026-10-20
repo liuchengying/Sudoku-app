@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "active": [
+    {
+      "name": "ai-delivery",
+      "version": "0.5.1",
+      "source": "ai/skills/ai-delivery",
+      "role": "交付流程：收件、计划、检查证据、复核、交付与用户验收"
+    }
+  ],
+  "note": "只管理本项目技能及入口；ce-front-development 工程技能属于 Vue2 后台项目，不随本项目分发。"
+}

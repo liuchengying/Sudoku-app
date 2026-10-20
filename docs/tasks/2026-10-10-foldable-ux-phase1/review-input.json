@@ -1,90 +1,99 @@
 {
-  "reviewer": "当前会话逐项复核：源码与修改文件哈希、窗口几何/生命周期、真实 Vue 内存组件动作、存档与原始五项结果核对；不是独立代理审核",
-  "summary": "首批实现动态窗口/安全区、横竖屏与单列/并排布局、短窗口高度上限、公共字号/阅读宽度和弹层滚动；纯尺寸变化保持同一局，修整暂停工具与继续、每日日期、有效提示揭示计数，新增向后兼容的自主推理。40 个变更输入文件均在授权范围，12 个页面绑定安全区变量。最终五项检查通过，105/105 测试、75 题、24 SFC/12 路由通过。原始定向失败与一次复核返工均保留。普通窗口与业务脚本已验证；没有运行工程、Git或控制浏览器/设备，没有原生姿态桥接，厂商外屏、半折叠铰链、原生重建与真实触控/字体体验明确留待设备验收，未宣称真机兼容已验收。",
+  "reviewer": "当前会话逐项复核",
+  "summary": "验收重检：任务交付后共享路径的演进（工具链迁移、备份功能、弹窗中文化）均来自后续已验收任务，本任务交付的折叠屏适配行为未被改写；按当前工作区重新通过全部注册检查（含 risk-evidence 门槛），逻辑与业务证据沿用既有交付材料，逐条静态复核通过。",
   "findings": [],
   "criteria": [
     {
       "id": "adaptive-window",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "adaptive-layout",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/ui.log"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "state-continuity",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "pause-and-continue",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "daily-date",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "hint-disclosure",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "independent-reasoning",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     },
     {
       "id": "delivery-evidence",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/review-checks.json",
-        "docs/tasks/2026-10-10-foldable-ux-phase1/inspect-before-review.json"
-      ]
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
+    },
+    {
+      "id": "rework-recertified",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md",
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md": "static",
+        "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md": "static"
+      }
     }
   ]
 }

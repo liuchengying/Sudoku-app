@@ -1,65 +1,121 @@
 {
-  "reviewer": "当前会话逐项复核：文件审阅、真实 CLI 回执与原始脚本结果核对",
-  "summary": "项目适配就绪，5 项检查全部通过（74/74 测试、75 道题库、24 个 SFC、12 条路由）。首轮菜单测试前提缺失通过归档调整后修正并补充首次引导回归，保留原有断言；检查证据、输入、范围和调整历史一致。新材料位于 docs，用户权限规则完整保留，未启动工程、操作 Git 或进行设备验证。交付后等待用户明确决定。",
+  "reviewer": "当前会话逐项复核",
+  "summary": "验收重检：接入的交付流程经 2026-10-20 工具链迁移后由随工程分发的 ai/ 与 .ai-agent/ 承载，行为不变（见 impact.md）；接入流程已在多个后续已验收任务中真实运转。按当前工作区重新通过全部注册检查（含 risk-evidence 门槛），逐条静态复核通过。证据仅引用规则、概览、影响说明与计划等稳定文件。",
   "findings": [],
   "criteria": [
     {
       "id": "adapter-ready",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/doctor-final.json",
-        "docs/ai-delivery/project.json",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/adapter.log"
-      ]
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+        "docs/workflow/RULES.md",
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
     },
     {
       "id": "permissions-preserved",
       "result": "passed",
       "evidence": [
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
         "docs/workflow/RULES.md",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/inspect-before-review.json"
-      ]
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
     },
     {
       "id": "checks-backed",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/result.json",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit-tests.json",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/puzzles.log",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/ui.log"
-      ]
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+        "docs/workflow/RULES.md",
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
     },
     {
       "id": "inputs-tracked",
       "result": "passed",
       "evidence": [
-        "docs/ai-delivery/project.json",
-        "docs/ai-delivery/check-adapter.mjs",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/inspect-before-review.json"
-      ]
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+        "docs/workflow/RULES.md",
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
     },
     {
       "id": "workflow-usable",
       "result": "passed",
       "evidence": [
-        "docs/ai-delivery/README.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
         "docs/workflow/RULES.md",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md"
-      ]
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
     },
     {
       "id": "menu-regression-aligned",
       "result": "passed",
       "evidence": [
-        "docs/validation/game-flows.spec.ts",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
-        "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit-tests.json"
-      ]
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+        "docs/workflow/RULES.md",
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
+    },
+    {
+      "id": "toolchain-migration-recertified",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+        "docs/workflow/RULES.md",
+        "docs/PROJECT_OVERVIEW.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md": "static",
+        "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md": "static",
+        "docs/workflow/RULES.md": "static",
+        "docs/PROJECT_OVERVIEW.md": "static"
+      }
     }
   ],
-  "reviewedAt": "2026-10-09T09:52:16.307Z",
-  "fingerprint": "6e7eedef7b877d45d65202b2bbc8ec2c5c6d1614b53e8499bf97aa1905e0080d"
+  "reviewedAt": "2026-10-20T07:56:59.607Z",
+  "fingerprint": "48bbdabd62ee78b44332f1a91446f2b17deac66f28a0e046f4881ff56ba7ecdd"
 }

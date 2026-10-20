@@ -1,0 +1,22 @@
+{
+  "mode": "adapter-tests",
+  "status": "passed",
+  "files": [],
+  "deleted": [],
+  "commands": [
+    {
+      "executable": "node",
+      "args": [
+        "--test",
+        "ai/checks/adapter.test.cjs",
+        "ai/checks/entrypoints.test.cjs",
+        "ai/checks/acceptance.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "TAP version 13\n# Subtest: 风险声明要求逻辑证据和范围内的明确测试文件\nok 1 - 风险声明要求逻辑证据和范围内的明确测试文件\n  ---\n  duration_ms: 8.546916\n  type: 'test'\n  ...\n# Subtest: 遗漏风险检查、零测试和失败命令不能通过\nok 2 - 遗漏风险检查、零测试和失败命令不能通过\n  ---\n  duration_ms: 5.99775\n  type: 'test'\n  ...\n# Subtest: 声明的测试必须出现在本轮实际命令中\nok 3 - 声明的测试必须出现在本轮实际命令中\n  ---\n  duration_ms: 4.553334\n  type: 'test'\n  ...\n# Subtest: 静态或历史报告不能充当逻辑通过证据\nok 4 - 静态或历史报告不能充当逻辑通过证据\n  ---\n  duration_ms: 6.574584\n  type: 'test'\n  ...\n# Subtest: 页面观察需要原始资料，资料漂移会阻止复核\nok 5 - 页面观察需要原始资料，资料漂移会阻止复核\n  ---\n  duration_ms: 9.268375\n  type: 'test'\n  ...\n# Subtest: 公共源码变化必须有调用方影响说明及快照检查\nok 6 - 公共源码变化必须有调用方影响说明及快照检查\n  ---\n  duration_ms: 6.520958\n  type: 'test'\n  ...\n# Subtest: 项目入口自动追加风险检查，真实 Node 测试后才能完成交付\nok 7 - 项目入口自动追加风险检查，真实 Node 测试后才能完成交付\n  ---\n  duration_ms: 253.312833\n  type: 'test'\n  ...\n# Subtest: 本项目真实风险政策与项目配置一致\nok 8 - 本项目真实风险政策与项目配置一致\n  ---\n  duration_ms: 0.408417\n  type: 'test'\n  ...\n# Subtest: 目录范围只选择实际变化，显式文件仍被检查，删除单独记录\nok 9 - 目录范围只选择实际变化，显式文件仍被检查，删除单独记录\n  ---\n  duration_ms: 5.834875\n  type: 'test'\n  ...\n# Subtest: 范围外变化不能被静默过滤\nok 10 - 范围外变化不能被静默过滤\n  ---\n  duration_ms: 0.936833\n  type: 'test'\n  ...\n# Subtest: 拒绝路径越界及链接输入\nok 11 - 拒绝路径越界及链接输入\n  ---\n  duration_ms: 1.066541\n  type: 'test'\n  ...\n# Subtest: 入口安装幂等，规则或链接漂移会被发现\nok 12 - 入口安装幂等，规则或链接漂移会被发现\n  ---\n  duration_ms: 22.933708\n  type: 'test'\n  ...\n# Subtest: 任一入口冲突会在所有写入前停止\nok 13 - 任一入口冲突会在所有写入前停止\n  ---\n  duration_ms: 5.25\n  type: 'test'\n  ...\n# Subtest: 其他技能可共存，保留原目录及内容\nok 14 - 其他技能可共存，保留原目录及内容\n  ---\n  duration_ms: 6.497\n  type: 'test'\n  ...\n# Subtest: 空行为测试失败，证据目录越界如实拒绝\nok 15 - 空行为测试失败，证据目录越界如实拒绝\n  ---\n  duration_ms: 7.836042\n  type: 'test'\n  ...\n# Subtest: 共同目录服务多个客户端，只生成两项入口\nok 16 - 共同目录服务多个客户端，只生成两项入口\n  ---\n  duration_ms: 15.709417\n  type: 'test'\n  ...\n# Subtest: 保留自定义规则和其他技能，更新仅管理区块\nok 17 - 保留自定义规则和其他技能，更新仅管理区块\n  ---\n  duration_ms: 15.736833\n  type: 'test'\n  ...\n# Subtest: 管理区块被手改或标记损坏时，预检拒绝全部写入\nok 18 - 管理区块被手改或标记损坏时，预检拒绝全部写入\n  ---\n  duration_ms: 11.55325\n  type: 'test'\n  ...\n# Subtest: 管理副本随源更新，额外文件或用户修改阻止覆盖\nok 19 - 管理副本随源更新，额外文件或用户修改阻止覆盖\n  ---\n  duration_ms: 20.835375\n  type: 'test'\n  ...\n# Subtest: 自动策略遇到链接权限问题回退副本，显式链接策略停止\nok 20 - 自动策略遇到链接权限问题回退副本，显式链接策略停止\n  ---\n  duration_ms: 8.917625\n  type: 'test'\n  ...\n# Subtest: Windows 策略使用绝对目录 junction（策略模拟，不代表实机验证）\nok 21 - Windows 策略使用绝对目录 junction（策略模拟，不代表实机验证）\n  ---\n  duration_ms: 6.2905\n  type: 'test'\n  ...\n# Subtest: 写入中断恢复已创建入口，保留非管理内容\nok 22 - 写入中断恢复已创建入口，保留非管理内容\n  ---\n  duration_ms: 4.894083\n  type: 'test'\n  ...\n# Subtest: 独立来源检查无需客户端入口，固定包漂移会失败\nok 23 - 独立来源检查无需客户端入口，固定包漂移会失败\n  ---\n  duration_ms: 3.13775\n  type: 'test'\n  ...\n# Subtest: 只读诊断报告全局同名，不修改其内容\nok 24 - 只读诊断报告全局同名，不修改其内容\n  ---\n  duration_ms: 11.040292\n  type: 'test'\n  ...\n# Subtest: 拒绝异常客户端及来源检查混用参数\nok 25 - 拒绝异常客户端及来源检查混用参数\n  ---\n  duration_ms: 1.984042\n  type: 'test'\n  ...\n1..25\n# tests 25\n# suites 0\n# pass 25\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 366.656667\n",
+      "stderr": "",
+      "error": null
+    }
+  ]
+}

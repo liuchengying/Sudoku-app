@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "evidenceTypes": ["static", "logic", "render", "business"],
+  "logicChecks": ["unit", "puzzles", "ui"],
+  "riskChecks": {
+    "score-calculation": ["unit"],
+    "state-transition": ["unit", "ui"],
+    "puzzle-data": ["puzzles", "unit"],
+    "shared-contract": ["ui"]
+  },
+  "sharedCheck": "ui",
+  "sharedPaths": [
+    "src/components/common",
+    "src/components/sudoku",
+    "src/stores",
+    "src/repositories",
+    "src/core/sudoku",
+    "src/assets/puzzles"
+  ]
+}

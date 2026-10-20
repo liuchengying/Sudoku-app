@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-20T07:55:27.668Z",
+  "reason": "重检需要覆盖当前工作区：将监控全量路径纳入范围、补证据类型声明与工具链迁移重检条件；旧基线的 docs/ai-delivery 文件已被迁移删除，临时纳入范围以覆盖删除记录",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-09-ai-delivery-onboarding/task.json",
+      "snapshot": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-09-ai-delivery-onboarding/brief.md",
+      "snapshot": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
+      "snapshot": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/plan.md"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "mode": "risk-evidence",
+  "status": "passed",
+  "files": [],
+  "deleted": [],
+  "commands": [],
+  "criteria": [
+    {
+      "id": "cancel-text-zh",
+      "evidenceTypes": [
+        "static",
+        "logic"
+      ],
+      "risks": [],
+      "checks": [
+        "ui"
+      ],
+      "testFiles": []
+    },
+    {
+      "id": "regression-guard",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "checks-pass",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    }
+  ],
+  "requiredChecks": [
+    "ui"
+  ],
+  "sharedChanges": [],
+  "impacts": [],
+  "note": "核对已声明风险和实际脚本结果；业务风险分类及测试断言仍需源码复核，页面观察在复核入口核对。"
+}

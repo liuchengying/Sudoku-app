@@ -3,71 +3,143 @@
   "toolVersion": "0.5.1",
   "id": "2026-10-10-foldable-ux-phase1",
   "title": "首批折叠屏适配与游戏交互优化",
-  "request": "用户在功能与交互评估后要求“好的，开始执行吧”。关联评估 docs/tasks/2026-10-10-feature-ux-review/assessment.md。用户重点：“尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多”；范围澄清：“就是市面上几款主流的折叠屏，捏外屏，横向折叠，竖向折叠，还有阔折叠”。实施评估首批：普通窗口适配与状态连续性、UX-01/02/03/04/05。",
+  "request": "用户在功能与交互评估后要求“好的，开始执行吧”。关联评估 docs/tasks/2026-10-10-feature-ux-review/assessment.md。用户重点：“尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多”；范围澄清：“就是市面上几款主流的折叠屏，捏外屏，横向折叠，竖向折叠，还有阔折叠”。实施评估首批：普通窗口适配与状态连续性、UX-01/02/03/04/05。 验收阶段 amendment：任务交付后工程发生工具链迁移（ai/、.ai-agent/、AGENTS.md）与后续已验收任务（备份功能、弹窗中文化）对共享路径的演进，输入指纹失效。将监控全量路径纳入范围，按当前工作区重新检查后交付验收；原需求与既有验收条件不变。",
   "scope": [
-    "src",
-    "docs/validation/game-flows.spec.ts",
-    "docs/validation/foldable-window.spec.ts",
-    "docs/PROJECT_OVERVIEW.md",
+    ".ai-agent",
+    "AGENTS.md",
+    "README.md",
+    "ai",
     "docs/ARCHITECTURE.md",
-    "docs/tasks/2026-10-10-foldable-ux-phase1"
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/design",
+    "docs/generated/pipeline-smoke.json",
+    "docs/implementation",
+    "docs/reviews",
+    "docs/tasks/2026-10-10-foldable-ux-phase1",
+    "docs/validation",
+    "docs/validation/foldable-window.spec.ts",
+    "docs/validation/game-flows.spec.ts",
+    "docs/workflow/RULES.md",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "src",
+    "tests",
+    "tools",
+    "tsconfig.json",
+    "vite.config.ts"
   ],
   "criteria": [
     {
       "id": "adaptive-window",
-      "description": "支持动态窗口宽高与安全区刷新、返回前台补读、监听清理及 API 缺失回退；允许 Android 横竖屏，按实际空间适配外屏/内屏、阔折叠和分屏。"
+      "description": "支持动态窗口宽高与安全区刷新、返回前台补读、监听清理及 API 缺失回退；允许 Android 横竖屏，按实际空间适配外屏/内屏、阔折叠和分屏。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "adaptive-layout",
-      "description": "棋盘保持完整正方形；窄窗口单列，宽且空间足够时棋盘与操作区并排，短窗口可滚动访问动作；公共头部、弹层、引导和内容宽度避免大屏过度放大，保留主题与大字。"
+      "description": "棋盘保持完整正方形；窄窗口单列，宽且空间足够时棋盘与操作区并排，短窗口可滚动访问动作；公共头部、弹层、引导和内容宽度避免大屏过度放大，保留主题与大字。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "state-continuity",
-      "description": "纯窗口变化不创建新游戏、不改变填写/笔记/选中格/撤销重做/书签/计数及运行暂停状态，切换前后台按既有偏好保存与暂停；验证重复尺寸变化的监听和计时器不重复。"
+      "description": "纯窗口变化不创建新游戏、不改变填写/笔记/选中格/撤销重做/书签/计数及运行暂停状态，切换前后台按既有偏好保存与暂停；验证重复尺寸变化的监听和计时器不重复。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "pause-and-continue",
-      "description": "更多菜单及检查/书签/候选动作完成或取消后保留原运行暂停状态，确认框显示期间暂停；首页、关卡与每日的继续入口一致恢复，导航失败暂停兜底。"
+      "description": "更多菜单及检查/书签/候选动作完成或取消后保留原运行暂停状态，确认框显示期间暂停；首页、关卡与每日的继续入口一致恢复，导航失败暂停兜底。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "daily-date",
-      "description": "默认今日选择跨日/月更新日期与月份；主动补玩选择保留，有回到今天入口，日期/开始继续文案与启动题目一致。"
+      "description": "默认今日选择跨日/月更新日期与月份；主动补玩选择保留，有回到今天入口，日期/开始继续文案与启动题目一致。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "hint-disclosure",
-      "description": "打开关闭说明不计提示、不泄露提示目标；显式查看有效推导才计一次，同一有效提示重复展开不重复计数，保持应用提示安全与奖牌规则；文案明确是全盘下一步。"
+      "description": "打开关闭说明不计提示、不泄露提示目标；显式查看有效推导才计一次，同一有效提示重复展开不重复计数，保持应用提示安全与奖牌规则；文案明确是全盘下一步。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "independent-reasoning",
-      "description": "提供明确自主推理偏好并兼容旧设置；自主模式不通过即时错误、数字余数/禁用、候选与自动清理隐式查询答案。手动检查与解法作为显式求助，错误/提示成绩累计规则不变。"
+      "description": "提供明确自主推理偏好并兼容旧设置；自主模式不通过即时错误、数字余数/禁用、候选与自动清理隐式查询答案。手动检查与解法作为显式求助，错误/提示成绩累计规则不变。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "delivery-evidence",
-      "description": "通过五项项目脚本与针对窗口/真实组件动作的回归，保留原始证据；说明真实安装、厂商内外屏与半折叠铰链验证边界，全部产出资料在 docs，未进行 Git、工程启动或电脑/浏览器操作。"
+      "description": "通过五项项目脚本与针对窗口/真实组件动作的回归，保留原始证据；说明真实安装、厂商内外屏与半折叠铰链验证边界，全部产出资料在 docs，未进行 Git、工程启动或电脑/浏览器操作。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
+    },
+    {
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "description": "任务交付后共享路径（src/repositories、src/stores 等）的后续变化全部来自后续已验收任务与工具链迁移；本任务按当前工作区重新通过全部注册检查，未回退或改写本任务交付的折叠屏适配行为。",
+      "id": "rework-recertified",
+      "impact": {
+        "paths": [
+          "src/stores/game.store.ts",
+          "src/pages/settings/index.vue"
+        ],
+        "note": "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md"
+      }
     }
   ],
   "checks": [
     "adapter",
+    "adapter-tests",
     "typecheck",
     "unit",
     "puzzles",
-    "ui"
+    "ui",
+    "risk-evidence"
   ],
   "checkSelection": {
     "checks": [
       "adapter",
+      "adapter-tests",
       "typecheck",
       "unit",
       "puzzles",
-      "ui"
+      "ui",
+      "risk-evidence"
     ],
     "source": "explicit",
     "required": [
       "adapter",
+      "adapter-tests",
       "typecheck",
       "unit",
       "puzzles",
-      "ui"
+      "ui",
+      "risk-evidence"
     ],
     "reasons": [
       {
@@ -80,25 +152,53 @@
       {
         "reason": "源码、测试或工程依赖变化需通过项目完整脚本检查。",
         "checks": [
+          "adapter-tests",
           "typecheck",
           "unit",
           "puzzles",
-          "ui"
+          "ui",
+          "risk-evidence"
         ],
         "paths": [
-          "src"
+          "src",
+          "tests",
+          "package.json",
+          "package-lock.json",
+          "tsconfig.json",
+          "vite.config.ts",
+          "index.html"
         ]
       },
       {
         "reason": "检查脚本和题库样本变化会影响验证有效性，需重新运行完整检查。",
         "checks": [
+          "adapter-tests",
           "typecheck",
           "unit",
           "puzzles",
-          "ui"
+          "ui",
+          "risk-evidence"
         ],
         "paths": [
-          "docs/validation"
+          "tools",
+          "docs/validation",
+          "docs/generated/pipeline-smoke.json"
+        ]
+      },
+      {
+        "reason": "交付适配和权限规则变化需确认已注册命令能真实检查项目。",
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "paths": [
+          "ai",
+          ".ai-agent",
+          "docs/workflow/RULES.md"
         ]
       }
     ]
@@ -107,9 +207,9 @@
     "普通窗口响应与业务脚本可验证；真实 Android 安装、系统配置重建、触控、内外屏/半折叠姿态与厂商外屏运行能力尚需后续获授权的真机验收。",
     "本项目尚无原生折叠姿态桥接；本轮核查能力并记录限制，不增加未经核实的第三方插件，不把宽窗口等同于铰链识别。"
   ],
-  "status": "awaiting_owner",
+  "status": "accepted",
   "createdAt": "2026-10-10T01:53:44.184Z",
-  "updatedAt": "2026-10-10T02:16:18.570Z",
+  "updatedAt": "2026-10-20T07:53:20.599Z",
   "baseline": {
     "docs/ai-delivery/check-adapter.mjs": "9036b31df9d87dca9f8fa769deafb433f7f646d01fbc66e8807d0c1a036b6471",
     "docs/ai-delivery/project.json": "cfb24b92125e74c4956a691490329b4dfc15fad90e397f57b444431d097bafeb",
@@ -222,7 +322,7 @@
     "tsconfig.json": "e730b8c94cba2855d15baa2b8b26ebb6a855a3b5cb8c78958588422762a732b2",
     "vite.config.ts": "21a07594ec80f6d8e11588ea097f1d6cc48d6f95c2d5e6fab57f4c84addd0a1b"
   },
-  "repairRounds": 1,
+  "repairRounds": 3,
   "runs": [
     {
       "id": "2026-10-10T02-11-15-043Z-e7e9886d",
@@ -231,6 +331,10 @@
     {
       "id": "2026-10-10T02-13-53-386Z-e98a6571",
       "report": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json"
+    },
+    {
+      "id": "2026-10-20T07-47-37-544Z-2382e4f2",
+      "report": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/result.json"
     }
   ],
   "events": [
@@ -303,122 +407,246 @@
       "status": "awaiting_owner",
       "note": "",
       "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:39:34.284Z",
+      "action": "rework",
+      "status": "executing",
+      "note": "验收阶段指纹失效：工具链迁移与后续已验收任务演进共享路径，用户指示重检后验收；需求与验收条件不变",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:40:26.946Z",
+      "action": "amended",
+      "status": "received",
+      "note": "重检需要覆盖当前工作区：将监控全量路径纳入范围（含新纳入 watch 的 docs/reviews）、补证据类型声明与共享演进重检条件，原需求与验收条件不变",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:41:19.120Z",
+      "action": "planned",
+      "status": "planned",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:41:19.235Z",
+      "action": "started",
+      "status": "executing",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:47:37.546Z",
+      "action": "verification-started",
+      "status": "verifying",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:48:24.181Z",
+      "action": "verification-passed",
+      "status": "verified",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:48:58.392Z",
+      "action": "reviewed",
+      "status": "reviewed",
+      "note": "当前会话逐项复核",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:48:58.442Z",
+      "action": "delivered",
+      "status": "awaiting_owner",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:53:20.599Z",
+      "action": "owner-decision",
+      "status": "accepted",
+      "note": "用户对首批折叠屏适配与游戏交互优化交付明确验收通过（重检七项检查通过后记录）",
+      "toolVersion": "0.5.1"
+    }
+  ],
+  "revisions": [
+    {
+      "id": "0001",
+      "at": "2026-10-20T07:40:26.941Z",
+      "reason": "重检需要覆盖当前工作区：将监控全量路径纳入范围（含新纳入 watch 的 docs/reviews）、补证据类型声明与共享演进重检条件，原需求与验收条件不变",
+      "directory": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001",
+      "evidence": [
+        {
+          "path": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/task.json",
+          "sha256": "31834f1430edd7e2efeefbca2166ab609e0b427ef49ed5accfdeac156fef61b4"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/brief.md",
+          "sha256": "45bdd54d3d1b9a99a10da638efbe43745ea3ec3e5e81841fb1115840a6a124bd"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/plan.md",
+          "sha256": "c9887dd2299186485e3617aad21471a44637da29cacb3df9509040df9d19f113"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/history.json",
+          "sha256": "d02340881fa22443e8464c4ca7e72d85f0555e860001aea6c985785c02cfddfa"
+        }
+      ]
     }
   ],
   "verification": {
-    "id": "2026-10-10T02-13-53-386Z-e98a6571",
+    "id": "2026-10-20T07-47-37-544Z-2382e4f2",
     "toolVersion": "0.5.1",
-    "startedAt": "2026-10-10T02:13:53.386Z",
-    "fingerprint": "1befa4c75c92a1e4dfb653bdfc13b07b7adc9b5a50f5728f4462506dcac87595",
+    "startedAt": "2026-10-20T07:47:37.544Z",
+    "fingerprint": "191e0653350f084e5db7aad314900ab8ce1046f8dfe4d555174693518271e39e",
     "passed": true,
     "checks": [
       {
         "id": "adapter",
         "passed": true,
-        "durationMs": 39,
-        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/adapter.log"
+        "durationMs": 62,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter.log"
+      },
+      {
+        "id": "adapter-tests",
+        "passed": true,
+        "durationMs": 496,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter-tests.log"
       },
       {
         "id": "typecheck",
         "passed": true,
-        "durationMs": 2522,
-        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/typecheck.log"
+        "durationMs": 2969,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/typecheck.log"
       },
       {
         "id": "unit",
         "passed": true,
-        "durationMs": 45022,
-        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit.log"
+        "durationMs": 41702,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/unit.log"
       },
       {
         "id": "puzzles",
         "passed": true,
-        "durationMs": 395,
-        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/puzzles.log"
+        "durationMs": 440,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/puzzles.log"
       },
       {
         "id": "ui",
         "passed": true,
-        "durationMs": 749,
-        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/ui.log"
+        "durationMs": 721,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/ui.log"
+      },
+      {
+        "id": "risk-evidence",
+        "passed": true,
+        "durationMs": 37,
+        "log": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/risk-evidence.log"
       }
     ],
     "evidence": [
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/input.json",
-        "sha256": "76b11a150baa78fefb064fe7d689eedd8b2fa1d60f06567afc45fa9912495a25"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/input.json",
+        "sha256": "66b8876101cab9e644d09a2266944a92d0c5299076b312941287c5663a85430d"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "sha256": "39db873070dce1acc023f9c005dfdc6a6c5bc1ff3a52368bdedde3c1c548b2af"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/result.json",
+        "sha256": "173f25733fe24cc280e32be3e50438663674142defb57f959b9084a1e9ac0151"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/adapter.log",
-        "sha256": "417ce872fb28cf664a82b11db835239fc1aec4f62cea1629640813bca661ff13"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter.log",
+        "sha256": "ceff0b8f56c4bb9d9984a7a9384d10ae3680e31bd90ff5e4e5962a7e04da3a63"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/typecheck.log",
-        "sha256": "e96e8746a7b4426ba2c73d99a8ee8aadcfbc60d0679e145f3d40a588e6fd9425"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter-tests.log",
+        "sha256": "9ef9edd4b8b171dded28f2ae83cf8a2dd5c6c786acc536071ca0e5328a5321d2"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit.log",
-        "sha256": "86b0ebbd6a128a2ec3527bf097b823e07122d9b46aa89535244e050caa97f227"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/typecheck.log",
+        "sha256": "91bf448164407afa92e2c4e9f47439d8b155591c209b21a7d9fe77c5a0fd1e47"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/puzzles.log",
-        "sha256": "cffb49b9e73be61fb773fffeba1f0ec7cd276554526c733be07f4ab5fbdd1ddc"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/unit.log",
+        "sha256": "895b81f424cfdba71bdabd244f672ecea4a753dde08a4dff0bcf8a184aa00091"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/ui.log",
-        "sha256": "64ba2c9caa931adba32cfb5938e1e842d6d026ec88a52ab4e0e5be62305f79da"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/puzzles.log",
+        "sha256": "2b2957e99ad0fb4e7b213685202b3ecf0244bf969dc7634a9785ce352d5fdf9f"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json",
-        "sha256": "9ac42ace719f8250056736d1ec660e3cc86bd2e66856d4d379256b495cc55480"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/ui.log",
+        "sha256": "bfd06fc3a1dd6fe14226794132a30d29583fd5f806499cc18075d1d32a3a9db8"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/risk-evidence.log",
+        "sha256": "4ae1bc18e4aab9efbcdeb5ef6c44855c03bbc6b7b4be7157bdcd5b9e4b9a263d"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter.json",
+        "sha256": "f3e5fbc91281368a774844f958b6918593f3055dbda163238b874cfe5fadb2d7"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter-tests.json",
+        "sha256": "7219f77e77ee78c686d3c72bea5e52ab745194abe0ecbbcc0fd86d8a37befd64"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/typecheck.json",
+        "sha256": "89a65884a4079d62d40546d65970f855603ee0cceabbc6538bae9df526659260"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/unit.json",
+        "sha256": "6019a35b6681e840ce3625eddeddd470c45a56482bbeb5992536001f034bcfc2"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/unit-tests.json",
+        "sha256": "e987f5b29b7d7bb4cb1cc4de8007c454cde6eea9087a8bf85acd78703bca57b0"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/puzzles.json",
+        "sha256": "d3b9488e35797f3f5a4fcaf558e56928a16a2f4d895328871f28832b2442591a"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/ui.json",
+        "sha256": "c6a770b87e5b6131778f99ab296af86975cdf83c978c28b882ccb9f90009961c"
+      },
+      {
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-20T07-47-37-544Z-2382e4f2/risk-evidence.json",
+        "sha256": "7516fae8fc0fb6a9f2a001f1dd76136b34b380bd24d05991f8078ac011958e04"
       }
     ],
-    "finishedAt": "2026-10-10T02:14:42.215Z"
+    "finishedAt": "2026-10-20T07:48:24.179Z"
   },
   "review": {
     "file": "docs/tasks/2026-10-10-foldable-ux-phase1/review.json",
     "evidence": [
       {
         "path": "docs/tasks/2026-10-10-foldable-ux-phase1/review.json",
-        "sha256": "3f2abb19251f746b86fcad39007f932cedee98865fc62a5bbe03af1dffe47d69"
+        "sha256": "608e344e05eb2a8b76dacf954cdab8600d015d5ea610e1496fc85a7de96885a5"
       },
       {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/implementation.md",
-        "sha256": "1fa9ea8b4c2ba4c82657288b51769583131746725c17bd6b812e9269d766553a"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/source-evidence.json",
-        "sha256": "5cbb6b0048edf0343fd64441f47aa870cb1152dd5885044f71c94782c77cd1f6"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json",
-        "sha256": "39db873070dce1acc023f9c005dfdc6a6c5bc1ff3a52368bdedde3c1c548b2af"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/unit-tests.json",
-        "sha256": "9ac42ace719f8250056736d1ec660e3cc86bd2e66856d4d379256b495cc55480"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/evidence/2026-10-10T02-13-53-386Z-e98a6571/ui.log",
-        "sha256": "64ba2c9caa931adba32cfb5938e1e842d6d026ec88a52ab4e0e5be62305f79da"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/review-checks.json",
-        "sha256": "001af2016ac6dffd15b0a22d875033d3ac4394ad8206417a0fc5402da708c0da"
-      },
-      {
-        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/inspect-before-review.json",
-        "sha256": "9441c0065f2845e61abd359eae4e39b39ad38e33c5a6705900b5930d293af6a0"
+        "path": "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md",
+        "sha256": "5d63993e4ca5a5e7ba8b32c6148e42bed7a341f5d539374df63bdc6ea1475388"
       }
     ]
   },
   "delivery": {
     "file": "docs/tasks/2026-10-10-foldable-ux-phase1/delivery.md",
-    "sha256": "c4a17f7fde9778d49b21aaa98af24b92c02778c4c9eb5b66c8bf9c6cffcefa45",
-    "fingerprint": "1befa4c75c92a1e4dfb653bdfc13b07b7adc9b5a50f5728f4462506dcac87595"
-  }
+    "sha256": "ee362b3487d07f202c68414b88a13051d0c035af308679ab2ff29463ba7a43a8",
+    "fingerprint": "191e0653350f084e5db7aad314900ab8ce1046f8dfe4d555174693518271e39e"
+  },
+  "decisions": [
+    {
+      "source": "explicit-user-message",
+      "reference": "把前面几个待用户验收的都验证通过吧",
+      "note": "用户对首批折叠屏适配与游戏交互优化交付明确验收通过（重检七项检查通过后记录）",
+      "decision": "accept",
+      "recordedAt": "2026-10-20T07:53:20.598Z",
+      "previousStatus": "awaiting_owner",
+      "fingerprint": "191e0653350f084e5db7aad314900ab8ce1046f8dfe4d555174693518271e39e"
+    }
+  ]
 }

@@ -2,11 +2,11 @@ import { DEFAULT_SETTINGS, type AppSettings } from '@/types/settings'
 import { readStorage, writeStorage } from './storage'
 import { object } from './validation'
 
-const KEY = 'sudoku:v1:settings'
+export const SETTINGS_KEY = 'sudoku:v1:settings'
 
 export const settingsRepository = {
   load(): AppSettings {
-    const raw = readStorage<unknown>(KEY, {})
+    const raw = readStorage<unknown>(SETTINGS_KEY, {})
     const settings = { ...DEFAULT_SETTINGS }
     if (!object(raw)) return settings
     for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof AppSettings)[]) {
@@ -19,12 +19,12 @@ export const settingsRepository = {
     return settings
   },
   save(settings: AppSettings): void {
-    writeStorage(KEY, settings)
+    writeStorage(SETTINGS_KEY, settings)
   },
   reset(): AppSettings {
     // Onboarding completion is a lifecycle marker, rather than a preference.
     const settings = { ...DEFAULT_SETTINGS, onboardingSeen: settingsRepository.load().onboardingSeen }
-    writeStorage(KEY, settings)
+    writeStorage(SETTINGS_KEY, settings)
     return settings
   }
 }

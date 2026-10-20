@@ -1,6 +1,6 @@
 # 项目交付规则
 
-本项目使用公共 [ai-delivery 技能](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 与 [项目适配](../ai-delivery/project.json)。用户约定和当前会话授权优先；本文件不扩大操作权限。
+本项目使用随工程分发的 [ai-delivery 技能](../../ai/skills/ai-delivery/SKILL.md)、[项目适配](../../.ai-agent/project.json) 与 `ai/scripts/delivery.cjs` 薄入口。用户约定和当前会话授权优先；本文件不扩大操作权限。
 
 ## 用户协作约定
 
@@ -19,10 +19,10 @@
 
 ## 交付流程
 
-- 新的开发、修复或需求交付读取公共技能，使用明确项目路径的 CLI。先 `next` 定位真实待办，再读选中任务的 `context`；普通咨询不创建任务。
+- 新的开发、修复或需求交付读取项目技能，状态写入统一走 `node ai/scripts/delivery.cjs`。先 `next` 定位真实待办，再读选中任务的 `context`；普通咨询不创建任务。
 - AI 写 `docs/intake/<id>.json`，包含用户原话、许可范围、结果验收条件和具体计划，再用 `begin --spec` 开工。中途范围变化通过 `amend` 保留历史。
 - 适配配置按范围选择最低检查门槛。代码、依赖、验证脚本或适配规则变化必须执行完整项目脚本；必要时追加规则未覆盖的风险检查，失败不能删减条件。
-- 注册的类型、Vitest、题库、Vue SFC/路由检查均独立运行，不启动 uni-app、浏览器或设备；不得注册 dev、watch、build、发布、Git 或 shell 命令。
+- 注册的适配自检、类型、Vitest、题库、Vue SFC/路由及风险证据检查均独立运行，不启动 uni-app、浏览器或设备；不得注册 dev、watch、build、发布、Git 或 shell 命令。
 - `verify` 保存本轮原始日志和报告；源码、规则、依赖、需求、计划或证据变化时，先恢复再重新检查，不能沿用失效交付。
 - 逐项会话内复核如实说明方法、结论和证据，使用 `finish --file` 完成交付，不虚构独立代理审核。
 - 只有用户明确确认、退回或取消才记录 `decision`；交付后停在待用户验收。脚本通过、设备体验与用户验收分别说明。
@@ -30,10 +30,12 @@
 
 ## 资料目录
 
-- `docs/ai-delivery/`：项目适配、自检脚本、使用说明。
+- `.ai-agent/`：共同规则、项目适配、风险证据政策和技能清单维护源。
+- `ai/`：ai-delivery 技能（公共引擎 0.5.1）、项目检查器与交付薄入口。
+- `docs/ai-delivery/`：接入器本机状态、备份与测试产物。
 - `docs/intake/`：需求收件。
 - `docs/tasks/<id>/`：需求、计划、本轮 evidence、逐项复核、交付与用户决定。
 - `docs/workflow/STATUS.md`：工具自动生成的状态摘要。
 - `docs/workflow/runtime/`：工具写锁与中断运行资料。
 
-源码、测试、依赖声明、验证脚本和 `docs/generated/pipeline-smoke.json` 样本纳入跟踪；`docs/validation/results/` 是生成报告目录，不纳入输入。任务、收件和运行状态不纳入输入，避免证据循环。脚本入口与 npm 别名变化时，同步维护适配和自检，不能继续用过时检查。
+源码、测试、依赖声明、验证脚本、`ai/`、`.ai-agent/` 和 `docs/generated/pipeline-smoke.json` 样本纳入跟踪；`docs/validation/results/` 与 `docs/ai-delivery/` 下的生成资料不纳入输入。任务、收件和运行状态不纳入输入，避免证据循环。脚本入口与 npm 别名变化时，同步维护适配和自检，不能继续用过时检查。

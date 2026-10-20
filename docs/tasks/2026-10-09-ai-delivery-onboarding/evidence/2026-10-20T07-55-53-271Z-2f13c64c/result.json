@@ -1,0 +1,52 @@
+{
+  "id": "2026-10-20T07-55-53-271Z-2f13c64c",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-20T07:55:53.272Z",
+  "fingerprint": "48bbdabd62ee78b44332f1a91446f2b17deac66f28a0e046f4881ff56ba7ecdd",
+  "passed": true,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 82,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter.log"
+    },
+    {
+      "id": "adapter-tests",
+      "passed": true,
+      "durationMs": 511,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter-tests.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2564,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "durationMs": 41384,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/unit.log"
+    },
+    {
+      "id": "puzzles",
+      "passed": true,
+      "durationMs": 443,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/puzzles.log"
+    },
+    {
+      "id": "ui",
+      "passed": true,
+      "durationMs": 747,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/ui.log"
+    },
+    {
+      "id": "risk-evidence",
+      "passed": true,
+      "durationMs": 40,
+      "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/risk-evidence.log"
+    }
+  ],
+  "finishedAt": "2026-10-20T07:56:39.253Z"
+}

@@ -34,7 +34,7 @@ async function startTraining() {
     catch (e) { if (!(e instanceof GenerationCancelled)) uni.showToast({ title: '练习生成失败，请重试', icon: 'none' }) }
     finally { if (token === generationToken) training.value = false }
   }
-  if (store.game && store.game.status !== 'COMPLETED') uni.showModal({ title: '开始实局练习', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })
+  if (store.game && store.game.status !== 'COMPLETED') uni.showModal({ title: '开始实局练习', content: '当前未完成游戏会被替换，是否继续？', cancelText: '取消', success: ({ confirm }) => { if (confirm) launch() } })
   else launch()
 }
 onHide(() => { generationToken++; training.value = false })

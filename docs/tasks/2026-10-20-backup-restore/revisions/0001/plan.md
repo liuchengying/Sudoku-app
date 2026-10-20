@@ -1,0 +1,7 @@
+1. src/repositories/storage.ts 增加 readEnvelope/writeEnvelope：读取时兼容旧版无包装数据（包装为 version 0），写出时保持 envelope 原样；writeStorage 复用 writeEnvelope。
+2. results.repository.ts 导出 normalizeProgress，current-game.repository.ts 将 normalize 导出为 normalizeCurrentGame，供备份校验复用，不复制校验逻辑。
+3. 新增 src/services/backup.service.ts：BACKUP_KEYS 固定为 current-game/results/settings 三个不可再生键（练习/闯关缓存可重建，明确不纳入备份）；buildBackupPayload 读取原始 envelope；summarizeBackup 输出导出时间、历史条数、进度数、是否含当前局；parseBackup 严格校验（kind=sudoku-backup、backupVersion=1、data 内每键 envelope 结构，results 的 history/progress 逐条 normalize 后零丢失、current-game 通过 normalizeCurrentGame 或为 null、settings 为对象），失败抛中文错误且不写任何键；applyBackup 按快照语义恢复：存在的键 writeEnvelope 整体覆盖、不存在或 data 为 null 的键 removeStorage，任一写入失败抛错。
+4. src/pages/settings/index.vue：操作区在"恢复默认设置"前新增"导出备份数据/导入备份数据"两行；导出先 gameStore.flushSave()，用 BottomSheet 展示摘要、只读 textarea（maxlength=-1）全文和"复制备份内容"按钮（uni.setClipboardData，失败提示手动长按复制）；导入用 BottomSheet textarea + "检查备份" + 摘要与错误提示 + "导入并覆盖本机数据"按钮（仅校验通过可用）+ showModal 二次确认（说明覆盖不可撤销）→ applyBackup → settingsStore.reload()、progressStore.reload()、historyStore.refresh()、gameStore.discard(false) 后 restoreGame() → 提示成功并 uni.reLaunch 回主菜单。
+5. 新增 docs/validation/backup.spec.ts（沿用 docs/validation 的 uni 全局模拟与 Pinia 约定）：覆盖含真实对局与结算数据的导出-清除-导入-restoreGame 往返一致、legacy 无包装数据包装与恢复、各类损坏/伪造备份整体拒绝且本机数据不变、备份缺键时对应键被清除。
+6. 更新 docs/PROJECT_OVERVIEW.md：页面地图设置页描述与"存储与迁移"章节补充备份键范围与快照语义。
+7. verify 运行全部注册检查；失败按真实原因修复，不删减检查。

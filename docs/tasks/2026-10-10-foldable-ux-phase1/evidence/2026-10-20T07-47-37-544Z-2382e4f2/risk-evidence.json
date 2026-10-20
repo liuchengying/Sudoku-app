@@ -1,0 +1,134 @@
+{
+  "mode": "risk-evidence",
+  "status": "passed",
+  "files": [],
+  "deleted": [],
+  "commands": [],
+  "criteria": [
+    {
+      "id": "adaptive-window",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "adaptive-layout",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "state-continuity",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "pause-and-continue",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "daily-date",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "hint-disclosure",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "independent-reasoning",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "delivery-evidence",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "rework-recertified",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "checks": [
+        "ui"
+      ],
+      "testFiles": [],
+      "impact": {
+        "paths": [
+          "src/stores/game.store.ts",
+          "src/pages/settings/index.vue"
+        ],
+        "note": "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md"
+      }
+    }
+  ],
+  "requiredChecks": [
+    "ui"
+  ],
+  "sharedChanges": [
+    "src/components/common/AppHeader.vue",
+    "src/components/common/BottomSheet.vue",
+    "src/components/common/MedalBadge.vue",
+    "src/components/common/MoreSheet.vue",
+    "src/components/common/OnboardingGuide.vue",
+    "src/components/sudoku/GameToolbar.vue",
+    "src/components/sudoku/HintSheet.vue",
+    "src/components/sudoku/NumberPad.vue",
+    "src/components/sudoku/SudokuBoard.vue",
+    "src/components/sudoku/SudokuCell.vue",
+    "src/core/sudoku/types.ts",
+    "src/repositories/current-game.repository.ts",
+    "src/repositories/results.repository.ts",
+    "src/repositories/settings.repository.ts",
+    "src/repositories/storage.ts",
+    "src/stores/game.store.ts"
+  ],
+  "impacts": [
+    {
+      "criterion": "rework-recertified",
+      "note": "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md",
+      "sha256": "5d63993e4ca5a5e7ba8b32c6148e42bed7a341f5d539374df63bdc6ea1475388",
+      "paths": [
+        "src/stores/game.store.ts",
+        "src/pages/settings/index.vue"
+      ]
+    }
+  ],
+  "note": "核对已声明风险和实际脚本结果；业务风险分类及测试断言仍需源码复核，页面观察在复核入口核对。"
+}

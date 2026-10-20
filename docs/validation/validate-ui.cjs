@@ -20,6 +20,12 @@ for (const filename of files) {
     if (result.errors.length) throw new Error(`${filename}: ${result.errors}`)
   }
 }
+// Every confirm modal must declare a Chinese cancelText; otherwise H5 shows a default "Cancel" button.
+for (const filename of files) {
+  const source = fs.readFileSync(filename, 'utf8')
+  const modals = (source.match(/uni\.showModal\(/g) ?? []).length
+  if (modals > (source.match(/cancelText:/g) ?? []).length) throw new Error(`${filename}: uni.showModal missing cancelText`)
+}
 const pages = JSON.parse(fs.readFileSync(path.join(root, 'src/pages.json'), 'utf8')).pages
 for (const page of pages) if (!fs.existsSync(path.join(root, 'src', `${page.path}.vue`))) throw new Error(`Missing page: ${page.path}`)
 const sample = path.join(root, 'docs/generated/pipeline-smoke.json')

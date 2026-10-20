@@ -4,9 +4,9 @@ import { readStorage, removeStorage, writeStorage } from './storage'
 import { getLevelById } from '@/assets/puzzles'
 import { validGeneratedCampaignLevel } from './campaign.repository'
 
-const KEY = 'sudoku:v1:current-game'
+export const CURRENT_GAME_KEY = 'sudoku:v1:current-game'
 
-function normalize(raw: unknown): GameState | null {
+export function normalizeCurrentGame(raw: unknown): GameState | null {
   if (!object(raw) || typeof raw.id !== 'string' || typeof raw.levelId !== 'string' || typeof raw.difficultyId !== 'string' || !boards(raw.puzzle, raw.solution) || !Array.isArray(raw.cells) || raw.cells.length !== 81 || !raw.cells.every((c, i) => snapshot(c) && object(c) && c.index === i && c.solution === Number(String(raw.solution)[i]) && (String(raw.puzzle)[i] === '0' ? c.origin !== 'GIVEN' : c.origin === 'GIVEN' && c.value === Number(String(raw.puzzle)[i]))) || !['READY', 'PLAYING', 'PAUSED', 'COMPLETED'].includes(String(raw.status)) || !['NORMAL', 'NOTE'].includes(String(raw.inputMode)) || ![raw.mistakeCount, raw.hintCount, raw.startedAt, raw.accumulatedTime, raw.createdAt, raw.updatedAt].every(nonnegative) || (raw.activeStartedAt !== null && !nonnegative(raw.activeStartedAt))) return null
   const game = raw as unknown as GameState
   const mode = ['CAMPAIGN', 'PRACTICE', 'DAILY', 'CUSTOM'].includes(String(game.mode)) ? game.mode : 'CAMPAIGN'
@@ -32,13 +32,13 @@ function normalize(raw: unknown): GameState | null {
 
 export const currentGameRepository = {
   load(): GameState | null {
-    return normalize(readStorage<GameState | null>(KEY, null))
+    return normalizeCurrentGame(readStorage<GameState | null>(CURRENT_GAME_KEY, null))
   },
   save(game: GameState): void {
-    writeStorage(KEY, game)
+    writeStorage(CURRENT_GAME_KEY, game)
   },
   clear(): void {
-    writeStorage(KEY, null)
-    removeStorage(KEY)
+    writeStorage(CURRENT_GAME_KEY, null)
+    removeStorage(CURRENT_GAME_KEY)
   }
 }

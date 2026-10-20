@@ -1,6 +1,6 @@
 {
-  "reviewer": "当前会话逐项复核：实际源码及行号核对、既有行为探查证据、Android/uni-app 官方能力边界与本轮原始脚本结果核对",
-  "summary": "原功能交互评估保留，新增 Android 折叠屏 P1 方案；按用户澄清覆盖内外屏、左右大折叠、上下小折叠与阔折叠，给出 8 类验收矩阵、状态连续性要求及窗口适配/原生姿态能力边界。30 个源码文件哈希与摘录一致，42 个本地报告链接及行号有效，业务输入与范围外变化为空。五项检查通过，74/74 单元测试、75 道题库、24 个 SFC/12 条路由通过。交付为评估与后续要求，兼容方案尚未实施，真机体验尚未验收；报告本身无未解决的证据或交付问题。",
+  "reviewer": "当前会话逐项复核",
+  "summary": "验收重检：本任务为评估交付，评估报告作为历史存档保留；交付后共享路径的演进均来自依据评估实施的后续已验收任务（见 impact.md 逐项说明），评估中待实施项的落实对照见 docs/reviews/2026-10-20/FEATURE_INVENTORY.md。按当前工作区重新通过全部注册检查（含 risk-evidence 门槛），逐条静态复核通过。证据仅引用评估报告、影响说明与计划等稳定文件。",
   "findings": [],
   "criteria": [
     {
@@ -8,45 +8,84 @@
       "result": "passed",
       "evidence": [
         "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
-        "docs/tasks/2026-10-10-feature-ux-review/source-evidence.json"
-      ]
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md": "static"
+      }
     },
     {
       "id": "evidence-backed-findings",
       "result": "passed",
       "evidence": [
         "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
-        "docs/tasks/2026-10-10-feature-ux-review/source-evidence.json",
-        "docs/tasks/2026-10-10-feature-ux-review/probe-interactions.cjs",
-        "docs/tasks/2026-10-10-feature-ux-review/interaction-probes.json",
-        "docs/tasks/2026-10-10-feature-ux-review/probe-interactions.log"
-      ]
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md": "static"
+      }
     },
     {
       "id": "prioritized-roadmap",
       "result": "passed",
       "evidence": [
-        "docs/tasks/2026-10-10-feature-ux-review/assessment.md"
-      ]
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md": "static"
+      }
     },
     {
       "id": "verification-boundaries",
       "result": "passed",
       "evidence": [
         "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
-        "docs/tasks/2026-10-10-feature-ux-review/assessment-checks.json",
-        "docs/tasks/2026-10-10-feature-ux-review/inspect-before-review.json",
-        "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/result.json"
-      ]
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md": "static"
+      }
     },
     {
       "id": "android-foldable-readiness",
       "result": "passed",
       "evidence": [
         "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
-        "docs/tasks/2026-10-10-feature-ux-review/source-evidence.json",
-        "docs/tasks/2026-10-10-feature-ux-review/assessment-checks.json"
-      ]
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md": "static"
+      }
+    },
+    {
+      "id": "post-review-evolution",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-10-feature-ux-review/assessment.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/impact.md": "static",
+        "docs/tasks/2026-10-10-feature-ux-review/plan.md": "static"
+      }
     }
   ]
 }

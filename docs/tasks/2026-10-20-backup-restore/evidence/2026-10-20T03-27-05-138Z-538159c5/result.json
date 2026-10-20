@@ -1,0 +1,28 @@
+{
+  "id": "2026-10-20T03-27-05-138Z-538159c5",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-20T03:27:05.138Z",
+  "fingerprint": "06aa87520bb6d05718f3bc1fe057150d0ce175ee67415385f6d1c04b7115bc8f",
+  "passed": false,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 68,
+      "log": "docs/tasks/2026-10-20-backup-restore/evidence/2026-10-20T03-27-05-138Z-538159c5/adapter.log"
+    },
+    {
+      "id": "adapter-tests",
+      "passed": true,
+      "durationMs": 440,
+      "log": "docs/tasks/2026-10-20-backup-restore/evidence/2026-10-20T03-27-05-138Z-538159c5/adapter-tests.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": false,
+      "durationMs": 2681,
+      "log": "docs/tasks/2026-10-20-backup-restore/evidence/2026-10-20T03-27-05-138Z-538159c5/typecheck.log"
+    }
+  ],
+  "finishedAt": "2026-10-20T03:27:08.400Z"
+}

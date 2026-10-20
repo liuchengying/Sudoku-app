@@ -1,0 +1,71 @@
+{
+  "reviewer": "当前会话逐项复核",
+  "summary": "逐条对照验收条件复核源码与本轮真实检查结果。复核方式：(1) backup.service.ts 的导出/校验/恢复逻辑逐函数通读，确认 parseBackup 任一失败路径在写入前抛错、applyBackup 仅在校验通过后执行；(2) settings/index.vue 通读确认导出先 flushSave、导入有二次确认、恢复后四个 Store 刷新并 reLaunch；(3) 复核 docs/validation/backup.spec.ts 的 9 条断言覆盖往返一致、legacy 兼容、损坏拒绝且本机数据不变、缺键清除与存储失败报告；(4) 逻辑证据取自本轮 evidence 中由 ai/checks/report.cjs 真实运行原命令产出的 unit.json/ui.json 报告，与 unit-tests.json、unit.log 原始输出一致；(5) 共享路径变化均为增量导出（readEnvelope/writeEnvelope/normalizeProgress/normalizeCurrentGame/SETTINGS_KEY），调用方影响在 impact.md 逐文件说明，既有调用方无行为变化。设备体验（剪贴板大文本、textarea 粘贴、弹窗面板）未验证，已列入交付未验证项。 验收阶段 amendment 后按当前工作区重新 verify（七项通过），逻辑证据已指向本轮运行目录；实现与观察结论不变。",
+  "findings": [],
+  "criteria": [
+    {
+      "id": "export-entry",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/ui.json",
+        "docs/tasks/2026-10-20-local-backup/impact.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/ui.json": "logic",
+        "docs/tasks/2026-10-20-local-backup/impact.md": "static"
+      }
+    },
+    {
+      "id": "import-entry",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/unit.json",
+        "docs/tasks/2026-10-20-local-backup/impact.md"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/unit.json": "logic",
+        "docs/tasks/2026-10-20-local-backup/impact.md": "static"
+      }
+    },
+    {
+      "id": "validate-reject",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/unit.json",
+        "docs/validation/backup.spec.ts"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/unit.json": "logic",
+        "docs/validation/backup.spec.ts": "static"
+      }
+    },
+    {
+      "id": "snapshot-semantics",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/unit.json",
+        "docs/validation/backup.spec.ts"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/unit.json": "logic",
+        "docs/validation/backup.spec.ts": "static"
+      }
+    },
+    {
+      "id": "checks-pass",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/risk-evidence.json",
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/typecheck.json",
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/puzzles.json",
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/result.json"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/risk-evidence.json": "static",
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/typecheck.json": "static",
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/puzzles.json": "static",
+        "docs/tasks/2026-10-20-local-backup/evidence/2026-10-20T07-31-01-111Z-b5c967e2/result.json": "static"
+      }
+    }
+  ]
+}

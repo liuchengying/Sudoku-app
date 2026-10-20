@@ -1,59 +1,128 @@
 {
   "id": "2026-10-10-foldable-ux-phase1",
   "title": "首批折叠屏适配与游戏交互优化",
-  "request": "用户在功能与交互评估后要求“好的，开始执行吧”。关联评估 docs/tasks/2026-10-10-feature-ux-review/assessment.md。用户重点：“尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多”；范围澄清：“就是市面上几款主流的折叠屏，捏外屏，横向折叠，竖向折叠，还有阔折叠”。实施评估首批：普通窗口适配与状态连续性、UX-01/02/03/04/05。",
+  "request": "用户在功能与交互评估后要求“好的，开始执行吧”。关联评估 docs/tasks/2026-10-10-feature-ux-review/assessment.md。用户重点：“尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多”；范围澄清：“就是市面上几款主流的折叠屏，捏外屏，横向折叠，竖向折叠，还有阔折叠”。实施评估首批：普通窗口适配与状态连续性、UX-01/02/03/04/05。 验收阶段 amendment：任务交付后工程发生工具链迁移（ai/、.ai-agent/、AGENTS.md）与后续已验收任务（备份功能、弹窗中文化）对共享路径的演进，输入指纹失效。将监控全量路径纳入范围，按当前工作区重新检查后交付验收；原需求与既有验收条件不变。",
   "scope": [
-    "src",
-    "docs/validation/game-flows.spec.ts",
-    "docs/validation/foldable-window.spec.ts",
-    "docs/PROJECT_OVERVIEW.md",
+    ".ai-agent",
+    "AGENTS.md",
+    "README.md",
+    "ai",
     "docs/ARCHITECTURE.md",
-    "docs/tasks/2026-10-10-foldable-ux-phase1"
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/ai-delivery",
+    "docs/design",
+    "docs/generated/pipeline-smoke.json",
+    "docs/implementation",
+    "docs/reviews",
+    "docs/tasks/2026-10-10-foldable-ux-phase1",
+    "docs/validation",
+    "docs/validation/foldable-window.spec.ts",
+    "docs/validation/game-flows.spec.ts",
+    "docs/workflow/RULES.md",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "src",
+    "tests",
+    "tools",
+    "tsconfig.json",
+    "vite.config.ts"
   ],
   "criteria": [
     {
       "id": "adaptive-window",
-      "description": "支持动态窗口宽高与安全区刷新、返回前台补读、监听清理及 API 缺失回退；允许 Android 横竖屏，按实际空间适配外屏/内屏、阔折叠和分屏。"
+      "description": "支持动态窗口宽高与安全区刷新、返回前台补读、监听清理及 API 缺失回退；允许 Android 横竖屏，按实际空间适配外屏/内屏、阔折叠和分屏。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "adaptive-layout",
-      "description": "棋盘保持完整正方形；窄窗口单列，宽且空间足够时棋盘与操作区并排，短窗口可滚动访问动作；公共头部、弹层、引导和内容宽度避免大屏过度放大，保留主题与大字。"
+      "description": "棋盘保持完整正方形；窄窗口单列，宽且空间足够时棋盘与操作区并排，短窗口可滚动访问动作；公共头部、弹层、引导和内容宽度避免大屏过度放大，保留主题与大字。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "state-continuity",
-      "description": "纯窗口变化不创建新游戏、不改变填写/笔记/选中格/撤销重做/书签/计数及运行暂停状态，切换前后台按既有偏好保存与暂停；验证重复尺寸变化的监听和计时器不重复。"
+      "description": "纯窗口变化不创建新游戏、不改变填写/笔记/选中格/撤销重做/书签/计数及运行暂停状态，切换前后台按既有偏好保存与暂停；验证重复尺寸变化的监听和计时器不重复。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "pause-and-continue",
-      "description": "更多菜单及检查/书签/候选动作完成或取消后保留原运行暂停状态，确认框显示期间暂停；首页、关卡与每日的继续入口一致恢复，导航失败暂停兜底。"
+      "description": "更多菜单及检查/书签/候选动作完成或取消后保留原运行暂停状态，确认框显示期间暂停；首页、关卡与每日的继续入口一致恢复，导航失败暂停兜底。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "daily-date",
-      "description": "默认今日选择跨日/月更新日期与月份；主动补玩选择保留，有回到今天入口，日期/开始继续文案与启动题目一致。"
+      "description": "默认今日选择跨日/月更新日期与月份；主动补玩选择保留，有回到今天入口，日期/开始继续文案与启动题目一致。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "hint-disclosure",
-      "description": "打开关闭说明不计提示、不泄露提示目标；显式查看有效推导才计一次，同一有效提示重复展开不重复计数，保持应用提示安全与奖牌规则；文案明确是全盘下一步。"
+      "description": "打开关闭说明不计提示、不泄露提示目标；显式查看有效推导才计一次，同一有效提示重复展开不重复计数，保持应用提示安全与奖牌规则；文案明确是全盘下一步。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "independent-reasoning",
-      "description": "提供明确自主推理偏好并兼容旧设置；自主模式不通过即时错误、数字余数/禁用、候选与自动清理隐式查询答案。手动检查与解法作为显式求助，错误/提示成绩累计规则不变。"
+      "description": "提供明确自主推理偏好并兼容旧设置；自主模式不通过即时错误、数字余数/禁用、候选与自动清理隐式查询答案。手动检查与解法作为显式求助，错误/提示成绩累计规则不变。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "delivery-evidence",
-      "description": "通过五项项目脚本与针对窗口/真实组件动作的回归，保留原始证据；说明真实安装、厂商内外屏与半折叠铰链验证边界，全部产出资料在 docs，未进行 Git、工程启动或电脑/浏览器操作。"
+      "description": "通过五项项目脚本与针对窗口/真实组件动作的回归，保留原始证据；说明真实安装、厂商内外屏与半折叠铰链验证边界，全部产出资料在 docs，未进行 Git、工程启动或电脑/浏览器操作。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
+    },
+    {
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "description": "任务交付后共享路径（src/repositories、src/stores 等）的后续变化全部来自后续已验收任务与工具链迁移；本任务按当前工作区重新通过全部注册检查，未回退或改写本任务交付的折叠屏适配行为。",
+      "id": "rework-recertified",
+      "impact": {
+        "paths": [
+          "src/stores/game.store.ts",
+          "src/pages/settings/index.vue"
+        ],
+        "note": "docs/tasks/2026-10-10-foldable-ux-phase1/impact.md"
+      }
     }
   ],
   "checks": [
     "adapter",
+    "adapter-tests",
     "typecheck",
     "unit",
     "puzzles",
-    "ui"
+    "ui",
+    "risk-evidence"
   ],
   "manualChecks": [
     "普通窗口响应与业务脚本可验证；真实 Android 安装、系统配置重建、触控、内外屏/半折叠姿态与厂商外屏运行能力尚需后续获授权的真机验收。",
     "本项目尚无原生折叠姿态桥接；本轮核查能力并记录限制，不增加未经核实的第三方插件，不把宽窗口等同于铰链识别。"
   ],
-  "plan": "1. 读取真实任务和项目规则、现有页面/Store/Repository/脚本；建立新实施任务，保留评估历史。只实施用户批准的首批，不引入备份、多局、联网或出题规则变化。\n2. 实现带生命周期清理的响应式窗口/安全区；调整方向配置、棋盘与操作区分区，给公共页面/引导/弹层合理宽度、字号和滚动约束。尺寸监听只修改布局，保存仍沿用既有当前局与生命周期。\n3. 修整菜单暂停/确认回调与继续入口，处理导航失败；修整每日日期跟随和补玩状态；调整解法首次有效揭示计数与文案；增加向后兼容的自主推理偏好并消除隐式答案反馈。\n4. 在 docs/validation 新增窗口回归，扩展现有内存 Vue 组件回归；先定向脚本定位真实问题，再 verify 执行五项完整项目检查。失败保留日志，按实际原因修复，不删减门槛，不启动工程。\n5. 会话内逐项复核，记录改变、脚本证据、主流折叠形态验收矩阵与原生姿态边界；核对范围后 finish 交付，等待用户验收，不替用户记录决定。"
+  "plan": "验收阶段重检计划：1) amend 将监控全量路径纳入范围并补证据类型声明；2) 按当前工作区 verify 全部注册检查；3) 以既有交付材料与新运行证据填写 review-input 并 finish；4) 记录用户验收决定。原实现不改动。"
 }

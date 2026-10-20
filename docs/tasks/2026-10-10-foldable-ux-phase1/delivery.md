@@ -2,7 +2,7 @@
 
 状态：待用户验收；本次交付不代表发布。
 
-原始需求：用户在功能与交互评估后要求“好的，开始执行吧”。关联评估 docs/tasks/2026-10-10-feature-ux-review/assessment.md。用户重点：“尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多”；范围澄清：“就是市面上几款主流的折叠屏，捏外屏，横向折叠，竖向折叠，还有阔折叠”。实施评估首批：普通窗口适配与状态连续性、UX-01/02/03/04/05。
+原始需求：用户在功能与交互评估后要求“好的，开始执行吧”。关联评估 docs/tasks/2026-10-10-feature-ux-review/assessment.md。用户重点：“尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多”；范围澄清：“就是市面上几款主流的折叠屏，捏外屏，横向折叠，竖向折叠，还有阔折叠”。实施评估首批：普通窗口适配与状态连续性、UX-01/02/03/04/05。 验收阶段 amendment：任务交付后工程发生工具链迁移（ai/、.ai-agent/、AGENTS.md）与后续已验收任务（备份功能、弹窗中文化）对共享路径的演进，输入指纹失效。将监控全量路径纳入范围，按当前工作区重新检查后交付验收；原需求与既有验收条件不变。
 
 ## 验收结果
 
@@ -14,23 +14,64 @@
 - 已复核：打开关闭说明不计提示、不泄露提示目标；显式查看有效推导才计一次，同一有效提示重复展开不重复计数，保持应用提示安全与奖牌规则；文案明确是全盘下一步。
 - 已复核：提供明确自主推理偏好并兼容旧设置；自主模式不通过即时错误、数字余数/禁用、候选与自动清理隐式查询答案。手动检查与解法作为显式求助，错误/提示成绩累计规则不变。
 - 已复核：通过五项项目脚本与针对窗口/真实组件动作的回归，保留原始证据；说明真实安装、厂商内外屏与半折叠铰链验证边界，全部产出资料在 docs，未进行 Git、工程启动或电脑/浏览器操作。
+- 已复核：任务交付后共享路径（src/repositories、src/stores 等）的后续变化全部来自后续已验收任务与工具链迁移；本任务按当前工作区重新通过全部注册检查，未回退或改写本任务交付的折叠屏适配行为。
 
 ## 检查证据
 
-- adapter：通过，39 ms；[日志](evidence/2026-10-10T02-13-53-386Z-e98a6571/adapter.log)
-- typecheck：通过，2522 ms；[日志](evidence/2026-10-10T02-13-53-386Z-e98a6571/typecheck.log)
-- unit：通过，45022 ms；[日志](evidence/2026-10-10T02-13-53-386Z-e98a6571/unit.log)
-- puzzles：通过，395 ms；[日志](evidence/2026-10-10T02-13-53-386Z-e98a6571/puzzles.log)
-- ui：通过，749 ms；[日志](evidence/2026-10-10T02-13-53-386Z-e98a6571/ui.log)
+- adapter：通过，62 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter.log)
+- adapter-tests：通过，496 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/adapter-tests.log)
+- typecheck：通过，2969 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/typecheck.log)
+- unit：通过，41702 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/unit.log)
+- puzzles：通过，440 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/puzzles.log)
+- ui：通过，721 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/ui.log)
+- risk-evidence：通过，37 ms；[日志](evidence/2026-10-20T07-47-37-544Z-2382e4f2/risk-evidence.log)
 
-[完整检查结果](evidence/2026-10-10T02-13-53-386Z-e98a6571/result.json) · [复核记录](review.json) · [实施计划](plan.md)
+[完整检查结果](evidence/2026-10-20T07-47-37-544Z-2382e4f2/result.json) · [复核记录](review.json) · [实施计划](plan.md)
 
 ## 从任务收件后检测到的文件变化
 
+- .ai-agent/RULES.md
+- .ai-agent/acceptance-policy.json
+- .ai-agent/project.json
+- .ai-agent/skill-sources.json
+- .ai-agent/skills.json
+- AGENTS.md
+- ai/README.md
+- ai/checks/acceptance.cjs
+- ai/checks/acceptance.test.cjs
+- ai/checks/adapter.test.cjs
+- ai/checks/check.cjs
+- ai/checks/entrypoints.test.cjs
+- ai/checks/report.cjs
+- ai/scripts/delivery.cjs
+- ai/scripts/install-entrypoints.cjs
+- ai/skills/ai-delivery/README.md
+- ai/skills/ai-delivery/SKILL.md
+- ai/skills/ai-delivery/agents/openai.yaml
+- ai/skills/ai-delivery/package.json
+- ai/skills/ai-delivery/references/project-adapter.md
+- ai/skills/ai-delivery/references/recovery.md
+- ai/skills/ai-delivery/scripts/ai-delivery.mjs
+- ai/skills/ai-delivery/scripts/install.mjs
+- ai/skills/ai-delivery/scripts/policy.mjs
+- ai/skills/ai-delivery/scripts/workflow.mjs
+- ai/skills/ai-delivery/tests/cli-install.test.mjs
+- ai/skills/ai-delivery/tests/engine.test.mjs
 - docs/ARCHITECTURE.md
 - docs/PROJECT_OVERVIEW.md
+- docs/reviews/2026-09-30/ASSESSMENT.md
+- docs/reviews/2026-09-30/puzzle-and-ui-audit.cjs
+- docs/reviews/2026-09-30/puzzle-and-ui-evidence.json
+- docs/reviews/2026-09-30/runtime-audit.cases.ts
+- docs/reviews/2026-09-30/test-results.json
+- docs/reviews/2026-09-30/validation-summary.json
+- docs/reviews/2026-09-30/vitest.audit.config.ts
+- docs/reviews/2026-10-20/FEATURE_INVENTORY.md
+- docs/validation/backup.spec.ts
 - docs/validation/foldable-window.spec.ts
 - docs/validation/game-flows.spec.ts
+- docs/validation/validate-ui.cjs
+- docs/workflow/RULES.md
 - src/App.vue
 - src/components/common/AppHeader.vue
 - src/components/common/BottomSheet.vue
@@ -63,6 +104,10 @@
 - src/pages/tutorial/detail.vue
 - src/pages/tutorial/index.vue
 - src/repositories/current-game.repository.ts
+- src/repositories/results.repository.ts
+- src/repositories/settings.repository.ts
+- src/repositories/storage.ts
+- src/services/backup.service.ts
 - src/stores/game.store.ts
 - src/styles.scss
 - src/types/settings.ts
@@ -77,6 +122,6 @@
 
 请审阅计划中的具体实现和恢复步骤；需要调整时退回当前任务。只有收到用户明确确认，AI 才记录交付已接受。发布、Git 和设备操作另按授权执行。
 
-检查输入指纹：1befa4c75c92a1e4dfb653bdfc13b07b7adc9b5a50f5728f4462506dcac87595
+检查输入指纹：191e0653350f084e5db7aad314900ab8ce1046f8dfe4d555174693518271e39e
 
-生成时间：2026-10-10T02:16:18.570Z
+生成时间：2026-10-20T07:48:58.442Z

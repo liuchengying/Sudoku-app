@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-20T03:16:18.814Z",
+  "reason": "备份键常量需要从 settings.repository 导出供 backup.service 引用，补充该文件到许可范围；需求与验收条件不变",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-20-backup-restore/task.json",
+      "snapshot": "docs/tasks/2026-10-20-backup-restore/revisions/0001/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-20-backup-restore/brief.md",
+      "snapshot": "docs/tasks/2026-10-20-backup-restore/revisions/0001/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-20-backup-restore/plan.md",
+      "snapshot": "docs/tasks/2026-10-20-backup-restore/revisions/0001/plan.md"
+    }
+  ]
+}

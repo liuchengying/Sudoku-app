@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-20T07:53:41.261Z",
+  "reason": "重检需要覆盖当前工作区：将监控全量路径纳入范围、补证据类型声明与共享演进重检条件；旧基线包含已被迁移删除的 docs/ai-delivery 文件，临时纳入范围以覆盖删除记录",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/task.json",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/brief.md",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-feature-ux-review/plan.md",
+      "snapshot": "docs/tasks/2026-10-10-feature-ux-review/revisions/0002/plan.md"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "2026-10-20T07-54-02-329Z-e6a40bb1",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-20T07:54:02.330Z",
+  "fingerprint": "4a370b934a952c405ef2faffc5ab8990480aae108ac2fc28cc2c22aa0137b786",
+  "passed": true,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 61,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter.log"
+    },
+    {
+      "id": "adapter-tests",
+      "passed": true,
+      "durationMs": 417,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/adapter-tests.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2458,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "durationMs": 41512,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/unit.log"
+    },
+    {
+      "id": "puzzles",
+      "passed": true,
+      "durationMs": 441,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/puzzles.log"
+    },
+    {
+      "id": "ui",
+      "passed": true,
+      "durationMs": 759,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/ui.log"
+    },
+    {
+      "id": "risk-evidence",
+      "passed": true,
+      "durationMs": 38,
+      "log": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-20T07-54-02-329Z-e6a40bb1/risk-evidence.log"
+    }
+  ],
+  "finishedAt": "2026-10-20T07:54:48.204Z"
+}

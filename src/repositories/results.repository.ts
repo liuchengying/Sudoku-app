@@ -28,7 +28,7 @@ export function normalizeRecords(raw: unknown): GameRecord[] {
     mode: ['CAMPAIGN', 'PRACTICE', 'DAILY', 'CUSTOM'].includes(r.mode) ? r.mode : 'CAMPAIGN'
   })) as GameRecord[]
 }
-function normalizeProgress(raw: unknown): Record<string, LevelProgress> {
+export function normalizeProgress(raw: unknown): Record<string, LevelProgress> {
   if (!object(raw)) return {}
   return Object.fromEntries(Object.entries(raw).filter(([id, p]) => object(p) && p.levelId === id && typeof p.difficultyId === 'string' && typeof p.completed === 'boolean' && nonnegative(p.baseScore) && nonnegative(p.completionCount) && (p.bestMedal === null || ['GOLD', 'SILVER', 'BRONZE'].includes(String(p.bestMedal))) && [p.levelNo, p.bestTime, p.minMistakes, p.minHints, p.firstCompletedAt, p.lastCompletedAt].every(v => v === null || nonnegative(v)))) as Record<string, LevelProgress>
 }

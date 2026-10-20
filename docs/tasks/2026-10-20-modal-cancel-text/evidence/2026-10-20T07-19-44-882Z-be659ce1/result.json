@@ -1,0 +1,52 @@
+{
+  "id": "2026-10-20T07-19-44-882Z-be659ce1",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-20T07:19:44.882Z",
+  "fingerprint": "e62cce68664c0b3fc02bff05b398beae9a490f9090f2624613e3b0042ed86817",
+  "passed": true,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 62,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/adapter.log"
+    },
+    {
+      "id": "adapter-tests",
+      "passed": true,
+      "durationMs": 433,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/adapter-tests.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2531,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "durationMs": 43256,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/unit.log"
+    },
+    {
+      "id": "puzzles",
+      "passed": true,
+      "durationMs": 447,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/puzzles.log"
+    },
+    {
+      "id": "ui",
+      "passed": true,
+      "durationMs": 813,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/ui.log"
+    },
+    {
+      "id": "risk-evidence",
+      "passed": true,
+      "durationMs": 42,
+      "log": "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/risk-evidence.log"
+    }
+  ],
+  "finishedAt": "2026-10-20T07:20:32.661Z"
+}

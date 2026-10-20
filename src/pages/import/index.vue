@@ -21,7 +21,7 @@ function start() {
   validate()
   if (!checked.value) return
   const launch = () => { game.startGame(checked.value!, 'CUSTOM'); openPage('/pages/game/index') }
-  if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始自定义题目', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })
+  if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始自定义题目', content: '当前未完成游戏会被替换，是否继续？', cancelText: '取消', success: ({ confirm }) => { if (confirm) launch() } })
   else launch()
 }
 </script>

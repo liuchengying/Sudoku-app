@@ -1,0 +1,19 @@
+{
+  "name": "ai-delivery",
+  "version": "0.5.1",
+  "source": "随工程分发的公共引擎副本（0.5.1）；文件清单或哈希变化即接入检查失败",
+  "files": {
+    "README.md": "9bb5fe8daa7476a9e4a386689643d5799f5d0c577a3a4432b904d643789bc2df",
+    "SKILL.md": "fc5506b051623c2aa09516aff8e32964a3379690d5d947042573c45b90c887a4",
+    "agents/openai.yaml": "b07cb441c4f96253015ab210c6130099ca32d25fb96321164c96f7da1cd045e3",
+    "package.json": "f927ce4422057d4b9f9dda80de0c18c5dd569b9f81225cad06df5f15ae8d80a1",
+    "references/project-adapter.md": "97267cc14bdc7b58679c4a186aaaac85293b100fb277fbbe1847b3c3e8bc5c2e",
+    "references/recovery.md": "0cabf25ab6e2d63b9daa30ebe7008abb09127d3a358e125e61e20b019896e929",
+    "scripts/ai-delivery.mjs": "067c0f7f4b428828439a333439f39726ef41e13919de685364b4ee398d9a8e5e",
+    "scripts/install.mjs": "a036e719f983a0445a754c6a4dfd9953211eb7a152ef12835c52082d625bc86c",
+    "scripts/policy.mjs": "b204788dcda6a5e4be89c9944f4a4c145f5d01a87d5bff02985b9777cf1a0ee6",
+    "scripts/workflow.mjs": "d6be2ef2d17114f636fe3ce1b487dcfd56080cfcd5391e304cc8399f048301de",
+    "tests/cli-install.test.mjs": "0a90293d1a040ce79fde07653672c597fc1809eca2d120f807b9b066191d4cc4",
+    "tests/engine.test.mjs": "31aa66fb06578a6de4373ef90a66753409bd7b6b25f7012064468c1f2ef70620"
+  }
+}

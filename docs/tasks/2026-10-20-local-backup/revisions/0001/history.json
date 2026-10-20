@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-20T07:30:21.972Z",
+  "reason": "验收被拒因弹窗中文化任务修改了共享页面（daily/game/import/levels/tutorial）与 validate-ui.cjs，超出本任务基线；将这些文件纳入范围以覆盖当前工作区，需求与验收条件不变",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-20-local-backup/task.json",
+      "snapshot": "docs/tasks/2026-10-20-local-backup/revisions/0001/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-20-local-backup/brief.md",
+      "snapshot": "docs/tasks/2026-10-20-local-backup/revisions/0001/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-20-local-backup/plan.md",
+      "snapshot": "docs/tasks/2026-10-20-local-backup/revisions/0001/plan.md"
+    }
+  ]
+}

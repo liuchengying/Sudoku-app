@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-20T07:40:26.941Z",
+  "reason": "重检需要覆盖当前工作区：将监控全量路径纳入范围（含新纳入 watch 的 docs/reviews）、补证据类型声明与共享演进重检条件，原需求与验收条件不变",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-10-foldable-ux-phase1/task.json",
+      "snapshot": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-foldable-ux-phase1/brief.md",
+      "snapshot": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-10-foldable-ux-phase1/plan.md",
+      "snapshot": "docs/tasks/2026-10-10-foldable-ux-phase1/revisions/0001/plan.md"
+    }
+  ]
+}

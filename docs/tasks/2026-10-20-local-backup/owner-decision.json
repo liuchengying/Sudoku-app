@@ -1,0 +1,9 @@
+{
+  "source": "explicit-user-message",
+  "reference": "验收通过",
+  "note": "用户对本地数据备份导出与恢复交付明确验收通过；此前已查看 H5 内部浏览器验证报告（observations/h5/VERIFICATION.md，20 项通过），弹窗文案修复作为后续独立任务处理",
+  "decision": "accept",
+  "recordedAt": "2026-10-20T07:32:45.768Z",
+  "previousStatus": "awaiting_owner",
+  "fingerprint": "f0227352d07ddd202e51daea68b2016aa2bf5f014c7bda898624a6e8ab0cee49"
+}

@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 2,
+  "toolVersion": "0.5.1",
+  "id": "2026-10-10-feature-ux-review",
+  "title": "评估数独功能、交互及 Android 折叠屏适配",
+  "request": "[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 看看目前的功能和交互，有哪些需要补充和优化的\n用户补充：尽量也要兼容android的折叠屏，因为我的折叠屏使用场景会比较多",
+  "scope": [
+    "docs/tasks/2026-10-10-feature-ux-review"
+  ],
+  "criteria": [
+    {
+      "id": "current-capabilities",
+      "description": "基于当前实际源码梳理主要功能和端到端用户流程，不把已实现能力误列为缺失。"
+    },
+    {
+      "id": "evidence-backed-findings",
+      "description": "关键建议说明具体使用场景、影响、源码依据及可核查的改善目标，区分确认行为、体验推断和待设备验证事项。"
+    },
+    {
+      "id": "prioritized-roadmap",
+      "description": "按使用阻碍、交互清晰度、学习与数据能力给出有取舍的优先级及分批范围，不擅自实现新功能。"
+    },
+    {
+      "id": "verification-boundaries",
+      "description": "记录当前脚本检查结果及其边界，仅生成 docs 内评估和交付材料，不修改业务代码，不进行 Git、工程启动或电脑/浏览器操作。"
+    },
+    {
+      "id": "android-foldable-readiness",
+      "description": "把 Android 折叠屏作为首批适配场景，记录当前横竖屏、可用窗口、安全区与布局依据，给出外屏/内屏、展开折叠、横屏、分屏、字体放大和半折叠的改善目标、状态连续性要求及可执行的后续验收矩阵；明确窗口适配和原生折叠姿态能力的边界。"
+    }
+  ],
+  "checks": [
+    "adapter",
+    "typecheck",
+    "unit",
+    "puzzles",
+    "ui"
+  ],
+  "checkSelection": {
+    "checks": [
+      "adapter",
+      "typecheck",
+      "unit",
+      "puzzles",
+      "ui"
+    ],
+    "source": "explicit",
+    "required": [
+      "adapter"
+    ],
+    "reasons": [
+      {
+        "reason": "项目基础检查",
+        "checks": [
+          "adapter"
+        ],
+        "paths": []
+      }
+    ]
+  },
+  "manualChecks": [
+    "本次交付为源码与脚本证据支持的评估报告；发现的问题和功能建议尚未实现或修复。",
+    "未启动应用、浏览器或设备；布局、手势、读屏、振动、音效和生成等待的实际设备体验尚需授权后的验证。",
+    "尚未做 Android 折叠屏真机、安装包、窗口重建与铰链姿态验证；本轮新增的是评估要求和后续验收计划，不能宣称已经兼容。"
+  ],
+  "status": "executing",
+  "createdAt": "2026-10-10T01:21:42.618Z",
+  "updatedAt": "2026-10-20T07:53:41.145Z",
+  "baseline": {
+    "docs/ai-delivery/check-adapter.mjs": "9036b31df9d87dca9f8fa769deafb433f7f646d01fbc66e8807d0c1a036b6471",
+    "docs/ai-delivery/project.json": "cfb24b92125e74c4956a691490329b4dfc15fad90e397f57b444431d097bafeb",
+    "docs/ai-delivery/README.md": "9c9fcd2692ed70bd41b2d981b1e7e32cfc5947478415e7be69d8326dde9d71d0",
+    "docs/ARCHITECTURE.md": "72d9e6356af3171a177344a1d5036d0b7d00a0b0eadddb43231334f99e88d4ce",
+    "docs/design/2026-09-30/MAIN_MENU.md": "1f02318bd8f6b30411cd86643d091f111468259750f86ef74d98b767a9e3a87f",
+    "docs/generated/pipeline-smoke.json": "81feb653888a1ee943048c99cd27b609ded3b863235c1c1589324ec966de65a8",
+    "docs/implementation/2026-09-30/IMPLEMENTATION.md": "128c52cc1d417ce1f06df4207f08666e1b09a6bc34e58cf66f9c6457929c70bd",
+    "docs/implementation/2026-09-30/INFINITE_CAMPAIGN.md": "33df9470566afe1a17a830c0e4c1a65f2f31ef600e5557085079ee148a36e85d",
+    "docs/PROJECT_OVERVIEW.md": "7eda4625f157062cd8f7ddd53c2eab6858f5aae3d7bd65dbdc68f7da105739e5",
+    "docs/validation/calibrate-puzzles.cjs": "9410f30b6cc140ccfe0f422414bcac8e1295834deb4ad0e40011cccbaa5a657f",
+    "docs/validation/campaign.spec.ts": "8c00e4a254f62ad056f7700eb15926e04b1b18a7590b07d6e4aea26fe163c077",
+    "docs/validation/check-home-contrast.cjs": "819e3b2af44b4209092a9ee95e56bde2b9e5476488f588df69ceb687d7380524",
+    "docs/validation/game-flows.spec.ts": "9c172939e0fb133712c7537f77d5916491687472e4504edcdafb4e4177fb1cb3",
+    "docs/validation/generate-bank.cjs": "ffe5080f75a44182ffb34c688683dc6d84115014d107a252f5ec101f2218f1dc",
+    "docs/validation/load-core.cjs": "8ad06e0a3987a334fc6734b745512602db3e973e580498a28ea3924fd4db4cfd",
+    "docs/validation/puzzle-modes.spec.ts": "cba85fbfe5cb4290ad52620eef45056f2525fab896b99112fb34020123320f64",
+    "docs/validation/validate-ui.cjs": "bc42ae1b44a53d36ae3dcf85a90bfbdb0877e2d18fc497858f932827ee7792af",
+    "docs/validation/vitest.config.ts": "cd3515cf86f736b5993d8e4ede5987d4e8efd2ef8706d1801de34aa74ec80326",
+    "docs/workflow/RULES.md": "b10c5d073e480d9c87a32d25669eb1a6e637511d08e117fbc7251ceec3330dff",
+    "index.html": "696d4d552b8195ce77717dc33c64a6e0a41fe99e77cd230a950dcac323c88666",
+    "package-lock.json": "98b88a8a9602fa3349915cbd416d9162be1a91f6bc89beff6377ea1fd58369e9",
+    "package.json": "23b03ca9dc54fc2205b8b170c16bdfcb9e80ae71aeb079d623150ffed47af94b",
+    "README.md": "fac58cae46f2e9be0bf2a3521ce9a23c2e37691b9d802f4b3200efd6d4d42893",
+    "src/App.vue": "62cfbedb2087a3ca7a5ccf50577f56d1c26bf4c79f2fc766adbe38b22e8d45a5",
+    "src/assets/puzzles/index.ts": "237beebae6af192c2c0be59b2895e7d4940b84db2bcba1d028323d32fe6e5603",
+    "src/assets/puzzles/puzzles.json": "1964bb54676431b5377d9392241ce0913147ed58bb1c54aad6ad42b1268a6afd",
+    "src/components/common/AppHeader.vue": "dce1a2e6abdf054bed62010d38ebbe01ce4646bbe63f2ead60e21f945593d86e",
+    "src/components/common/BottomSheet.vue": "2522ef0eba6e38b7e3516835c70aae55cb80a68942c7ba13f99d76d87e242e4b",
+    "src/components/common/MedalBadge.vue": "acbd2e4effc0b244e0c2962de7e963f79a1f2019b26d11281a9d8f13d676f7ef",
+    "src/components/common/MoreSheet.vue": "02d5ead7d59c935278936ded31572ed98aa3fe245f5c286d3326507718bb4002",
+    "src/components/common/OnboardingGuide.vue": "39340cc96e9dfc771ddc4c79220786ee6aa80575f87108dc30a9ae7fa58920b4",
+    "src/components/home/LevelGrid.vue": "52ddd389f088cf6491ad00be1cae549e7fce2e7d20673be57fa84076a24e484f",
+    "src/components/sudoku/GameToolbar.vue": "d68374e3a53df48431d094efe2862b528692b5e4cc6126bf6c7408bb37e6a24c",
+    "src/components/sudoku/HintSheet.vue": "1b306de6897b5dcdebcf8ef53533ac85c2b1aa733ab3a2b30bd2514f41a2fa75",
+    "src/components/sudoku/NumberPad.vue": "3fca339d75673bcca8a55928ab3a0f4bdc5f19404b9526cfcff81d3ad34f8484",
+    "src/components/sudoku/SudokuBoard.vue": "ba89295a57e1ff322137b21f76e9dfeec0a799ad4d36fc8f0b8c5ed32ade4fd7",
+    "src/components/sudoku/SudokuCell.vue": "b2a00d4a7f65c94cb71099285a858a1c0d7bc70aa0d586e60973ca8f6184dc88",
+    "src/composables/useAppearance.ts": "297010e5b10bede4c0732ed0cddedcef1ee21ede502e8a99f42c5d2c1e70a5b8",
+    "src/composables/useNavigation.ts": "a3e471b3c05f557fb4be28461becf268ebd2a547346f0f0fc3523d20ea1f517b",
+    "src/composables/useSafeArea.ts": "d2e340355d0a36512fc9b7aee04075c5046aa96011618a20454b9493d787adb4",
+    "src/config/campaign.ts": "ec562cd89ddc2966b3776d4770238f681d1e71093ccb778713e5d7c9b1e5219b",
+    "src/config/difficulty.ts": "eec567ff68d24928e9661b3772f2d61c2f3cb3f84643bd3af268b2dbf82697d4",
+    "src/config/practice.ts": "4826e64bc659167055670780680611d74cb587de7119c2ab29dedbb93d68bcb6",
+    "src/content/tutorial.ts": "8ff205431d46777abeaef35620801aa6f6a4728b8c465141e2c7287fc7aa77ce",
+    "src/core/sudoku/board.ts": "c1dabbd136b9c291dccaf782b34421e7a5a58eea39487bd57653df148b49451d",
+    "src/core/sudoku/candidate.ts": "e127fbef8e32a364d01c773e747c1b6daac2150fb9ed9e55170d96db059b4f23",
+    "src/core/sudoku/difficulty.ts": "2740aecfed9d91072a3292ac5e8c1ccafced6412900c36716b845baddff5c968",
+    "src/core/sudoku/generator.ts": "a766367cfaad551995c0f17a127448372a5994a85bfccdbb05aa27d57e2c783e",
+    "src/core/sudoku/hint.ts": "bfa7508f473216bca900b514f04ce843d027f41bb6f0e7805ea5ea3da26a14a1",
+    "src/core/sudoku/index.ts": "6fd53d2bfa4c86de56480b91bc82c0b3eae75a92db24146d2a52da6804cb61b5",
+    "src/core/sudoku/logical.ts": "0882440556704dd84cb84162ea7e17df3b3fa4278bbe24cad5f404153c7e7039",
+    "src/core/sudoku/replay.ts": "25ef99d93f2cd29a6d7eeeadd1f7a854640a2c5d0a79c0c203c81ec1972dbf4d",
+    "src/core/sudoku/solver.ts": "a3ce7691fad1449bc1852a5612b9acd66c6be40253141522fb49857faab7e303",
+    "src/core/sudoku/types.ts": "e5cc2b1c0f2fe98e912095fd312fe75d1ddeba3827d20f83d909715e49e22601",
+    "src/core/sudoku/validator.ts": "2b07abbf8fc2ec8c11a40d456989ae564722a49e294c3c094959edd6b6714db8",
+    "src/env.d.ts": "6aed67dd63059c927fcb10ec8543cb0637a86828a7e230319fa6aa9f3a22ffb0",
+    "src/main.ts": "b89c9059254c54a9eb67514808ed4339236dae9ae0ec7e5976513dd1f77c2451",
+    "src/manifest.json": "a88661e353987f4ad56eecca750b64afff372666f41c1b8a489d2e5d5d5f4d6e",
+    "src/pages.json": "482ec7c230e0c92b9331b7397ea6eb25926c90f4b0caf6c6887c1a52ed7a7cdd",
+    "src/pages/daily/index.vue": "35a68ea8a321f2167a0b6e2ceab1b89965b1b9d070504db5875af517e88bc7cd",
+    "src/pages/game/index.vue": "742c5488b3d2f6812034144dd1f6e6d001856bf347d010a2654368bafeb281d4",
+    "src/pages/history/detail.vue": "ed7df9fbe157ab15772ea75d8bbe4850917b7355fa1a7395aa46afad14686abf",
+    "src/pages/history/index.vue": "7043b08805dd03b24960c73b0ed61fe145ab00da091187edf97d450042dba4c4",
+    "src/pages/home/index.vue": "a8fe64a85b8b64dd2771a8beebeec3f92a0b2ba4112cd169b74110e58a51c86d",
+    "src/pages/import/index.vue": "780944eb4f50c91726ca51e6143dddd740947ecb9e3da189bacd26f32a5e1713",
+    "src/pages/levels/index.vue": "52e91d2564e6e9cd14b1fc836f70af5d5f0c9887a887d814876bdf4ab79e7031",
+    "src/pages/result/index.vue": "bcffdc3a3ca8d226688fde2a7521a52a05b4346e61d119bcc149d77b1ef61221",
+    "src/pages/settings/index.vue": "6c28c3318c386721cccc5619ba8c8906d3b018b54df8e5790bcf31f47539ae58",
+    "src/pages/statistics/index.vue": "0167961cadea29f2b6b010558b8796cae5e9befc629396f9c1e3da807b3a74d5",
+    "src/pages/tutorial/detail.vue": "9e2227d6c656f4408fbbf3ed4930b399c3df04343fec399781acac2d2375c846",
+    "src/pages/tutorial/index.vue": "1c7af2ca4c1d0807e25ccd39588f10cc254315d6a52678ca546d561cee0560dc",
+    "src/repositories/campaign.repository.ts": "7ae2a130f16a7f67d5e96a4ad973a563ffbef7d3d383bf8c5ca3e858a61a6218",
+    "src/repositories/current-game.repository.ts": "0d3ed972bd22b5a98ef3d431d5efd7bf46c92eead99f49dfdc925cd1dfd874cb",
+    "src/repositories/history.repository.ts": "94fd476502073665211b1b1e714c2a87f994bf93f3e853cccc1374087e6d4a2b",
+    "src/repositories/practice.repository.ts": "17f41fecd518d88d8d09f2b35242951dc687baeddd64620c69e56eda946bc9de",
+    "src/repositories/progress.repository.ts": "c8d8a22d7f8cb904f4626c56e4b09c49fa062003f3697fdc8c20e6e6541ad0ab",
+    "src/repositories/results.repository.ts": "9ec940cd859ab48b735d726523e4adbc2b4fd834c5c37dbfb11a9eb770795dca",
+    "src/repositories/settings.repository.ts": "30dc065666d06561fbe0e9b31203d178622715bea0c9d141bf3b8778b4b599d3",
+    "src/repositories/storage.ts": "4e7c41aad50ab89f07f786bdcdfba75dfc5a7d5b2448b2d671070162d830621b",
+    "src/repositories/validation.ts": "517a7074a163c3c0448c8f8ff5b5b1d1ca316e664070e9543ec4f691b9280318",
+    "src/services/audio.service.ts": "f8d6fafbdb701240841489cdbd83262949ea06e03bf008ecd07a5fd340f70f54",
+    "src/services/campaign.service.ts": "5b0eb5ae6ac31cfc669dad3a89df40256bca12d57436a923ae644ee34dab39c2",
+    "src/services/daily.service.ts": "0e47b2bfa15dcbcb817b0407a7097977ff42fd224bc305ced753cc3b9b89041c",
+    "src/services/puzzle.service.ts": "c76ba5a1f87e0c72b3084bdb325d3e281ba7b220b439dd437823071ac07865bc",
+    "src/services/share.service.ts": "c450dbd54334522968ed5c079a2dae339fa5bfd5d0a1e898164b003fa146ea22",
+    "src/static/sounds/error.wav": "9d0ce6f9d035b3ee6ec01d5522338b2ad629bb0e98bf749dd356a59e93e62ccd",
+    "src/static/sounds/success.wav": "f806a93dc360aca744fc2a90a36feac78e5c82ed257b623af0eefbfff37bf733",
+    "src/static/sounds/tap.wav": "64328e548bad9baa5f735b3ffed98b790500a542a8505b181f01d16d4ff637b9",
+    "src/stores/game.store.ts": "c3ec0996024912eba7b1e8f8b36e5635ab0028125129ffe5815d213239e632e2",
+    "src/stores/history.store.ts": "3fbe0f7f7334a93c35b783451995b0e29a60206a1c3f3fac8cb68b6d162abdc6",
+    "src/stores/progress.store.ts": "08a22129c5c042a302914173d795591652402e98cd5477a513bfcadcd05d0bf1",
+    "src/stores/settings.store.ts": "0f5fb3ffd7b50d6d1573bae87e546be40d712b6ff9e6531ead0b2bf355329613",
+    "src/stores/statistics.store.ts": "390a918ffea93d65802b198f1050eb26f65db6aebb4a66647050f3ee18d7de53",
+    "src/styles.scss": "7c205bfbbb80954a877d235f77f30727f4edd4765e2075842a138710372f9d95",
+    "src/types/progress.ts": "e77a01b26027597d0c65af15b57143d90981b70352753f359274c78a487b508a",
+    "src/types/settings.ts": "e59124f4008ca47babff5897c509e02d603d0e4fbc586a6a7df7d2bc198146d6",
+    "src/uni.scss": "64c56d85c256770faf6ac12f4726821a786a05a1aba7accb47ffb39f5f4b795a",
+    "src/utils/game-label.ts": "1046e7d462f34391c34914d171a201c25307f077dba7326f04b4cf84488c3f5a",
+    "src/utils/id.ts": "ddb2809803818e1d7ae1b9323e31e3e78d8d717c3037cbe9599c4d98c874e22f",
+    "src/utils/time.ts": "8e30d50f04bc3026279b42fca1a35489c1a2a6e45e1902a119bdfc913afde76e",
+    "tests/candidate.spec.ts": "1621c28847b1b793afa71d27e6ad218f3946cc745121869c1ff3d5f0b15ca665",
+    "tests/generator.spec.ts": "084d3c19ae10ceedae92e9529088ef411626718afc633369445413de0dfffa0a",
+    "tests/logical.spec.ts": "d20690387cfa98e1aa09a8287843f24c98b9942c47df917ee12647ffe395e228",
+    "tests/puzzles.spec.ts": "4dfac5b08eb3d9aeb77a2bfdf654907fc6fb63de9a6734d99962cf3829c28519",
+    "tests/solver.spec.ts": "f2d479a83f08679938d72c8180c3d4b4a4c5800a3c9479bc8263773337e1362e",
+    "tools/generate-puzzles.mjs": "cea5a6caf94d52cffa28151e17b138bd2b17f9817e0d762333dd306bca3a5f42",
+    "tools/validate-puzzles.mjs": "c477e509d2b187fe22e4d4b43ae77e19729354510bbc308b26e5c3b91a2f15bc",
+    "tools/validate-seed.mjs": "cb1b4ac412f906ef5b5c2fc9f2f5c0c4ef0f2fd548f7b2251bdc9c508f9ad864",
+    "tsconfig.json": "e730b8c94cba2855d15baa2b8b26ebb6a855a3b5cb8c78958588422762a732b2",
+    "vite.config.ts": "21a07594ec80f6d8e11588ea097f1d6cc48d6f95c2d5e6fab57f4c84addd0a1b"
+  },
+  "repairRounds": 2,
+  "runs": [
+    {
+      "id": "2026-10-10T01-27-58-899Z-516f8a19",
+      "report": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-27-58-899Z-516f8a19/result.json"
+    },
+    {
+      "id": "2026-10-10T01-44-29-587Z-db692b6b",
+      "report": "docs/tasks/2026-10-10-feature-ux-review/evidence/2026-10-10T01-44-29-587Z-db692b6b/result.json"
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-10-10T01:21:42.644Z",
+      "action": "created",
+      "status": "received",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:21:42.669Z",
+      "action": "planned",
+      "status": "planned",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:21:42.735Z",
+      "action": "started",
+      "status": "executing",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:27:58.900Z",
+      "action": "verification-started",
+      "status": "verifying",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:28:45.165Z",
+      "action": "verification-passed",
+      "status": "verified",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:29:30.585Z",
+      "action": "reviewed",
+      "status": "reviewed",
+      "note": "当前会话逐项复核：页面/Store/服务/存储源码审阅、独立 Node 行为探查及原始脚本结果核对",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:29:30.622Z",
+      "action": "delivered",
+      "status": "awaiting_owner",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:42:57.302Z",
+      "action": "amended",
+      "status": "received",
+      "note": "用户补充 Android 折叠屏为高频使用场景；在原功能交互评估中增加首批适配要求与验收矩阵，保留原检查和不修改业务代码的范围。",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:43:02.283Z",
+      "action": "planned",
+      "status": "planned",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:43:02.419Z",
+      "action": "started",
+      "status": "executing",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:44:29.590Z",
+      "action": "verification-started",
+      "status": "verifying",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:45:17.030Z",
+      "action": "verification-passed",
+      "status": "verified",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:46:50.234Z",
+      "action": "reviewed",
+      "status": "reviewed",
+      "note": "当前会话逐项复核：实际源码及行号核对、既有行为探查证据、Android/uni-app 官方能力边界与本轮原始脚本结果核对",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-10T01:46:50.266Z",
+      "action": "delivered",
+      "status": "awaiting_owner",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:53:41.145Z",
+      "action": "rework",
+      "status": "executing",
+      "note": "验收阶段指纹失效：工具链迁移与后续已验收任务演进共享路径，用户指示重检后验收；需求与验收条件不变",
+      "toolVersion": "0.5.1"
+    }
+  ],
+  "revisions": [
+    {
+      "id": "0001",
+      "at": "2026-10-10T01:42:57.297Z",
+      "reason": "用户补充 Android 折叠屏为高频使用场景；在原功能交互评估中增加首批适配要求与验收矩阵，保留原检查和不修改业务代码的范围。",
+      "directory": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001",
+      "evidence": [
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/task.json",
+          "sha256": "ff9e98843320ff2d11d3edb29b41bc938cb132fabc8c74e16abbf5eb10d7b33b"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/brief.md",
+          "sha256": "94d0d7ace3c61928a35308b00a9695560e12294a6d719a45323fe52837aeac63"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/plan.md",
+          "sha256": "69be5e023b839ce9a87d56a4443bce6eff2f389b4c6d176fa5bf174618bb7f75"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/review.json",
+          "sha256": "93b1f427dc61c880903ec03bca8180d3cf4793ea52c1c626b38a0faa51675293"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/delivery.md",
+          "sha256": "83d376bdc92cd39d7a11316403d01313dccfbe478f8893f03655db95f0cc76c9"
+        },
+        {
+          "path": "docs/tasks/2026-10-10-feature-ux-review/revisions/0001/history.json",
+          "sha256": "c7cf995ec377c04702e4da40cf0f8ec78a34789c25f4408b46cefd338a6e1ca1"
+        }
+      ]
+    }
+  ]
+}

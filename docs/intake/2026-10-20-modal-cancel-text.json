@@ -1,0 +1,59 @@
+{
+  "id": "2026-10-20-modal-cancel-text",
+  "title": "确认弹窗取消按钮中文化",
+  "request": "用户原话：\"所有确认弹窗的取消按钮在 H5 显示英文 \"Cancel\" 把这个改了吧\"。背景：2026-10-20 H5 内部浏览器验证（docs/tasks/2026-10-20-local-backup/observations/h5/VERIFICATION.md）发现全部 uni.showModal 确认弹窗的取消按钮显示英文 Cancel，原因是调用未传 cancelText。",
+  "scope": [
+    "src/pages/settings/index.vue",
+    "src/pages/tutorial/index.vue",
+    "src/pages/daily/index.vue",
+    "src/pages/game/index.vue",
+    "src/pages/levels/index.vue",
+    "src/pages/import/index.vue",
+    "docs/validation/validate-ui.cjs"
+  ],
+  "criteria": [
+    {
+      "id": "cancel-text-zh",
+      "evidenceTypes": [
+        "static",
+        "logic"
+      ],
+      "risks": [],
+      "checks": [
+        "ui"
+      ],
+      "description": "src 下全部 9 处 uni.showModal 确认弹窗均显式声明 cancelText: '取消'，H5 弹窗取消按钮显示中文，确认按钮文案与语义保持不变。"
+    },
+    {
+      "id": "regression-guard",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "description": "docs/validation/validate-ui.cjs 新增静态规则：src 内每个 uni.showModal( 调用必须包含 cancelText:，遗漏时 ui 检查失败，防止回归。"
+    },
+    {
+      "id": "checks-pass",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "description": "项目注册检查全部通过，且 AI 在内部浏览器实测至少两枚弹窗（退出本局、开始新游戏/导入确认）取消按钮显示\"取消\"。"
+    }
+  ],
+  "manualChecks": [
+    "AI 已按用户授权在内部浏览器实测弹窗文案；Android 真机弹窗样式未验证。"
+  ],
+  "checks": [
+    "adapter",
+    "adapter-tests",
+    "typecheck",
+    "unit",
+    "puzzles",
+    "ui",
+    "risk-evidence"
+  ],
+  "plan": "1. 为 6 个页面共 9 处 uni.showModal 调用补充 cancelText: '取消'（game/index.vue 3 处、settings/index.vue 2 处、tutorial/daily/levels/import 各 1 处），不改动 confirmText/confirmColor/success 逻辑。\n2. docs/validation/validate-ui.cjs 在 SFC 编译检查后追加静态扫描：统计各 .vue 源码中 uni.showModal( 出现次数与 cancelText: 出现次数，逐文件要求前者不大于后者，否则抛错；保持脚本退出码语义不变。\n3. 本地跑 typecheck 与 validate-ui 确认后 verify 全部注册检查。\n4. 按用户既有授权重启 H5 dev 服务器，在内部浏览器实测设置页导入确认与退出本局弹窗取消按钮文案，截图存 observations；测后停服务器。\n5. 会话内逐项复核并 finish 交付。恢复：检查失败保留日志按真实原因修复；不操作 Git。"
+}

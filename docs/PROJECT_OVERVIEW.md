@@ -1,6 +1,6 @@
 # 当前工程与扩展入口
 
-项目已接入 AI 需求交付流程（2026-10-09）：[使用说明](ai-delivery/README.md)、[项目交付规则](workflow/RULES.md)、[任务状态](workflow/STATUS.md)。后续开发与修复按该流程收件、脚本检查、复核和交付，用户明确决定后才记录验收。
+项目已接入 AI 需求交付流程（2026-10-09 接入，2026-10-20 迁移为随工程分发的工具包）：[使用说明](../ai/README.md)、[项目交付规则](workflow/RULES.md)、[任务状态](workflow/STATUS.md)。后续开发与修复按该流程收件、脚本检查、复核和交付，用户明确决定后才记录验收。
 
 更新日期：2026-10-10。本文描述功能完善后的代码。修改前的问题与市场对比保存在 [原始评估](reviews/2026-09-30/ASSESSMENT.md)，实施范围与验收详见 [首版记录](implementation/2026-09-30/IMPLEMENTATION.md)、[无限闯关记录](implementation/2026-09-30/INFINITE_CAMPAIGN.md) 与 [主菜单设计](design/2026-09-30/MAIN_MENU.md)。
 
@@ -30,6 +30,7 @@
 | 无限闯关 | `src/config/campaign.ts`、`src/services/campaign.service.ts`、`src/repositories/campaign.repository.ts` | 连续编号、分页、递进阶段、确定性出题、取消与最近题目缓存 |
 | 练习分级与出题 | `src/config/practice.ts`、`src/services/puzzle.service.ts` | 四档技巧评级、随机生成、重复过滤、缓存、取消、每日与导入 |
 | 连续完成 | `src/services/daily.service.ts` | 按本地日期处理连续天数与闰日/月边界 |
+| 数据备份 | `src/services/backup.service.ts` | 导出/恢复本机不可再生数据（当前局、成绩与历史、设置）；先整体校验再快照恢复 |
 | 棋盘与输入 | `src/components/sudoku/` | 状态显示、候选高亮、单键盘、分步解法弹层 |
 | 公共组件 | `src/components/common/` | 头部、底部弹层、更多菜单和响应式奖牌 |
 | 脚本验证 | `tests/`、`docs/validation/` | Core、业务与组件回归、评分校准、SFC 编译、题库生成 |
@@ -49,7 +50,7 @@
 | statistics/index | 关卡最佳进度、完成局累计、模式统计与本地成就 |
 | tutorial/index | 技巧目录与入门实局练习入口 |
 | tutorial/detail | 文章与技巧要点 |
-| settings/index | 辅助偏好、深色/大字、输入方式、重置 |
+| settings/index | 辅助偏好、深色/大字、输入方式、备份导出/导入、重置 |
 | daily/index | 日历、补玩、完成标记、当前/最长连续天数 |
 | import/index | 文字题目输入、唯一解校验、开始游戏 |
 
@@ -80,6 +81,8 @@
 | sudoku:v1:progress / history | 原版本迁移读取来源；新写入以 results 为准 |
 
 Storage Envelope 仍兼容旧 `{ version, data }` 与未包装数据。Repository 做结构校验。结果提交使用一个结果 key 的同步写入，成功后才更新页面完成状态；相同游戏通过结算标识与记录 ID 去重。以后增加结算字段应加入这一提交，避免恢复分步写入。
+
+数据备份只覆盖三个不可再生键（current-game、results、settings），练习与闯关缓存可按编号/种子重建，不纳入备份。导出读取原始 envelope（旧版无包装数据包装为 version 0），导入先整体校验（历史与进度逐条 normalize 零丢失、当前局过完整 normalize、设置须为对象）再按快照语义恢复：备份中存在的键整体覆盖，不存在的键恢复后移除。校验失败不改动任何本机数据；恢复成功后刷新设置/进度/历史/当前局各 Store 并返回主菜单。
 
 历史最多 1000 条，详细回放最多 50 条；约 150 万 JSON 字符预算优先归档较早回放。累计统计独立保留，删除/归档历史不会减少累计。首次迁移只能从现存有效记录初始化，无法恢复旧版本已经裁掉的历史。
 

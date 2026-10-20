@@ -1,0 +1,18 @@
+{
+  "mode": "typecheck",
+  "status": "passed",
+  "commands": [
+    {
+      "executable": "node",
+      "args": [
+        "node_modules/vue-tsc/bin/vue-tsc.js",
+        "--noEmit"
+      ],
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": "",
+      "error": null
+    }
+  ]
+}

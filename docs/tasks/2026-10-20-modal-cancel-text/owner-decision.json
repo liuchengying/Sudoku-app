@@ -1,0 +1,9 @@
+{
+  "source": "explicit-user-message",
+  "reference": "验收通过",
+  "note": "用户对确认弹窗取消按钮中文化交付明确验收通过（9 处 cancelText + validate-ui 回归规则 + 内部浏览器实测取消/重置与取消/退出）",
+  "decision": "accept",
+  "recordedAt": "2026-10-20T07:29:24.373Z",
+  "previousStatus": "awaiting_owner",
+  "fingerprint": "e62cce68664c0b3fc02bff05b398beae9a490f9090f2624613e3b0042ed86817"
+}

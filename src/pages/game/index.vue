@@ -116,6 +116,7 @@ function restart() {
   uni.showModal({
     title: '重新开始本关',
     content: '当前填写、候选和计时都会清除，确定重新开始吗？',
+    cancelText: '取消',
     confirmText: '重新开始',
     confirmColor: '#ff3b30',
     success: ({ confirm }) => {
@@ -139,7 +140,7 @@ function moreAction(action: string) {
       if (!game.value?.bookmark) { uni.showToast({ title: '本局还没有书签', icon: 'none' }); restoreMenuState() }
       else {
         const session = menuSession
-        uni.showModal({ title: '恢复书签', content: '将恢复书签棋盘，计时、错误和提示次数保留；可以撤销恢复。', success: ({ confirm }) => {
+        uni.showModal({ title: '恢复书签', content: '将恢复书签棋盘，计时、错误和提示次数保留；可以撤销恢复。', cancelText: '取消', success: ({ confirm }) => {
           if (session !== menuSession || !pageVisible || game.value?.id !== menuGameId) return
           if (confirm) gameStore.restoreBookmark(true)
           restoreMenuState(session)
@@ -207,6 +208,7 @@ onBackPress(() => {
   uni.showModal({
     title: '退出本局？',
     content: '当前进度会自动保存，下次可以继续。',
+    cancelText: '取消',
     confirmText: '退出',
     success: ({ confirm }) => confirm && exitAndSave()
   })

@@ -3,61 +3,126 @@
   "toolVersion": "0.5.1",
   "id": "2026-10-09-ai-delivery-onboarding",
   "title": "接入数独项目的 AI 需求交付流程",
-  "request": "[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 接入此项目",
+  "request": "[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 接入此项目 验收阶段 amendment：接入后交付工具链按 2026-10-20 迁移为随工程分发（docs/ai-delivery 部分文件由 ai/ 与 .ai-agent/ 取代），且后续多个任务演进工作区，输入指纹失效。将监控全量路径纳入范围，按当前工作区重新检查后交付验收；原接入需求与验收条件不变。",
   "scope": [
-    "docs/ai-delivery",
-    "docs/workflow/RULES.md",
+    ".ai-agent",
+    "AGENTS.md",
+    "README.md",
+    "ai",
+    "docs/ARCHITECTURE.md",
     "docs/PROJECT_OVERVIEW.md",
-    "docs/validation/game-flows.spec.ts"
+    "docs/ai-delivery",
+    "docs/design",
+    "docs/generated/pipeline-smoke.json",
+    "docs/implementation",
+    "docs/reviews",
+    "docs/validation",
+    "docs/validation/game-flows.spec.ts",
+    "docs/workflow/RULES.md",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "src",
+    "tests",
+    "tools",
+    "tsconfig.json",
+    "vite.config.ts"
   ],
   "criteria": [
     {
       "id": "adapter-ready",
-      "description": "本项目适配配置可被 ai-delivery 识别，doctor 返回 ready=true，已注册真实脚本检查及范围检查政策。"
+      "description": "本项目适配配置可被 ai-delivery 识别，doctor 返回 ready=true，已注册真实脚本检查及范围检查政策。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "permissions-preserved",
-      "description": "新增配置、脚本及材料均位于根目录 docs/；项目规则保留用户对 Git、电脑/浏览器控制、工程启动及脚本验证的约定。"
+      "description": "新增配置、脚本及材料均位于根目录 docs/；项目规则保留用户对 Git、电脑/浏览器控制、工程启动及脚本验证的约定。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "checks-backed",
-      "description": "通过适配器执行类型、完整 Vitest 回归、生产题库唯一解/评分及 Vue SFC/路由检查，原始日志和单元测试报告绑定本轮证据。"
+      "description": "通过适配器执行类型、完整 Vitest 回归、生产题库唯一解/评分及 Vue SFC/路由检查，原始日志和单元测试报告绑定本轮证据。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "inputs-tracked",
-      "description": "源码、测试、依赖声明、检查脚本、必要样本和规则均纳入指纹跟踪，生成报告不触发输入循环；注册命令不会启动应用。"
+      "description": "源码、测试、依赖声明、检查脚本、必要样本和规则均纳入指纹跟踪，生成报告不触发输入循环；注册命令不会启动应用。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "workflow-usable",
-      "description": "提供后续需求与恢复入口说明，完成本次任务的逐项会话内复核和交付，自动状态页准确显示待用户验收。"
+      "description": "提供后续需求与恢复入口说明，完成本次任务的逐项会话内复核和交付，自动状态页准确显示待用户验收。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
     },
     {
       "id": "menu-regression-aligned",
-      "description": "首页菜单回归明确使用已看过新手引导的用户前提，并独立检查首次引导、跳过后菜单可用及设置持久化；保持原有菜单、恢复、导航和统计断言，不修改业务源码。"
+      "description": "首页菜单回归明确使用已看过新手引导的用户前提，并独立检查首次引导、跳过后菜单可用及设置持久化；保持原有菜单、恢复、导航和统计断言，不修改业务源码。",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": []
+    },
+    {
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "description": "接入交付后工具链随工程分发迁移（ai/skills、ai/checks、.ai-agent 配置），交付流程持续在多个已验收任务中真实运转；本任务按当前工作区重新通过全部注册检查。",
+      "id": "toolchain-migration-recertified",
+      "impact": {
+        "paths": [
+          "ai/scripts/delivery.cjs",
+          ".ai-agent/project.json"
+        ],
+        "note": "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md"
+      }
     }
   ],
   "checks": [
     "adapter",
+    "adapter-tests",
     "typecheck",
     "unit",
     "puzzles",
-    "ui"
+    "ui",
+    "risk-evidence"
   ],
   "checkSelection": {
     "checks": [
       "adapter",
+      "adapter-tests",
       "typecheck",
       "unit",
       "puzzles",
-      "ui"
+      "ui",
+      "risk-evidence"
     ],
-    "source": "project-policy",
+    "source": "explicit",
     "required": [
       "adapter",
+      "adapter-tests",
       "typecheck",
       "unit",
       "puzzles",
-      "ui"
+      "ui",
+      "risk-evidence"
     ],
     "reasons": [
       {
@@ -68,27 +133,54 @@
         "paths": []
       },
       {
-        "reason": "检查脚本和题库样本变化会影响验证有效性，需重新运行完整检查。",
+        "reason": "源码、测试或工程依赖变化需通过项目完整脚本检查。",
         "checks": [
+          "adapter-tests",
           "typecheck",
           "unit",
           "puzzles",
-          "ui"
+          "ui",
+          "risk-evidence"
         ],
         "paths": [
-          "docs/validation"
+          "src",
+          "tests",
+          "package.json",
+          "package-lock.json",
+          "tsconfig.json",
+          "vite.config.ts",
+          "index.html"
+        ]
+      },
+      {
+        "reason": "检查脚本和题库样本变化会影响验证有效性，需重新运行完整检查。",
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "paths": [
+          "tools",
+          "docs/validation",
+          "docs/generated/pipeline-smoke.json"
         ]
       },
       {
         "reason": "交付适配和权限规则变化需确认已注册命令能真实检查项目。",
         "checks": [
+          "adapter-tests",
           "typecheck",
           "unit",
           "puzzles",
-          "ui"
+          "ui",
+          "risk-evidence"
         ],
         "paths": [
-          "docs/ai-delivery",
+          "ai",
+          ".ai-agent",
           "docs/workflow/RULES.md"
         ]
       }
@@ -98,9 +190,9 @@
     "本次仅接入交付流程并执行脚本检查，未启动 H5/Android 工程、构建应用或进行设备、浏览器体验验收。",
     "后续新会话是否自动选择技能尚需真实需求观察；本次未运行后台模型，也未替用户记录验收通过。"
   ],
-  "status": "awaiting_owner",
+  "status": "accepted",
   "createdAt": "2026-10-09T09:44:27.431Z",
-  "updatedAt": "2026-10-09T09:52:16.405Z",
+  "updatedAt": "2026-10-20T07:56:59.749Z",
   "baseline": {
     "docs/ai-delivery/project.json": "769b6bc6b5c8bee6394fdda070f9acb74043bbe013d56b8ad627937cda3c5bdb",
     "docs/ARCHITECTURE.md": "72d9e6356af3171a177344a1d5036d0b7d00a0b0eadddb43231334f99e88d4ce",
@@ -211,7 +303,7 @@
     "tsconfig.json": "e730b8c94cba2855d15baa2b8b26ebb6a855a3b5cb8c78958588422762a732b2",
     "vite.config.ts": "21a07594ec80f6d8e11588ea097f1d6cc48d6f95c2d5e6fab57f4c84addd0a1b"
   },
-  "repairRounds": 1,
+  "repairRounds": 3,
   "runs": [
     {
       "id": "2026-10-09T09-46-41-350Z-5124a659",
@@ -220,6 +312,10 @@
     {
       "id": "2026-10-09T09-49-34-869Z-3045dffd",
       "report": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/result.json"
+    },
+    {
+      "id": "2026-10-20T07-55-53-271Z-2f13c64c",
+      "report": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/result.json"
     }
   ],
   "events": [
@@ -306,6 +402,69 @@
       "status": "awaiting_owner",
       "note": "",
       "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:27.543Z",
+      "action": "rework",
+      "status": "executing",
+      "note": "验收阶段指纹失效：交付工具链按 2026-10-20 迁移为随工程分发且后续多个任务演进工作区，用户指示重检后验收；需求与验收条件不变",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:27.672Z",
+      "action": "amended",
+      "status": "received",
+      "note": "重检需要覆盖当前工作区：将监控全量路径纳入范围、补证据类型声明与工具链迁移重检条件；旧基线的 docs/ai-delivery 文件已被迁移删除，临时纳入范围以覆盖删除记录",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:52.966Z",
+      "action": "planned",
+      "status": "planned",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:53.102Z",
+      "action": "started",
+      "status": "executing",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:55:53.274Z",
+      "action": "verification-started",
+      "status": "verifying",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:56:39.255Z",
+      "action": "verification-passed",
+      "status": "verified",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:56:59.608Z",
+      "action": "reviewed",
+      "status": "reviewed",
+      "note": "当前会话逐项复核",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:56:59.658Z",
+      "action": "delivered",
+      "status": "awaiting_owner",
+      "note": "",
+      "toolVersion": "0.5.1"
+    },
+    {
+      "at": "2026-10-20T07:56:59.749Z",
+      "action": "owner-decision",
+      "status": "accepted",
+      "note": "用户对 AI 需求交付流程接入交付明确验收通过（重检七项检查通过后记录；工具链已迁移为随工程分发并在后续任务中持续运转）",
+      "toolVersion": "0.5.1"
     }
   ],
   "revisions": [
@@ -332,150 +491,193 @@
           "sha256": "8697f94d47e8c9736196d6531b53988d1251499dfd05ca31b187e254693d77ea"
         }
       ]
+    },
+    {
+      "id": "0002",
+      "at": "2026-10-20T07:55:27.668Z",
+      "reason": "重检需要覆盖当前工作区：将监控全量路径纳入范围、补证据类型声明与工具链迁移重检条件；旧基线的 docs/ai-delivery 文件已被迁移删除，临时纳入范围以覆盖删除记录",
+      "directory": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002",
+      "evidence": [
+        {
+          "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/task.json",
+          "sha256": "89cac7cb5318f5053ae018c03ce120bc1e00df4541fd256b022317be488f5a8c"
+        },
+        {
+          "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/brief.md",
+          "sha256": "93308f336df29feaa6c0adb27a5414458ee05b5f9072b8a087ef022ad740b8b4"
+        },
+        {
+          "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/plan.md",
+          "sha256": "5ddc5d7775aeedc5bd4bfcbc8da7d823b2a470e6e0353fbe3f5f2696941cb773"
+        },
+        {
+          "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/revisions/0002/history.json",
+          "sha256": "d7354bf6949073cf8cfbead6c41efce0d441d8bc33661cdd6cbcda320b7c4329"
+        }
+      ]
     }
   ],
   "verification": {
-    "id": "2026-10-09T09-49-34-869Z-3045dffd",
+    "id": "2026-10-20T07-55-53-271Z-2f13c64c",
     "toolVersion": "0.5.1",
-    "startedAt": "2026-10-09T09:49:34.869Z",
-    "fingerprint": "6e7eedef7b877d45d65202b2bbc8ec2c5c6d1614b53e8499bf97aa1905e0080d",
+    "startedAt": "2026-10-20T07:55:53.272Z",
+    "fingerprint": "48bbdabd62ee78b44332f1a91446f2b17deac66f28a0e046f4881ff56ba7ecdd",
     "passed": true,
     "checks": [
       {
         "id": "adapter",
         "passed": true,
-        "durationMs": 39,
-        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/adapter.log"
+        "durationMs": 82,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter.log"
+      },
+      {
+        "id": "adapter-tests",
+        "passed": true,
+        "durationMs": 511,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter-tests.log"
       },
       {
         "id": "typecheck",
         "passed": true,
-        "durationMs": 2695,
-        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/typecheck.log"
+        "durationMs": 2564,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/typecheck.log"
       },
       {
         "id": "unit",
         "passed": true,
-        "durationMs": 43651,
-        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit.log"
+        "durationMs": 41384,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/unit.log"
       },
       {
         "id": "puzzles",
         "passed": true,
-        "durationMs": 358,
-        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/puzzles.log"
+        "durationMs": 443,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/puzzles.log"
       },
       {
         "id": "ui",
         "passed": true,
-        "durationMs": 671,
-        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/ui.log"
+        "durationMs": 747,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/ui.log"
+      },
+      {
+        "id": "risk-evidence",
+        "passed": true,
+        "durationMs": 40,
+        "log": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/risk-evidence.log"
       }
     ],
     "evidence": [
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/input.json",
-        "sha256": "43bd44cb43fed248b8865a875cf906a6cb79517dc7494ba2d419e0f25eb6ec19"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/input.json",
+        "sha256": "5ca587e4a5e8e04cc2cf29a12ba2d99d4128ee377a829656ab3d3de9a0602123"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/result.json",
-        "sha256": "ac04ea35897e543a25f77bde9befa3903f2ba52667f62464a10ebb12c4d6c93b"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/result.json",
+        "sha256": "52acb8c1eb9ee1588e544250a38efc816686167a9711fca2aa58a5c337395e76"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/adapter.log",
-        "sha256": "417ce872fb28cf664a82b11db835239fc1aec4f62cea1629640813bca661ff13"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter.log",
+        "sha256": "2e88050788693ca92586ee088718bfa6e078770c41079f931ea75a6a01bbdd1a"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/typecheck.log",
-        "sha256": "e96e8746a7b4426ba2c73d99a8ee8aadcfbc60d0679e145f3d40a588e6fd9425"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter-tests.log",
+        "sha256": "64aedc16b677227cd27a3f1b2ca30b15204ef5fa91ebbe14e6466b0b829d2c7e"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit.log",
-        "sha256": "0fa193842d388c234308611297b4e84578e7076e4d2154fe0c18aa1b1e42ddd4"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/typecheck.log",
+        "sha256": "c581e1eebafa1dc9b470459d4748796124eebb5a57ef4ffb8d96e8aa1c6f3cc2"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/puzzles.log",
-        "sha256": "cffb49b9e73be61fb773fffeba1f0ec7cd276554526c733be07f4ab5fbdd1ddc"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/unit.log",
+        "sha256": "8596bf8ccea434c673e8c9a562deae2624940ea530f22416c0740db2cfcd7a17"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/ui.log",
-        "sha256": "64ba2c9caa931adba32cfb5938e1e842d6d026ec88a52ab4e0e5be62305f79da"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/puzzles.log",
+        "sha256": "c11bd65531937d844dda3b35ebc4e537ed874d613310d573b944a303225135d3"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit-tests.json",
-        "sha256": "4343b23c48ad88ffd69f8620aebe7083a108d351a68b8178a750e1dc20496979"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/ui.log",
+        "sha256": "7cc55ed82544523b79405e087a262dff1c11191b9f325feba4275dd2b47ea94d"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/risk-evidence.log",
+        "sha256": "dedf5fecdcf8c794ef708c61d6446299256ec91d580d0cbad4f5185f14c04d10"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter.json",
+        "sha256": "f3e5fbc91281368a774844f958b6918593f3055dbda163238b874cfe5fadb2d7"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/adapter-tests.json",
+        "sha256": "6ea0e66e451b1ab64a03d62ad7bd4338b82ce4dd63d1e18f0df050f1ed6496c0"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/typecheck.json",
+        "sha256": "89a65884a4079d62d40546d65970f855603ee0cceabbc6538bae9df526659260"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/unit.json",
+        "sha256": "9b1164e842f7673921e57b4f9c66f9f959b91642fb2c447c9b43d910b2c49fa6"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/unit-tests.json",
+        "sha256": "361fe928183fcf4a525d9c64b581c18f9ab8da242b9809bc8e614bbf719bf422"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/puzzles.json",
+        "sha256": "d3b9488e35797f3f5a4fcaf558e56928a16a2f4d895328871f28832b2442591a"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/ui.json",
+        "sha256": "c6a770b87e5b6131778f99ab296af86975cdf83c978c28b882ccb9f90009961c"
+      },
+      {
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-20T07-55-53-271Z-2f13c64c/risk-evidence.json",
+        "sha256": "e40eab30d626bed2b9da9035b8bc090f61893ee68850ee093b7b2d7caa5a84c8"
       }
     ],
-    "finishedAt": "2026-10-09T09:50:22.317Z"
+    "finishedAt": "2026-10-20T07:56:39.253Z"
   },
   "review": {
     "file": "docs/tasks/2026-10-09-ai-delivery-onboarding/review.json",
     "evidence": [
       {
         "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/review.json",
-        "sha256": "410a530ce9a580dcc428d2a425890e927638e38272cefa137e073c805edb8923"
+        "sha256": "660a135009ae5c66d2db7b6669919dd7dceb2e2a6c479157eb647a10aabbcd5c"
       },
       {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/doctor-final.json",
-        "sha256": "2df6bc403aa6ff8bd124049bff706701c672ce745af1cd2fd185ee0e9415cc23"
-      },
-      {
-        "path": "docs/ai-delivery/project.json",
-        "sha256": "cfb24b92125e74c4956a691490329b4dfc15fad90e397f57b444431d097bafeb"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/adapter.log",
-        "sha256": "417ce872fb28cf664a82b11db835239fc1aec4f62cea1629640813bca661ff13"
-      },
-      {
-        "path": "docs/workflow/RULES.md",
-        "sha256": "b10c5d073e480d9c87a32d25669eb1a6e637511d08e117fbc7251ceec3330dff"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/review-notes.md",
-        "sha256": "b3d3e33691e6d1d0c0f389a2eac5549efa26408fe7277ef0fc0997616c4ff42c"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/inspect-before-review.json",
-        "sha256": "3acdab904bd1c2f16898dcdfd0c6aaf347d9b26063f28135b95b040c9271c258"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/result.json",
-        "sha256": "ac04ea35897e543a25f77bde9befa3903f2ba52667f62464a10ebb12c4d6c93b"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/unit-tests.json",
-        "sha256": "4343b23c48ad88ffd69f8620aebe7083a108d351a68b8178a750e1dc20496979"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/puzzles.log",
-        "sha256": "cffb49b9e73be61fb773fffeba1f0ec7cd276554526c733be07f4ab5fbdd1ddc"
-      },
-      {
-        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/evidence/2026-10-09T09-49-34-869Z-3045dffd/ui.log",
-        "sha256": "64ba2c9caa931adba32cfb5938e1e842d6d026ec88a52ab4e0e5be62305f79da"
-      },
-      {
-        "path": "docs/ai-delivery/check-adapter.mjs",
-        "sha256": "9036b31df9d87dca9f8fa769deafb433f7f646d01fbc66e8807d0c1a036b6471"
-      },
-      {
-        "path": "docs/ai-delivery/README.md",
-        "sha256": "9c9fcd2692ed70bd41b2d981b1e7e32cfc5947478415e7be69d8326dde9d71d0"
+        "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/impact.md",
+        "sha256": "a177133fee3fa014c28953b734a34c18d76cf6b872b93f3f0817103cb8340a9c"
       },
       {
         "path": "docs/tasks/2026-10-09-ai-delivery-onboarding/plan.md",
-        "sha256": "5ddc5d7775aeedc5bd4bfcbc8da7d823b2a470e6e0353fbe3f5f2696941cb773"
+        "sha256": "973fc172fd2d9b100fbca36fc33d716d80cae9611e05db434c1a06b3ef420d36"
       },
       {
-        "path": "docs/validation/game-flows.spec.ts",
-        "sha256": "9c172939e0fb133712c7537f77d5916491687472e4504edcdafb4e4177fb1cb3"
+        "path": "docs/workflow/RULES.md",
+        "sha256": "4c55e7fca1d5b2c39b573dadd3cd5c245742e4f531135eb2961ef56873ca4023"
+      },
+      {
+        "path": "docs/PROJECT_OVERVIEW.md",
+        "sha256": "7a7a8865d3676bf0631331552288e049af4d91f8800439e4041c0f52b519bed1"
       }
     ]
   },
   "delivery": {
     "file": "docs/tasks/2026-10-09-ai-delivery-onboarding/delivery.md",
-    "sha256": "dff47ef819c50d5cea4b2857d3fa6a10bfc74c8d63a2cb13086149673473b107",
-    "fingerprint": "6e7eedef7b877d45d65202b2bbc8ec2c5c6d1614b53e8499bf97aa1905e0080d"
-  }
+    "sha256": "53b88ea2af4721f6340fb7289c8923ac4ea9f6224bc798b202f2c144d99e8b7f",
+    "fingerprint": "48bbdabd62ee78b44332f1a91446f2b17deac66f28a0e046f4881ff56ba7ecdd"
+  },
+  "decisions": [
+    {
+      "source": "explicit-user-message",
+      "reference": "把前面几个待用户验收的都验证通过吧",
+      "note": "用户对 AI 需求交付流程接入交付明确验收通过（重检七项检查通过后记录；工具链已迁移为随工程分发并在后续任务中持续运转）",
+      "decision": "accept",
+      "recordedAt": "2026-10-20T07:56:59.749Z",
+      "previousStatus": "awaiting_owner",
+      "fingerprint": "48bbdabd62ee78b44332f1a91446f2b17deac66f28a0e046f4881ff56ba7ecdd"
+    }
+  ]
 }

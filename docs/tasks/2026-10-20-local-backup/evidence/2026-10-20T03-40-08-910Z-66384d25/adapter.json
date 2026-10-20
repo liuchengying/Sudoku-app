@@ -1,0 +1,34 @@
+{
+  "mode": "adapter",
+  "status": "passed",
+  "files": [],
+  "deleted": [],
+  "commands": [],
+  "adapter": {
+    "entries": {
+      "rulesSource": ".ai-agent/RULES.md",
+      "catalog": ".ai-agent/skills.json",
+      "skillCount": 1,
+      "clients": [
+        "zcode"
+      ],
+      "entries": [
+        {
+          "entry": ".zcode/skills/ai-delivery",
+          "source": "ai/skills/ai-delivery",
+          "mode": "symlink",
+          "version": "0.5.1"
+        }
+      ],
+      "uiActivationVerified": false
+    },
+    "skills": [
+      {
+        "name": "ai-delivery",
+        "source": "ai/skills/ai-delivery/SKILL.md"
+      }
+    ],
+    "profileValid": true,
+    "note": "文件接入校验；不证明客户端界面已刷新或模型自动触发。"
+  }
+}

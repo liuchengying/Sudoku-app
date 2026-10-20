@@ -1,0 +1,17 @@
+{
+  "mode": "ui",
+  "status": "passed",
+  "commands": [
+    {
+      "executable": "node",
+      "args": [
+        "docs/validation/validate-ui.cjs"
+      ],
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "OK: 24 Vue SFCs compiled in memory; 12 page routes resolved\n",
+      "stderr": "DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.\n\nMore info and automated migrator: https://sass-lang.com/d/import\n\n  ╷\n2 │ @import './styles.scss';\n  │         ^^^^^^^^^^^^^^^\n  ╵\n    src/App.vue 2:9  root stylesheet\n\n",
+      "error": null
+    }
+  ]
+}

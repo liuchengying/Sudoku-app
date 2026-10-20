@@ -43,7 +43,7 @@ function returnToday() {
 function start() {
   if (canContinue.value) return continueGame()
   const launch = () => { game.startGame(level.value, 'DAILY', selected.value); openPage('/pages/game/index') }
-  if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始每日挑战', content: '当前未完成游戏会被替换，是否继续？', success: ({ confirm }) => { if (confirm) launch() } })
+  if (game.game && game.game.status !== 'COMPLETED') uni.showModal({ title: '开始每日挑战', content: '当前未完成游戏会被替换，是否继续？', cancelText: '取消', success: ({ confirm }) => { if (confirm) launch() } })
   else launch()
 }
 onShow(() => {

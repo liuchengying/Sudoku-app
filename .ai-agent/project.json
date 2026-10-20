@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 2,
+  "name": "sudoku-uniapp",
+  "timezone": "Asia/Shanghai",
+  "maxRepairRounds": 3,
+  "checkTimeoutMs": 300000,
+  "watch": [
+    ".ai-agent",
+    "AGENTS.md",
+    "README.md",
+    "ai",
+    "docs/ARCHITECTURE.md",
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/design",
+    "docs/generated/pipeline-smoke.json",
+    "docs/implementation",
+    "docs/reviews",
+    "docs/validation",
+    "docs/workflow/RULES.md",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "src",
+    "tests",
+    "tools",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "docs/validation/results",
+    "docs/ai-delivery"
+  ],
+  "checks": [
+    "adapter",
+    "adapter-tests",
+    "typecheck",
+    "unit",
+    "puzzles",
+    "ui",
+    "risk-evidence"
+  ],
+  "commands": {
+    "adapter": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/check.cjs",
+          "adapter",
+          "{taskDir}",
+          "{evidenceDir}"
+        ],
+        "outputs": [
+          "{evidenceDir}/adapter.json"
+        ]
+      }
+    ],
+    "adapter-tests": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/check.cjs",
+          "adapter-tests",
+          "{taskDir}",
+          "{evidenceDir}"
+        ],
+        "outputs": [
+          "{evidenceDir}/adapter-tests.json"
+        ]
+      }
+    ],
+    "typecheck": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/report.cjs",
+          "typecheck",
+          "{evidenceDir}",
+          "--",
+          "node",
+          "node_modules/vue-tsc/bin/vue-tsc.js",
+          "--noEmit"
+        ],
+        "outputs": [
+          "{evidenceDir}/typecheck.json"
+        ]
+      }
+    ],
+    "unit": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/report.cjs",
+          "unit",
+          "{evidenceDir}",
+          "--",
+          "node",
+          "node_modules/vitest/vitest.mjs",
+          "run",
+          "--config",
+          "docs/validation/vitest.config.ts",
+          "--outputFile.json",
+          "{evidenceDir}/unit-tests.json"
+        ],
+        "outputs": [
+          "{evidenceDir}/unit.json",
+          "{evidenceDir}/unit-tests.json"
+        ]
+      }
+    ],
+    "puzzles": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/report.cjs",
+          "puzzles",
+          "{evidenceDir}",
+          "--",
+          "node",
+          "tools/validate-puzzles.mjs"
+        ]
+      },
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/report.cjs",
+          "puzzles",
+          "{evidenceDir}",
+          "--",
+          "node",
+          "docs/validation/calibrate-puzzles.cjs"
+        ],
+        "outputs": [
+          "{evidenceDir}/puzzles.json"
+        ]
+      }
+    ],
+    "ui": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/report.cjs",
+          "ui",
+          "{evidenceDir}",
+          "--",
+          "node",
+          "docs/validation/validate-ui.cjs"
+        ],
+        "outputs": [
+          "{evidenceDir}/ui.json"
+        ]
+      }
+    ],
+    "risk-evidence": [
+      {
+        "executable": "node",
+        "args": [
+          "ai/checks/check.cjs",
+          "risk-evidence",
+          "{taskDir}",
+          "{evidenceDir}"
+        ],
+        "outputs": [
+          "{evidenceDir}/risk-evidence.json"
+        ]
+      }
+    ]
+  },
+  "checkPolicy": {
+    "always": [
+      "adapter"
+    ],
+    "rules": [
+      {
+        "paths": [
+          "src",
+          "tests",
+          "package.json",
+          "package-lock.json",
+          "tsconfig.json",
+          "vite.config.ts",
+          "index.html"
+        ],
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "reason": "源码、测试或工程依赖变化需通过项目完整脚本检查。"
+      },
+      {
+        "paths": [
+          "tools",
+          "docs/validation",
+          "docs/generated/pipeline-smoke.json"
+        ],
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "reason": "检查脚本和题库样本变化会影响验证有效性，需重新运行完整检查。"
+      },
+      {
+        "paths": [
+          "ai",
+          ".ai-agent",
+          "docs/workflow/RULES.md"
+        ],
+        "checks": [
+          "adapter-tests",
+          "typecheck",
+          "unit",
+          "puzzles",
+          "ui",
+          "risk-evidence"
+        ],
+        "reason": "交付适配和权限规则变化需确认已注册命令能真实检查项目。"
+      }
+    ]
+  },
+  "ruleFiles": [
+    ".ai-agent/RULES.md",
+    "docs/workflow/RULES.md",
+    "docs/PROJECT_OVERVIEW.md",
+    "docs/ARCHITECTURE.md"
+  ],
+  "taskRoot": "docs/tasks",
+  "statusFile": "docs/workflow/STATUS.md",
+  "runtimeDir": "docs/workflow/runtime"
+}

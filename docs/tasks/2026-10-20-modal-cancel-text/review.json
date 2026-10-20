@@ -1,0 +1,47 @@
+{
+  "reviewer": "当前会话逐项复核",
+  "summary": "逐条对照验收条件复核。(1) 通读 6 个页面 9 处 uni.showModal 调用，确认均显式声明 cancelText: '取消'，confirmText/confirmColor/success 逻辑逐字符未动（python 精确替换，每处断言唯一命中）。(2) 复核 docs/validation/validate-ui.cjs 新增规则：逐 SFC 统计 uni.showModal( 与 cancelText: 数量，前者大于后者即失败，规则随 ui 检查执行（本轮 ui.json 通过含该规则）。(3) 逻辑证据取自本轮 evidence 的 ui.json（由 ai/checks/report.cjs 运行 validate-ui.cjs 真实产出）；render 证据为 observation.json 记录的内部浏览器实测：重置进度弹窗按钮\"取消/重置\"、退出本局弹窗\"取消/退出\"，均中文且点击取消后数据未变（结果数据与未完成对局保留），截图 sha256 与观察记录一致。(4) typecheck/unit/puzzles 全部通过，确认无行为回归。未验证项：Android 真机弹窗样式（用户已授权自测范围仅内部浏览器）。",
+  "findings": [],
+  "criteria": [
+    {
+      "id": "cancel-text-zh",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/ui.json",
+        "docs/tasks/2026-10-20-modal-cancel-text/observations/h5/observation.json",
+        "docs/tasks/2026-10-20-modal-cancel-text/observations/h5/reset-modal-cancel.png"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/ui.json": "logic",
+        "docs/tasks/2026-10-20-modal-cancel-text/observations/h5/observation.json": "render",
+        "docs/tasks/2026-10-20-modal-cancel-text/observations/h5/reset-modal-cancel.png": "static"
+      }
+    },
+    {
+      "id": "regression-guard",
+      "result": "passed",
+      "evidence": [
+        "docs/validation/validate-ui.cjs",
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/ui.json"
+      ],
+      "evidenceKinds": {
+        "docs/validation/validate-ui.cjs": "static",
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/ui.json": "static"
+      }
+    },
+    {
+      "id": "checks-pass",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/risk-evidence.json",
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/result.json"
+      ],
+      "evidenceKinds": {
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/risk-evidence.json": "static",
+        "docs/tasks/2026-10-20-modal-cancel-text/evidence/2026-10-20T07-19-44-882Z-be659ce1/result.json": "static"
+      }
+    }
+  ],
+  "reviewedAt": "2026-10-20T07:26:52.533Z",
+  "fingerprint": "e62cce68664c0b3fc02bff05b398beae9a490f9090f2624613e3b0042ed86817"
+}

@@ -59,7 +59,7 @@ function jumpToLevel() {
 function cancelGeneration() { generationToken++; loading.value = false }
 function replaceCurrent(launch: () => void | Promise<void>) {
   if (!current.value) return launch()
-  uni.showModal({ title: '开始新游戏', content: '当前未完成进度会被替换，是否继续？', confirmText: '开始', success: ({ confirm }) => { if (confirm) launch() } })
+  uni.showModal({ title: '开始新游戏', content: '当前未完成进度会被替换，是否继续？', cancelText: '取消', confirmText: '开始', success: ({ confirm }) => { if (confirm) launch() } })
 }
 function startSelected() {
   if (loading.value) return

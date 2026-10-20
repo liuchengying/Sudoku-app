@@ -1,0 +1,18 @@
+{
+  "kind": "render",
+  "status": "passed",
+  "observedAt": "2026-10-20T07:25:43.000Z",
+  "method": "ZCode 内部浏览器（IAB）在 H5 dev 构建上以真实坐标点击打开弹窗并读取可见按钮文本",
+  "result": "重置所有游戏进度弹窗按钮为\"取消/重置\"，退出本局弹窗按钮为\"取消/退出\"，均为中文；点击取消后弹窗关闭且数据未变",
+  "authorization": "用户明确授权：\"后面都是由你自己来测试……使用内部浏览器启动项目开始测试\"",
+  "context": {
+    "environment": "npm run dev:h5 (Vite, http://localhost:5173, hash 路由), ZCode 内部浏览器",
+    "viewport": "390x844",
+    "theme": "深色",
+    "data": "存在未完成对局（大师第 2 关）与已种入的 1 条历史记录"
+  },
+  "artifacts": [
+    { "path": "docs/tasks/2026-10-20-modal-cancel-text/observations/h5/reset-modal-cancel.png", "sha256": "d34dcf34648dccd846b606ed9d7b0ff45ce40ba70c586a8aed3490efc225c26f" },
+    { "path": "docs/tasks/2026-10-20-modal-cancel-text/observations/h5/exit-modal-cancel.png", "sha256": "6707cbfea76424cfc7ec45273a813f01b1a888b422ff2e98a60bed59ac045e27" }
+  ]
+}

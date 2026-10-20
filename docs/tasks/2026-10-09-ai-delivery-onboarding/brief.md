@@ -1,6 +1,6 @@
 # 接入数独项目的 AI 需求交付流程
 
-原始需求：[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 接入此项目
+原始需求：[$ai-delivery](/Users/mac/.agents/skills/ai-delivery/SKILL.md) 接入此项目 验收阶段 amendment：接入后交付工具链按 2026-10-20 迁移为随工程分发（docs/ai-delivery 部分文件由 ai/ 与 .ai-agent/ 取代），且后续多个任务演进工作区，输入指纹失效。将监控全量路径纳入范围，按当前工作区重新检查后交付验收；原接入需求与验收条件不变。
 
 ## 验收条件
 
@@ -10,17 +10,36 @@
 - inputs-tracked：源码、测试、依赖声明、检查脚本、必要样本和规则均纳入指纹跟踪，生成报告不触发输入循环；注册命令不会启动应用。
 - workflow-usable：提供后续需求与恢复入口说明，完成本次任务的逐项会话内复核和交付，自动状态页准确显示待用户验收。
 - menu-regression-aligned：首页菜单回归明确使用已看过新手引导的用户前提，并独立检查首次引导、跳过后菜单可用及设置持久化；保持原有菜单、恢复、导航和统计断言，不修改业务源码。
+- toolchain-migration-recertified：接入交付后工具链随工程分发迁移（ai/skills、ai/checks、.ai-agent 配置），交付流程持续在多个已验收任务中真实运转；本任务按当前工作区重新通过全部注册检查。
 
 ## 修改范围
 
-- docs/ai-delivery
-- docs/workflow/RULES.md
+- .ai-agent
+- AGENTS.md
+- README.md
+- ai
+- docs/ARCHITECTURE.md
 - docs/PROJECT_OVERVIEW.md
+- docs/ai-delivery
+- docs/design
+- docs/generated/pipeline-smoke.json
+- docs/implementation
+- docs/reviews
+- docs/validation
 - docs/validation/game-flows.spec.ts
+- docs/workflow/RULES.md
+- index.html
+- package-lock.json
+- package.json
+- src
+- tests
+- tools
+- tsconfig.json
+- vite.config.ts
 
 ## 允许的检查
 
-adapter、typecheck、unit、puzzles、ui
+adapter、adapter-tests、typecheck、unit、puzzles、ui、risk-evidence
 
 ## 未纳入本次自动验收
 
