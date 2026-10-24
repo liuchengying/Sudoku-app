@@ -322,6 +322,7 @@ const inverseDigit = ref<number | null>(null)
   }
 
   function autoCandidates() {
+    if (inverseCandidates.value) return
     if (!game.value || game.value.status !== 'PLAYING' || game.value.selectedIndex == null) return
     const index = game.value.selectedIndex
     const cell = game.value.cells[index]
@@ -345,7 +346,22 @@ const inverseDigit = ref<number | null>(null)
     return targets.length > 0 && targets.every(cell => cell.notesMask === getCandidateMask(board, cell.index))
   })
 
+  // Inverse candidates is a standalone view state: the highlighted cells are
+  // recomputed from the current position (never from written notes), so the
+  // board stays clean of candidate notes while the mode is on. Each entry
+  // carries the cell's full candidate mask for the in-cell 3×3 display.
+  const inverseCells = computed(() => {
+    if (!inverseCandidates.value || inverseDigit.value == null || !game.value) return [] as { index: number; mask: number }[]
+    const board = currentBoard(!useSettingsStore().settings.independentMode)
+    const bit = digitBit(inverseDigit.value)
+    return game.value.cells
+      .filter(cell => cell.value === 0)
+      .map(cell => ({ index: cell.index, mask: getCandidateMask(board, cell.index) }))
+      .filter(cell => (cell.mask & bit) !== 0)
+  })
+
   function autoCandidatesAll(allowPaused = false) {
+    if (inverseCandidates.value) return
     if (!game.value || !toolAvailable(allowPaused)) return
     const indexes = game.value.cells.filter(cell => cell.origin !== 'GIVEN' && cell.value === 0).map(cell => cell.index)
     if (!indexes.length) return
@@ -543,6 +559,16 @@ function toggleInverseCandidates() {
   if (!game.value || game.value.status !== 'PLAYING') return
   inverseCandidates.value = !inverseCandidates.value
   inverseDigit.value = null
+  // Entering the inverse state clears the displayed single/all candidates as one
+  // undoable action; the highlights themselves are recomputed from the position.
+  if (inverseCandidates.value) {
+    const indexes = game.value.cells.filter(cell => cell.origin !== 'GIVEN' && cell.value === 0 && cell.notesMask !== 0).map(cell => cell.index)
+    if (indexes.length) {
+      const before = capture(indexes)
+      for (const index of indexes) game.value.cells[index].notesMask = 0
+      commitAction('SET_ALL_NOTES', buildChanges(indexes, before))
+    }
+  }
   feedback()
 }
 
@@ -584,6 +610,7 @@ function discard(persist = true) {
     allCandidatesShown,
     inverseCandidates,
     inverseDigit,
+    inverseCells,
     toggleInverseCandidates,
     chooseDigit,
     checkBoard,

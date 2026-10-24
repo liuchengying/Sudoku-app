@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { boxOf, colOf, hasDigit, rowOf, type SudokuCell } from '@/core/sudoku'
+import { boxOf, colOf, rowOf, type SudokuCell } from '@/core/sudoku'
 import SudokuCellView from './SudokuCell.vue'
 
 const props = withDefaults(defineProps<{
@@ -12,13 +12,14 @@ const props = withDefaults(defineProps<{
   activeDigit?: number | null
   focusIndexes?: number[]
   showErrors?: boolean
-  inverseDigit?: number | null
-}>(), { highlightRelated: true, highlightSameDigit: true, interactive: true, showErrors: true, inverseDigit: null })
+  inverse?: Array<{ index: number; mask: number }>
+}>(), { highlightRelated: true, highlightSameDigit: true, interactive: true, showErrors: true, inverse: () => [] })
 
 const emit = defineEmits<{ (event: 'select', index: number): void }>()
 
 const selectedValue = computed(() => props.activeDigit ?? (props.selectedIndex == null ? 0 : (props.cells[props.selectedIndex]?.value ?? 0)))
-const highlightDigit = computed(() => props.inverseDigit ?? (props.highlightSameDigit ? selectedValue.value : 0))
+const highlightDigit = computed(() => props.inverse.length ? 0 : (props.highlightSameDigit ? selectedValue.value : 0))
+const inverseMap = computed(() => new Map(props.inverse.map(item => [item.index, item.mask])))
 
 function related(index: number): boolean {
   if (!props.highlightRelated || props.selectedIndex == null || index === props.selectedIndex) return false
@@ -28,11 +29,15 @@ function related(index: number): boolean {
 }
 
 function sameValue(cell: SudokuCell): boolean {
-  return Boolean(!props.inverseDigit && props.highlightSameDigit && selectedValue.value && cell.value === selectedValue.value)
+  return Boolean(!props.inverse.length && props.highlightSameDigit && selectedValue.value && cell.value === selectedValue.value)
 }
 
 function inverse(cell: SudokuCell): boolean {
-  return props.inverseDigit != null && cell.value === 0 && hasDigit(cell.notesMask, props.inverseDigit)
+  return inverseMap.value.has(cell.index)
+}
+
+function inverseMask(cell: SudokuCell): number {
+  return inverseMap.value.get(cell.index) ?? 0
 }
 
 function select(index: number) {
@@ -52,6 +57,7 @@ function select(index: number) {
         :related="related(cell.index)"
         :same-value="sameValue(cell)"
         :inverse="inverse(cell)"
+        :inverse-mask="inverseMask(cell)"
         :highlight-digit="highlightDigit"
         :focus="focusIndexes?.includes(cell.index) ?? false"
         @select="select"

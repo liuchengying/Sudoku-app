@@ -9,10 +9,11 @@ const props = withDefaults(defineProps<{
   related: boolean
   sameValue: boolean
   inverse?: boolean
+  inverseMask?: number
   highlightDigit?: number
   focus?: boolean
   showErrors?: boolean
-}>(), { showErrors: true, inverse: false })
+}>(), { showErrors: true, inverse: false, inverseMask: 0 })
 
 defineEmits<{ (event: 'select', index: number): void }>()
 
@@ -20,6 +21,8 @@ const row = computed(() => Math.floor(props.cell.index / 9))
 const col = computed(() => props.cell.index % 9)
 const noteDigits = computed(() => Array.from({ length: 9 }, (_, i) => i + 1))
 const visibleError = computed(() => props.showErrors && props.cell.error)
+// Inverse mode renders the cell's own full candidates inside the lit cell.
+const displayMask = computed(() => props.inverseMask || props.cell.notesMask)
 </script>
 
 <template>
@@ -44,8 +47,8 @@ const visibleError = computed(() => props.showErrors && props.cell.error)
     @tap="$emit('select', cell.index)"
   >
     <text v-if="cell.value" class="value">{{ cell.value }}</text>
-    <view v-else-if="cell.notesMask" class="notes">
-      <text v-for="digit in noteDigits" :key="digit" class="note" :class="{ 'note-highlight': highlightDigit === digit && hasDigit(cell.notesMask, digit) }">{{ hasDigit(cell.notesMask, digit) ? digit : '' }}</text>
+    <view v-else-if="displayMask" class="notes">
+      <text v-for="digit in noteDigits" :key="digit" class="note" :class="{ 'note-highlight': highlightDigit === digit && hasDigit(displayMask, digit) }">{{ hasDigit(displayMask, digit) ? digit : '' }}</text>
     </view>
     <text v-if="visibleError" class="error-mark">!</text>
     <view v-if="cell.origin === 'HINT'" class="hint-dot"></view>

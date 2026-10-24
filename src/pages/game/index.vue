@@ -258,7 +258,7 @@ onBeforeUnmount(() => {
           :interactive="game.status === 'PLAYING'"
           :highlight-related="settingsStore.settings.highlightRelated"
           :highlight-same-digit="settingsStore.settings.highlightSameDigit"
-          :inverse-digit="gameStore.inverseCandidates ? gameStore.inverseDigit : null"
+          :inverse="gameStore.inverseCells"
           @select="gameStore.selectCell"
         />
         <view v-if="game.status === 'PAUSED'" class="pause-overlay" @tap="gameStore.resume">

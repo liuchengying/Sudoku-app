@@ -1137,21 +1137,30 @@ describe('Candidate toggles', () => {
 })
 
 describe('Inverse candidates', () => {
-  it('highlights cells whose candidates contain the chosen digit and restores filling when off', () => {
+  it('clears displayed candidates on entry, highlights computed candidates and restores filling when off', () => {
     const store = useGameStore()
     store.startGame(LEVELS[0])
     store.autoCandidatesAll()
     store.toggleInverseCandidates()
     expect(store.inverseCandidates).toBe(true)
+    // Entering the inverse state clears the displayed candidates as one undoable action.
+    expect(store.game!.cells.every(c => c.origin === 'GIVEN' || c.value !== 0 || c.notesMask === 0)).toBe(true)
+    expect(store.allCandidatesShown).toBe(false)
     store.chooseDigit(1)
     expect(store.inverseDigit).toBe(1)
-    const withOne = store.game!.cells.filter(c => c.value === 0 && (c.notesMask & digitBit(1)) !== 0)
-    expect(withOne.length).toBeGreaterThan(0)
-    expect(withOne.every(c => (c.notesMask & digitBit(1)) !== 0)).toBe(true)
+    const highlighted = store.inverseCells
+    expect(highlighted.length).toBeGreaterThan(0)
+    // Highlights are recomputed from the position: each entry carries the cell's
+    // full candidate mask (for the in-cell 3×3 display), contains the digit, and
+    // no filled cell is highlighted.
+    const board = store.game!.cells.map(c => c.value)
+    expect(highlighted.every(h => h.mask === getCandidateMask(board, h.index) && (h.mask & digitBit(1)) !== 0)).toBe(true)
+    expect(highlighted.every(h => store.game!.cells[h.index].value === 0)).toBe(true)
     store.chooseDigit(1)
     expect(store.inverseDigit).toBeNull()
+    expect(store.inverseCells.length).toBe(0)
     store.chooseDigit(2)
-    expect(store.inverseDigit).toBe(2)
+    expect(store.inverseCells.length).toBeGreaterThan(0)
     store.toggleInverseCandidates()
     expect(store.inverseCandidates).toBe(false)
     expect(store.inverseDigit).toBeNull()

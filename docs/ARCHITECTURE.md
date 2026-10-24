@@ -31,7 +31,7 @@ Pure TypeScript Sudoku Core
 
 `window-layout.ts` 依据实际宽、高及安全区选择单列或并排，棋盘和操作区有尺寸边界，矮窗口允许纵向滚动；大屏内屏（折叠屏展开、平板）棋盘上限提升至 840px 且格子数字/候选字号随棋盘放大（字号上限 44/50px），操作列收窄至 ≤300px 并在分屏内紧凑排布，触控目标保持 ≥44px。宽高均 ≥900px 的窗口（内屏展开）进一步切换为竖栏布局：棋盘最大化（上限 1024px、数字字号上限 64/72px），候选/解法/擦除/草稿与撤销/重做沿右缘竖向排列，数字键横排于棋盘下方。普通尺寸变化不调用游戏动作、不创建游戏、不改变计时与操作栈。半折叠铰链需要原生姿态信息，目前没有此桥接，不能把窗口适配等同于姿态识别。
 
-单格候选与全部候选为开关动作（再次点击清空；部分笔记仍被完整候选覆盖），动作整体入撤销栈，全部候选的激活态经 allCandidatesShown 驱动工具栏高亮。反向候选（inverseCandidates/inverseDigit）为临时视图模式：chooseDigit 在该模式下仅切换高亮数字，棋盘按 inverseDigit 标注候选含 d 的空格（SudokuCell .inverse 背景 + note-highlight），退出或新开局复位，不进入动作栈与存档。更多菜单工具通过明确的 allowPaused 参数在暂停中执行；确认结束按原状态恢复，迟到回调受页面生命周期与游戏 ID 保护。继续入口统一导航失败兜底。提示说明与有效揭示分开，lastHintKey 保存已查看棋盘/步骤标识以避免同一步重复计数。新增 independentMode 默认 false，候选/清理依可见棋盘，手动检查与推导为显式求助。
+单格候选与全部候选为开关动作（再次点击清空；部分笔记仍被完整候选覆盖），动作整体入撤销栈，全部候选的激活态经 allCandidatesShown 驱动工具栏高亮。反向候选（inverseCandidates/inverseDigit）为临时视图模式：进入时将非零笔记整体清零（单次可撤销动作）；chooseDigit 在该模式下仅切换高亮数字；store 按 inverseCells 输出 {index, mask}（mask 为按当前局面计算的完整候选掩码），棋盘点亮对应空格并经 SudokuCell inverseMask 在格内以候选样式展示完整数字；退出或新开局复位，不进入动作栈与存档。更多菜单工具通过明确的 allowPaused 参数在暂停中执行；确认结束按原状态恢复，迟到回调受页面生命周期与游戏 ID 保护。继续入口统一导航失败兜底。提示说明与有效揭示分开，lastHintKey 保存已查看棋盘/步骤标识以避免同一步重复计数。新增 independentMode 默认 false，候选/清理依可见棋盘，手动检查与推导为显式求助。
 
 ## Persistence and completion
 
