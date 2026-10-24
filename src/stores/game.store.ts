@@ -45,11 +45,13 @@ function medalFor(mistakes: number, hints: number): MedalType {
 }
 
 export const useGameStore = defineStore('game', () => {
-  const game = ref<GameState | null>(null)
-  const pendingHint = ref<HintResult | null>(null)
-  const storageError = ref('')
-  const activeDigit = ref<number | null>(null)
-  const manualCheckVisible = ref(false)
+const game = ref<GameState | null>(null)
+const pendingHint = ref<HintResult | null>(null)
+const storageError = ref('')
+const activeDigit = ref<number | null>(null)
+const manualCheckVisible = ref(false)
+const inverseCandidates = ref(false)
+const inverseDigit = ref<number | null>(null)
   watch(() => useSettingsStore().settings.inputStyle, () => { activeDigit.value = null })
 
   const isActive = computed(() => game.value?.status === 'PLAYING')
@@ -149,6 +151,8 @@ export const useGameStore = defineStore('game', () => {
     pendingHint.value = null
     activeDigit.value = null
     manualCheckVisible.value = false
+    inverseCandidates.value = false
+    inverseDigit.value = null
     storageError.value = ''
     flushSave()
   }
@@ -523,11 +527,24 @@ export const useGameStore = defineStore('game', () => {
     return game.value.cells.filter(c => c.error).length
   }
 
-  function chooseDigit(digit: number) {
-    if (!isActive.value || !Number.isInteger(digit) || digit < 1 || digit > 9) return
-    if (useSettingsStore().settings.inputStyle === 'number-first') activeDigit.value = activeDigit.value === digit ? null : digit
-    else inputDigit(digit)
+function chooseDigit(digit: number) {
+  if (!isActive.value || !Number.isInteger(digit) || digit < 1 || digit > 9) return
+  // Inverse candidates mode turns the digit keys into a highlight picker.
+  if (inverseCandidates.value) {
+    inverseDigit.value = inverseDigit.value === digit ? null : digit
+    feedback()
+    return
   }
+  if (useSettingsStore().settings.inputStyle === 'number-first') activeDigit.value = activeDigit.value === digit ? null : digit
+  else inputDigit(digit)
+}
+
+function toggleInverseCandidates() {
+  if (!game.value || game.value.status !== 'PLAYING') return
+  inverseCandidates.value = !inverseCandidates.value
+  inverseDigit.value = null
+  feedback()
+}
 
   function saveBookmark(allowPaused = false) {
     if (!game.value || !toolAvailable(allowPaused)) return
@@ -545,16 +562,18 @@ export const useGameStore = defineStore('game', () => {
     return true
   }
 
-  function discard(persist = true) {
-    if (persist) currentGameRepository.clear()
-    if (saveTimer) clearTimeout(saveTimer)
-    saveTimer = null
-    storageError.value = ''
-    activeDigit.value = null
-    manualCheckVisible.value = false
-    game.value = null
-    pendingHint.value = null
-  }
+function discard(persist = true) {
+  if (persist) currentGameRepository.clear()
+  if (saveTimer) clearTimeout(saveTimer)
+  saveTimer = null
+  storageError.value = ''
+  activeDigit.value = null
+  manualCheckVisible.value = false
+  inverseCandidates.value = false
+  inverseDigit.value = null
+  game.value = null
+  pendingHint.value = null
+}
 
   return {
     game,
@@ -563,6 +582,9 @@ export const useGameStore = defineStore('game', () => {
     activeDigit,
     manualCheckVisible,
     allCandidatesShown,
+    inverseCandidates,
+    inverseDigit,
+    toggleInverseCandidates,
     chooseDigit,
     checkBoard,
     saveBookmark,

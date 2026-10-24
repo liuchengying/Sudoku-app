@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { boxOf, colOf, rowOf, type SudokuCell } from '@/core/sudoku'
+import { boxOf, colOf, hasDigit, rowOf, type SudokuCell } from '@/core/sudoku'
 import SudokuCellView from './SudokuCell.vue'
 
 const props = withDefaults(defineProps<{
@@ -12,11 +12,13 @@ const props = withDefaults(defineProps<{
   activeDigit?: number | null
   focusIndexes?: number[]
   showErrors?: boolean
-}>(), { highlightRelated: true, highlightSameDigit: true, interactive: true, showErrors: true })
+  inverseDigit?: number | null
+}>(), { highlightRelated: true, highlightSameDigit: true, interactive: true, showErrors: true, inverseDigit: null })
 
 const emit = defineEmits<{ (event: 'select', index: number): void }>()
 
 const selectedValue = computed(() => props.activeDigit ?? (props.selectedIndex == null ? 0 : (props.cells[props.selectedIndex]?.value ?? 0)))
+const highlightDigit = computed(() => props.inverseDigit ?? (props.highlightSameDigit ? selectedValue.value : 0))
 
 function related(index: number): boolean {
   if (!props.highlightRelated || props.selectedIndex == null || index === props.selectedIndex) return false
@@ -26,7 +28,11 @@ function related(index: number): boolean {
 }
 
 function sameValue(cell: SudokuCell): boolean {
-  return Boolean(props.highlightSameDigit && selectedValue.value && cell.value === selectedValue.value)
+  return Boolean(!props.inverseDigit && props.highlightSameDigit && selectedValue.value && cell.value === selectedValue.value)
+}
+
+function inverse(cell: SudokuCell): boolean {
+  return props.inverseDigit != null && cell.value === 0 && hasDigit(cell.notesMask, props.inverseDigit)
 }
 
 function select(index: number) {
@@ -45,7 +51,8 @@ function select(index: number) {
         :selected="cell.index === selectedIndex"
         :related="related(cell.index)"
         :same-value="sameValue(cell)"
-        :highlight-digit="highlightSameDigit ? selectedValue : 0"
+        :inverse="inverse(cell)"
+        :highlight-digit="highlightDigit"
         :focus="focusIndexes?.includes(cell.index) ?? false"
         @select="select"
       />

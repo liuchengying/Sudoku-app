@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { SudokuCell } from '@/core/sudoku'
-const props = withDefaults(defineProps<{ cells: SudokuCell[]; disabled?: boolean; disableCompletedDigit?: boolean; noteMode?: boolean; activeDigit?: number | null; showRemaining?: boolean; answerAware?: boolean }>(), { disabled: false, disableCompletedDigit: true, noteMode: false, activeDigit: null, showRemaining: true, answerAware: true })
+const props = withDefaults(defineProps<{ cells: SudokuCell[]; disabled?: boolean; disableCompletedDigit?: boolean; noteMode?: boolean; activeDigit?: number | null; showRemaining?: boolean; answerAware?: boolean; inverseMode?: boolean }>(), { disabled: false, disableCompletedDigit: true, noteMode: false, activeDigit: null, showRemaining: true, answerAware: true, inverseMode: false })
 const emit = defineEmits<{ (event: 'answer', digit: number): void }>()
 const digits = Array.from({ length: 9 }, (_, i) => i + 1)
 const remaining = computed(() => digits.map(d => Math.max(0, 9 - props.cells.filter(c => c.value === d && (!props.answerAware || c.value === c.solution)).length)))
-function blocked(d: number) { return props.disabled || Boolean(props.showRemaining && !props.noteMode && props.disableCompletedDigit && remaining.value[d - 1] === 0) }
+function blocked(d: number) { return props.disabled || (!props.inverseMode && Boolean(props.showRemaining && !props.noteMode && props.disableCompletedDigit && remaining.value[d - 1] === 0)) }
 </script>
 <template>
-  <view class="number-pad" :class="{ disabled, 'note-mode': noteMode }">
-    <button v-for="digit in digits" :key="digit" class="answer-key" :class="{ completed: blocked(digit), active: digit === activeDigit }" :disabled="blocked(digit)" :aria-label="`${noteMode ? '候选' : '数字'} ${digit}${showRemaining ? '，还剩 ' + remaining[digit - 1] + ' 个' : ''}`" @tap="!blocked(digit) && emit('answer', digit)">
-      <text class="digit">{{ digit }}</text><text class="remaining">{{ noteMode ? '草稿' : showRemaining ? `余 ${remaining[digit - 1]}` : '填写' }}</text>
+  <view class="number-pad" :class="{ disabled, 'note-mode': noteMode, 'inverse-mode': inverseMode }">
+    <button v-for="digit in digits" :key="digit" class="answer-key" :class="{ completed: blocked(digit), active: digit === activeDigit }" :disabled="blocked(digit)" :aria-label="`${inverseMode ? '反向候选' : noteMode ? '候选' : '数字'} ${digit}${showRemaining && !inverseMode ? '，还剩 ' + remaining[digit - 1] + ' 个' : ''}`" @tap="!blocked(digit) && emit('answer', digit)">
+      <text class="digit">{{ digit }}</text><text class="remaining">{{ inverseMode ? '反选' : noteMode ? '草稿' : showRemaining ? `余 ${remaining[digit - 1]}` : '填写' }}</text>
     </button>
   </view>
 </template>

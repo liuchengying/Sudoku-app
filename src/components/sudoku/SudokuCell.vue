@@ -8,10 +8,11 @@ const props = withDefaults(defineProps<{
   selected: boolean
   related: boolean
   sameValue: boolean
+  inverse?: boolean
   highlightDigit?: number
   focus?: boolean
   showErrors?: boolean
-}>(), { showErrors: true })
+}>(), { showErrors: true, inverse: false })
 
 defineEmits<{ (event: 'select', index: number): void }>()
 
@@ -28,6 +29,7 @@ const visibleError = computed(() => props.showErrors && props.cell.error)
       selected,
       related,
       same: sameValue,
+      inverse,
       error: visibleError,
       given: cell.origin === 'GIVEN',
       user: cell.origin === 'USER',
@@ -54,6 +56,7 @@ const visibleError = computed(() => props.showErrors && props.cell.error)
 .cell { position: relative; min-width: 0; min-height: 0; background: var(--board-bg, var(--cell-bg)); display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--board-line, var(--line)); border-bottom: 1px solid var(--board-line, var(--line)); transition: background .08s ease; overflow: hidden; }
 .cell.related { background: var(--board-related, var(--cell-related)); }
 .cell.same { background: var(--board-same, var(--cell-same)); }
+.cell.inverse { background: var(--board-inverse, var(--board-same, var(--cell-same))); }
 .cell.selected { background: var(--board-selected, var(--cell-selected)); box-shadow: inset 0 0 0 2px var(--board-accent, var(--primary)); z-index: 2; }
 .cell.strong-right { border-right: 2px solid var(--board-line-strong, var(--line-strong)); }
 .cell.strong-bottom { border-bottom: 2px solid var(--board-line-strong, var(--line-strong)); }

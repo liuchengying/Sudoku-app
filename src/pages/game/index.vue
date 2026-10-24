@@ -258,6 +258,7 @@ onBeforeUnmount(() => {
           :interactive="game.status === 'PLAYING'"
           :highlight-related="settingsStore.settings.highlightRelated"
           :highlight-same-digit="settingsStore.settings.highlightSameDigit"
+          :inverse-digit="gameStore.inverseCandidates ? gameStore.inverseDigit : null"
           @select="gameStore.selectCell"
         />
         <view v-if="game.status === 'PAUSED'" class="pause-overlay" @tap="gameStore.resume">
@@ -274,8 +275,10 @@ onBeforeUnmount(() => {
       :can-undo="game.undoStack.length > 0"
       :can-redo="game.redoStack.length > 0"
       :all-candidates="gameStore.allCandidatesShown"
+      :inverse="gameStore.inverseCandidates"
       @candidates="gameStore.autoCandidates"
       @candidates-all="gameStore.autoCandidatesAll"
+      @inverse="gameStore.toggleInverseCandidates"
       @hint="hint"
       @erase="gameStore.erase"
       @note="gameStore.toggleNoteMode"
@@ -290,7 +293,8 @@ onBeforeUnmount(() => {
       :show-remaining="instantChecking"
       :answer-aware="!settingsStore.settings.independentMode"
       :note-mode="game.inputMode === 'NOTE'"
-      :active-digit="gameStore.activeDigit"
+      :active-digit="gameStore.inverseCandidates ? gameStore.inverseDigit : gameStore.activeDigit"
+      :inverse-mode="gameStore.inverseCandidates"
       @answer="gameStore.chooseDigit"
     />
     </view>

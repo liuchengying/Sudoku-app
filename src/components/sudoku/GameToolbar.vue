@@ -5,11 +5,13 @@ withDefaults(defineProps<{
   canRedo: boolean
   disabled?: boolean
   allCandidates?: boolean
-}>(), { noteMode: false, canUndo: false, canRedo: false, allCandidates: false })
+  inverse?: boolean
+}>(), { noteMode: false, canUndo: false, canRedo: false, allCandidates: false, inverse: false })
 
 const emit = defineEmits<{
   (event: 'candidates'): void
   (event: 'candidates-all'): void
+  (event: 'inverse'): void
   (event: 'hint'): void
   (event: 'erase'): void
   (event: 'note'): void
@@ -26,6 +28,9 @@ const emit = defineEmits<{
       </view>
       <view class="tool" :class="{ active: allCandidates }" aria-label="全部候选" @tap="emit('candidates-all')">
         <view class="icon-circle"><text class="glyph grid">▦</text></view><text class="label">全候选</text>
+      </view>
+      <view class="tool" :class="{ active: inverse }" aria-label="反向候选" @tap="emit('inverse')">
+        <view class="icon-circle"><text class="glyph swap">⇄</text></view><text class="label">反候选</text>
       </view>
       <view class="tool" @tap="emit('hint')">
         <view class="icon-circle"><text class="glyph">✣</text></view><text class="label"><text class="dot">●</text>解法</text>
@@ -48,14 +53,15 @@ const emit = defineEmits<{
 <style scoped lang="scss">
 .toolbar-wrap { padding-top: 12rpx; }
 .toolbar-wrap.disabled { opacity: .45; pointer-events: none; }
-.toolbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 0; }
+.toolbar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; padding: 0; }
 .tool { min-height: 48px; display: flex; flex-direction: column; align-items: center; gap: 10rpx; }
 .icon-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; transition: .12s; }
-.glyph { color: var(--primary); font-size: clamp(22.1px, 52rpx, 26px); line-height: 1; }
+.glyph { color: var(--primary); font-size: clamp(20.4px, 48rpx, 24px); line-height: 1; }
 .flag { font-size: clamp(23.8px, 56rpx, 28px); }
 .pencil { font-size: clamp(23.38px, 55rpx, 27.5px); }
 .grid { font-size: clamp(21.25px, 50rpx, 25px); }
-.label { font-size: clamp(11.9px, 28rpx, 14px); color: var(--text-primary); font-weight: 600; white-space: nowrap; }
+.swap { font-size: clamp(22.1px, 52rpx, 26px); font-weight: 700; }
+.label { font-size: clamp(11.05px, 26rpx, 13px); color: var(--text-primary); font-weight: 600; white-space: nowrap; }
 .dot { color: #f7bb2c; font-size: clamp(9.35px, 22rpx, 11px); margin-right: 5rpx; }
 .tool.active .icon-circle { background: var(--primary-soft); box-shadow: inset 0 0 0 3rpx var(--primary); }
 .tool.active .label { color: var(--primary); }
