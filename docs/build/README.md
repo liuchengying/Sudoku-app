@@ -7,7 +7,8 @@
 - 文件：`docs/build/sudoku-1.0.0.apk`
 - 应用名：数独
 - 包名：`com.family.sudoku`
-- 版本：`versionName 1.0.0` / `versionCode 10000`
+- 版本：`versionName 1.0.0` / `versionCode 10001`（2026-10-24 重新构建，含折叠屏/棋盘交互的最新源码）
+- 历史包：`docs/build/archive/`（10000 版，含上次交付校验记录的原始文件）
 - 支持系统：Android 6.0（API 23）及以上，targetSdk 35
 - 签名：自签名证书（v1 + v2），证书 DN `CN=Family Sudoku`
 

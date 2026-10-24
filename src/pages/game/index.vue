@@ -50,8 +50,9 @@ const elapsedText = computed(() => formatDuration(gameStore.elapsed(now.value)))
 const instantChecking = computed(() => settingsStore.settings.immediateErrorCheck && !settingsStore.settings.independentMode)
 const windowStyle = computed(() => ({
   '--controls-width': `${layout.value.controlsWidth}px`,
-  '--digit-font-size': `${Math.min(settingsStore.settings.largeDigits ? 34 : 32, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .72 : .64))}px`,
-  '--note-font-size': `${Math.min(settingsStore.settings.largeDigits ? 13 : 12, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .25 : .23))}px`,
+  '--rail-width': `${layout.value.controlsWidth}px`,
+  '--digit-font-size': `${Math.min(settingsStore.settings.largeDigits ? 72 : 64, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .72 : .64))}px`,
+  '--note-font-size': `${Math.min(settingsStore.settings.largeDigits ? 22 : 20, layout.value.boardSize / 9 * (settingsStore.settings.largeDigits ? .25 : .23))}px`,
   paddingLeft: `${metrics.safeLeft}px`, paddingRight: `${metrics.safeRight}px`,
   paddingBottom: `${16 + metrics.safeBottom}px`
 }))
@@ -245,7 +246,7 @@ onBeforeUnmount(() => {
 
     <view v-if="gameStore.storageError || gameStore.needsSettlement" class="save-error"><text>{{ gameStore.storageError || '棋盘已完成，请保存完成结果。' }}</text><button @tap="gameStore.needsSettlement ? gameStore.completeGame() : gameStore.flushSave()">{{ gameStore.needsSettlement ? '重试结算' : '重试保存' }}</button></view>
     <text class="input-help">{{ settingsStore.settings.inputStyle === 'number-first' ? (gameStore.activeDigit ? `已选 ${gameStore.activeDigit}，点击空格填写；再次点数字取消` : '先点下方数字，再点棋盘空格') : '先点棋盘空格，再点下方数字' }}</text>
-    <view class="game-layout" :class="{ split: layout.split }">
+    <view class="game-layout" :class="{ split: layout.split, rail: layout.rail }">
     <view class="board-shell">
       <view class="board-wrap" :class="{ paused: game.status === 'PAUSED' }" :style="{ width: `${layout.boardSize}px` }">
         <SudokuBoard
@@ -272,6 +273,7 @@ onBeforeUnmount(() => {
       :note-mode="game.inputMode === 'NOTE'"
       :can-undo="game.undoStack.length > 0"
       :can-redo="game.redoStack.length > 0"
+      :all-candidates="gameStore.allCandidatesShown"
       @candidates="gameStore.autoCandidates"
       @candidates-all="gameStore.autoCandidatesAll"
       @hint="hint"
@@ -314,9 +316,42 @@ onBeforeUnmount(() => {
 .meta > text:nth-child(2) { text-align: center; }
 .meta > text:nth-child(3) { text-align: right; }
 .blue { color: var(--primary); }
-.game-layout { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }
-.game-layout.split { grid-template-columns: minmax(0, 1fr) minmax(0, var(--controls-width)); gap: 24px; }
+.game-layout { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }
+.game-layout.split { grid-template-columns: minmax(0, 1fr) minmax(0, var(--controls-width)); gap: 28px; }
 .game-controls { min-width: 0; width: 100%; max-width: 520px; margin: 0 auto; }
+/* Wide split panes: keep the control column compact and airy so the board can grow. */
+.game-layout.split :deep(.toolbar-wrap) { padding-top: 8rpx; }
+.game-layout.split :deep(.toolbar) { gap: 6px; }
+.game-layout.split :deep(.tool) { min-height: 44px; gap: 8rpx; }
+.game-layout.split :deep(.icon-circle) { width: 34px; height: 34px; }
+.game-layout.split :deep(.glyph) { font-size: 21px; }
+.game-layout.split :deep(.flag) { font-size: 23px; }
+.game-layout.split :deep(.pencil) { font-size: 22px; }
+.game-layout.split :deep(.label) { font-size: 12.5px; }
+.game-layout.split :deep(.dot) { font-size: 10px; }
+.game-layout.split :deep(.undo-row) { min-height: 40px; margin-top: 4rpx; font-size: 11px; }
+.game-layout.split :deep(.number-pad) { gap: 10px; padding: 6px 0 10px; }
+.game-layout.split :deep(.answer-key) { min-height: 44px; padding: 4px; gap: 5px; }
+.game-layout.split :deep(.digit) { font-size: 20px; }
+.game-layout.split :deep(.remaining) { font-size: 10px; }
+/* Rail arrangement on unfolded inner screens: maximal board, a slim toolbar
+   pinned to the right edge and one bottom row of digits under the board. */
+.game-layout.rail { max-width: none; padding-right: 0; grid-template-columns: minmax(0, 1fr) var(--rail-width); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: 'board rail' 'digits rail'; gap: 28px; align-items: stretch; }
+.game-layout.rail .board-shell { grid-area: board; }
+.game-layout.rail .game-controls { display: contents; max-width: none; }
+.game-layout.rail :deep(.toolbar-wrap) { grid-area: rail; display: flex; flex-direction: column; justify-content: flex-start; gap: 26px; padding: 16px 0 calc(16px + max(var(--safe-bottom, 0px), env(safe-area-inset-bottom))); background: var(--surface); border-radius: 20rpx 0 0 20rpx; }
+.game-layout.rail :deep(.toolbar) { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.game-layout.rail :deep(.tool) { min-height: 44px; gap: 6rpx; }
+.game-layout.rail :deep(.icon-circle) { width: 36px; height: 36px; }
+.game-layout.rail :deep(.glyph) { font-size: 22px; }
+.game-layout.rail :deep(.flag) { font-size: 24px; }
+.game-layout.rail :deep(.pencil) { font-size: 23px; }
+.game-layout.rail :deep(.label) { font-size: 12px; }
+.game-layout.rail :deep(.undo-row) { flex-direction: column; gap: 4rpx; min-height: auto; font-size: 11px; }
+.game-layout.rail :deep(.number-pad) { grid-area: digits; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; padding: 2px 0 0; }
+.game-layout.rail :deep(.answer-key) { min-height: 52px; padding: 4px 6px; gap: 8px; }
+.game-layout.rail :deep(.digit) { font-size: 22px; }
+.game-layout.rail :deep(.remaining) { font-size: 11px; }
 .board-shell { width: 100%; min-width: 0; display: flex; justify-content: center; }
 .board-wrap { position: relative; max-width: 100%; }
 .board-wrap.paused :deep(.board) { filter: blur(5px); opacity: .18; }

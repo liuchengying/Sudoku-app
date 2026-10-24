@@ -515,21 +515,21 @@ describe('First phase adaptive game and interaction regressions', () => {
   it('opens and closes hint instructions without changing selection, count or exposing a target', async () => {
     const store = start(), selected = store.game!.selectedIndex
     const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
-    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[1].props.onTap(); await nextTick()
+    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[2].props.onTap(); await nextTick()
     expect(store.game!.hintCount).toBe(0)
     expect(store.game!.selectedIndex).toBe(selected)
     expect(store.pendingHint).toBeNull()
     expect(find(mounted.root, el => el.text.startsWith('观察第 '))).toBeUndefined()
     byClass(mounted.root, 'close').props.onTap(); await nextTick()
     expect(store.game!.hintCount).toBe(0)
-    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[1].props.onTap(); await nextTick()
+    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[2].props.onTap(); await nextTick()
     byClass(mounted.root, 'reveal-hint').props.onTap(); await nextTick()
     expect(store.game!.hintCount).toBe(1)
     expect(store.pendingHint).not.toBeNull()
     expect(find(mounted.root, el => el.text.startsWith('观察第 '))).toBeDefined()
     byClass(mounted.root, 'close').props.onTap(); await nextTick()
     store.pause(); store.resume()
-    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[1].props.onTap(); await nextTick()
+    findAll(mounted.root, el => String(el.props.class).split(' ').includes('tool'))[2].props.onTap(); await nextTick()
     byClass(mounted.root, 'reveal-hint').props.onTap(); await nextTick()
     expect(store.game!.hintCount).toBe(1)
     mounted.unmount()
@@ -547,7 +547,7 @@ describe('First phase adaptive game and interaction regressions', () => {
   it.each(['PLAYING', 'PAUSED'] as const)('keeps the original %s state after checking, bookmarks and candidates', async status => {
     const store = start(); if (status === 'PAUSED') store.pause()
     const mounted = mount(GamePage, {}); hooks.shows.forEach(cb => cb())
-    for (const label of ['检查当前棋盘', '保存棋盘书签', '填充全部候选']) {
+    for (const label of ['检查当前棋盘', '保存棋盘书签', '全部候选']) {
       const elapsed = store.elapsed()
       byClass(mounted.root, 'more-button').props.onTap(); await nextTick()
       await vi.advanceTimersByTimeAsync(5000)
@@ -1080,5 +1080,58 @@ describe('Additional play modes and tools', () => {
     expect(useHistoryStore().dailyDates).toEqual(['2026-09-30'])
     expect(useHistoryStore().totals.byMode.DAILY).toBe(2)
     expect(useProgressStore().totalScore).toBe(0)
+  })
+})
+
+describe('Candidate toggles', () => {
+  it('toggles the selected cell candidates on repeated taps and restores on undo', () => {
+    const store = useGameStore()
+    store.startGame(LEVELS[0])
+    const index = store.game!.selectedIndex!
+    store.autoCandidates()
+    const shown = store.game!.cells[index].notesMask
+    expect(shown).not.toBe(0)
+    expect(store.allCandidatesShown).toBe(false)
+    store.autoCandidates()
+    expect(store.game!.cells[index].notesMask).toBe(0)
+    store.autoCandidates()
+    expect(store.game!.cells[index].notesMask).toBe(shown)
+    store.undo()
+    expect(store.game!.cells[index].notesMask).toBe(0)
+    store.redo()
+    expect(store.game!.cells[index].notesMask).toBe(shown)
+  })
+
+  it('fills and clears every empty cell through the all-candidates toggle', () => {
+    const store = useGameStore()
+    store.startGame(LEVELS[0])
+    const empty = () => store.game!.cells.filter(c => c.origin !== 'GIVEN' && c.value === 0).map(c => c.index)
+    store.autoCandidatesAll()
+    expect(store.allCandidatesShown).toBe(true)
+    expect(empty().every(i => store.game!.cells[i].notesMask !== 0)).toBe(true)
+    store.autoCandidatesAll()
+    expect(store.allCandidatesShown).toBe(false)
+    expect(empty().every(i => store.game!.cells[i].notesMask === 0)).toBe(true)
+    store.undo()
+    expect(store.allCandidatesShown).toBe(true)
+  })
+
+  it('overwrites partial notes with full candidates and works while paused', () => {
+    const store = useGameStore()
+    store.startGame(LEVELS[0])
+    const index = store.game!.selectedIndex!
+    store.inputNoteDigit(store.game!.cells[index].solution)
+    const partial = store.game!.cells[index].notesMask
+    expect(partial).not.toBe(0)
+    store.autoCandidates()
+    const full = store.game!.cells[index].notesMask
+    expect(full).not.toBe(partial)
+    store.autoCandidates()
+    expect(store.game!.cells[index].notesMask).toBe(0)
+    store.pause()
+    store.autoCandidatesAll(true)
+    expect(store.allCandidatesShown).toBe(true)
+    store.autoCandidatesAll(true)
+    expect(store.allCandidatesShown).toBe(false)
   })
 })

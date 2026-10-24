@@ -7,9 +7,9 @@ page {
   --surface: #f4f5f7;
   --divider: #dedfe3;
   --cell-bg: #ffffff;
-  --cell-related: #f0f6fd;
-  --cell-same: #dcecff;
-  --cell-selected: #cbe3ff;
+  --cell-related: #d8e8fc;
+  --cell-same: #bcd7fb;
+  --cell-selected: #9cc6f8;
   --given-number: #050505;
   --hint: #1262ab;
   --error: #c92b25;
@@ -44,16 +44,16 @@ button::after { border: none; }
 .theme-dark {
   --primary: #79b8ff; --primary-soft: #243d57; --text-primary: #edf0f5; --text-secondary: #adb7c4;
   --page-bg: #141922; --surface: #202733; --divider: #3a4658; --cell-bg: #1b2430;
-  --cell-related: #253344; --cell-same: #304867; --cell-selected: #365576;
+  --cell-related: #2c4056; --cell-same: #3a567c; --cell-selected: #446a96;
   --given-number: #f3f6fa; --hint: #8ecaff; --error: #ff9990; --line: #526175; --line-strong: #a4b4c9;
   background: var(--page-bg); color: var(--text-primary);
 }
 // Board-only overrides keep the existing blue app theme.
 .board-green {
   --board-bg: #f4f8ef;
-  --board-related: #e8f1df;
-  --board-same: #d5e7c9;
-  --board-selected: #c8deb9;
+  --board-related: #d9e9c8;
+  --board-same: #c2dcab;
+  --board-selected: #adcf92;
   --board-accent: #285c3c;
   --board-accent-soft: #d5e7c9;
   --board-given: #18291c;
@@ -64,9 +64,9 @@ button::after { border: none; }
 }
 .theme-dark.board-green {
   --board-bg: #1c2922;
-  --board-related: #263a2e;
-  --board-same: #304e3a;
-  --board-selected: #3b6045;
+  --board-related: #2e4a38;
+  --board-same: #3c5f49;
+  --board-selected: #4a7758;
   --board-accent: #b5e0b7;
   --board-accent-soft: #304e3a;
   --board-given: #eff5e9;

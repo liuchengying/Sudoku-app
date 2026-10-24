@@ -41,7 +41,7 @@ function action(id: string) {
       <view class="row" @tap="action('check')"><text class="icon">✓</text><text class="label">检查当前棋盘</text><text class="arrow">›</text></view>
       <view class="row" @tap="action('bookmark')"><text class="icon">⚑</text><text class="label">保存棋盘书签</text><text class="arrow">›</text></view>
       <view class="row" @tap="action('restore-bookmark')"><text class="icon">↶</text><text class="label">恢复棋盘书签</text><text class="arrow">›</text></view>
-      <view class="row" @tap="action('fill-candidates')"><text class="icon">⋯</text><text class="label">填充全部候选</text><text class="arrow">›</text></view>
+      <view class="row" @tap="action('fill-candidates')"><text class="icon">⋯</text><text class="label">全部候选</text><text class="arrow">›</text></view>
       <view class="row" @tap="action('restart')"><text class="icon">↻</text><text class="label">重新开始本关</text><text class="arrow">›</text></view>
       <view class="row" @tap="action('exit')"><text class="icon">←</text><text class="label">退出并保存</text><text class="arrow">›</text></view>
     </view>

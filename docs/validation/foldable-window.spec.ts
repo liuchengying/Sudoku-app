@@ -65,17 +65,50 @@ describe('Foldable window metrics and lifetime', () => {
 
 describe('Window-based game layout', () => {
   it.each([
-    ['outer screen', 352, 780, false], ['inner portrait', 768, 1024, true],
-    ['inner landscape', 1024, 768, true], ['wide fold', 800, 720, true],
-    ['split screen', 480, 720, false], ['short split screen', 480, 360, false],
-    ['wide short window', 900, 280, false]
-  ])('%s keeps a square board within its actual available pane', (_name, width, height, split) => {
+    // [name, width, height, split, rail] — rail is chosen adaptively: whichever
+    // arrangement yields the larger board. Tall panes favor the rail (it spends
+    // width instead of height), squat panes keep the two-column split.
+    ['outer screen', 352, 780, false, false], ['inner portrait', 768, 1024, true, true],
+    ['inner landscape', 1024, 768, true, false], ['wide fold', 800, 720, true, false],
+    ['split screen', 480, 720, false, false], ['short split screen', 480, 360, false, false],
+    ['wide short window', 900, 280, false, false]
+  ])('%s keeps a square board within its actual available pane', (_name, width, height, split, rail) => {
     const metrics: WindowMetrics = { width: Number(width), height: Number(height), statusBarHeight: 24, safeTop: 24, safeBottom: 16, safeLeft: 0, safeRight: 0 }
     const layout = gameWindowLayout(metrics)
     expect(layout.split).toBe(split)
+    expect(layout.rail).toBe(rail)
     expect(layout.boardSize).toBeGreaterThanOrEqual(300)
-    expect(layout.boardSize + layout.controlsWidth + (split ? 24 : 0) + 24).toBeLessThanOrEqual(Number(width))
-    if (split) expect(layout.controlsWidth).toBeGreaterThanOrEqual(240)
+    expect(layout.boardSize + layout.controlsWidth + (split ? 28 : 0) + 24).toBeLessThanOrEqual(Number(width))
+    if (split && !layout.rail) expect(layout.controlsWidth).toBeGreaterThanOrEqual(232)
+    if (split && !layout.rail) expect(layout.controlsWidth).toBeLessThanOrEqual(300)
+    if (layout.rail) expect(layout.controlsWidth).toBeLessThanOrEqual(100)
+  })
+
+  it('switches to the rail on a foldable inner screen reporting a mid-size CSS viewport', () => {
+    // Foldable inner screens commonly report ~740-850px CSS width in the webview
+    // (physical pixels divided by device density), which an absolute ≥900px
+    // threshold would never match. The adaptive rule must pick the rail here.
+    const metrics: WindowMetrics = { width: 740, height: 830, statusBarHeight: 24, safeTop: 24, safeBottom: 16, safeLeft: 0, safeRight: 0 }
+    const layout = gameWindowLayout(metrics)
+    expect(layout.split).toBe(true)
+    expect(layout.rail).toBe(true)
+    // Usable height is 830-24-16=790; the rail reserves 240 for header and the
+    // bottom digit row, so the board lands at ~550 — still ~22% larger than
+    // the two-column form (452) on the same window.
+    expect(layout.boardSize).toBeGreaterThanOrEqual(540)
+    expect(layout.controlsWidth).toBeLessThanOrEqual(100)
+  })
+
+  it('grows the board and narrows controls on a tall unfolded inner screen', () => {
+    // Approximates an OPPO Find N-class unfolded cover: wide, tall CSS viewport.
+    const metrics: WindowMetrics = { width: 1307, height: 1421, statusBarHeight: 24, safeTop: 24, safeBottom: 16, safeLeft: 0, safeRight: 0 }
+    const layout = gameWindowLayout(metrics)
+    expect(layout.split).toBe(true)
+    expect(layout.rail).toBe(true)
+    expect(layout.boardSize).toBeGreaterThanOrEqual(900)
+    expect(layout.controlsWidth).toBeLessThanOrEqual(100)
+    // The board keeps growing while the control column stays compact.
+    expect(layout.boardSize).toBeGreaterThan(gameWindowLayout({ ...metrics, width: 800 }).boardSize)
   })
 
   it('uses safe regions and does not assume a device-wide inner screen', () => {

@@ -323,7 +323,9 @@ export const useGameStore = defineStore('game', () => {
     const cell = game.value.cells[index]
     if (cell.origin === 'GIVEN' || cell.value !== 0) return
     const before = capture([index])
-    cell.notesMask = getCandidateMask(currentBoard(!useSettingsStore().settings.independentMode), index)
+    const mask = getCandidateMask(currentBoard(!useSettingsStore().settings.independentMode), index)
+    // Toggle: a cell that already shows its full candidates clears them on the next tap.
+    cell.notesMask = cell.notesMask !== 0 && cell.notesMask === mask ? 0 : mask
     commitAction('SET_NOTES', buildChanges([index], before))
     feedback()
   }
@@ -332,13 +334,23 @@ export const useGameStore = defineStore('game', () => {
     return Boolean(game.value && (game.value.status === 'PLAYING' || (allowPaused === true && game.value.status === 'PAUSED')))
   }
 
+  const allCandidatesShown = computed(() => {
+    if (!game.value || game.value.status === 'COMPLETED') return false
+    const board = currentBoard(!useSettingsStore().settings.independentMode)
+    const targets = game.value.cells.filter(cell => cell.origin !== 'GIVEN' && cell.value === 0)
+    return targets.length > 0 && targets.every(cell => cell.notesMask === getCandidateMask(board, cell.index))
+  })
+
   function autoCandidatesAll(allowPaused = false) {
     if (!game.value || !toolAvailable(allowPaused)) return
-    const indexes = game.value.cells.filter((cell) => cell.origin !== 'GIVEN' && cell.value === 0).map((cell) => cell.index)
+    const indexes = game.value.cells.filter(cell => cell.origin !== 'GIVEN' && cell.value === 0).map(cell => cell.index)
     if (!indexes.length) return
-    const before = capture(indexes)
     const board = currentBoard(!useSettingsStore().settings.independentMode)
-    for (const index of indexes) game.value.cells[index].notesMask = getCandidateMask(board, index)
+    // Toggle: when every empty cell already shows its full candidates, clear them all;
+    // any deviation (partial or no notes) fills the complete candidates everywhere.
+    const allShown = indexes.every(index => game.value!.cells[index].notesMask === getCandidateMask(board, index))
+    const before = capture(indexes)
+    for (const index of indexes) game.value.cells[index].notesMask = allShown ? 0 : getCandidateMask(board, index)
     commitAction('SET_ALL_NOTES', buildChanges(indexes, before))
     feedback()
   }
@@ -550,6 +562,7 @@ export const useGameStore = defineStore('game', () => {
     storageError,
     activeDigit,
     manualCheckVisible,
+    allCandidatesShown,
     chooseDigit,
     checkBoard,
     saveBookmark,

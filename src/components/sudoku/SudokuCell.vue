@@ -59,8 +59,8 @@ const visibleError = computed(() => props.showErrors && props.cell.error)
 .cell.strong-bottom { border-bottom: 2px solid var(--board-line-strong, var(--line-strong)); }
 .cell.last-col { border-right: 0; }
 .cell.last-row { border-bottom: 0; }
-.value { font-size: var(--digit-font-size); line-height: 1; font-weight: 600; color: var(--board-accent, var(--primary)); font-variant-numeric: tabular-nums; }
-.cell.given .value { color: var(--board-given, var(--given-number)); font-weight: 650; }
+.value { font-size: var(--digit-font-size); line-height: 1; font-weight: 450; color: var(--board-accent, var(--primary)); font-variant-numeric: tabular-nums; }
+.cell.given .value { color: var(--board-given, var(--given-number)); font-weight: 450; }
 .cell.hint .value { color: var(--board-hint, var(--hint)); }
 .cell.error .value { color: var(--board-error, var(--error)); }
 .notes { position: absolute; inset: 2px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
