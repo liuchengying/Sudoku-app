@@ -8,3 +8,6 @@ unpackage/
 coverage/
 
 generated-puzzles.json
+
+# locally built APK artifacts
+docs/build/*.apk

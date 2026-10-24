@@ -1,0 +1,67 @@
+{
+  "id": "2026-10-23-apk-polish",
+  "title": "APK 启动图与棋盘老设备降级",
+  "request": "用户原话：\"你最后提到的这两点短板，你马上修改一下，对于启动图，你可以自行设计一下，要贴合当前的数独以及整体样式风格\"。背景：本地 Capacitor 打包的 APK 使用默认白色启动图（带 Capacitor 标志），且主棋盘依赖 aspect-ratio 保持正方形，在老系统 WebView 上可能布局塌陷。",
+  "scope": [
+    "src/components/sudoku/SudokuBoard.vue",
+    "src/components/common/OnboardingGuide.vue",
+    "src/pages/history/index.vue"
+  ],
+  "criteria": [
+    {
+      "id": "splash-custom",
+      "evidenceTypes": [
+        "static",
+        "logic"
+      ],
+      "risks": [],
+      "checks": [
+        "ui"
+      ],
+      "description": "启动主题引用自定义背景与居中的数独标志图，配色取自应用现有变量（board-green 画布 #F4F8EF、棋盘线 #354D36、重点色 #0864CF），不再使用 Capacitor 默认 splash 图；横竖屏与各密度下标志居中且不拉伸。"
+    },
+    {
+      "id": "square-fallback",
+      "evidenceTypes": [
+        "static",
+        "logic"
+      ],
+      "risks": [],
+      "checks": [
+        "ui"
+      ],
+      "description": "主棋盘与引导棋盘在 @supports not (aspect-ratio) 分支下通过容器 padding-top:100% + 绝对定位保持正方形；历史缩略棋盘设置最小行高，不支持 aspect-ratio 时不塌陷为一条线。"
+    },
+    {
+      "id": "checks-pass",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "description": "项目注册检查（adapter、adapter-tests、typecheck、unit、puzzles、ui、risk-evidence）全部通过。"
+    },
+    {
+      "id": "apk-rebuilt",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "description": "重新构建的 release APK 签名校验通过，包名 com.family.sudoku、versionCode 10000 保持不变，且 APK 内含自定义启动图资源。"
+    }
+  ],
+  "manualChecks": [
+    "未连接真机或模拟器，启动图实际显示效果与老 WebView 降级效果未做设备验证；仅做静态与构建校验。"
+  ],
+  "checks": [
+    "adapter",
+    "adapter-tests",
+    "typecheck",
+    "unit",
+    "puzzles",
+    "ui",
+    "risk-evidence"
+  ],
+  "plan": "1. SudokuBoard.vue 增加外层 .board-frame，正常分支保持 aspect-ratio 正方形，@supports not (aspect-ratio: 1/1) 分支用 padding-top:100% + 绝对定位回退。\n2. OnboardingGuide.vue 的 .rule-board 采用同样回退；history/index.vue 的 .mini-cell 增加最小高度，避免不支持时塌陷。\n3. 用 sharp 生成自定义启动图：浅绿画布上居中放置白色圆角卡片，内含 3×3 棋盘标记（绿色格线、重点色高亮格）与“数独”字标；放入 drawable-nodpi，主题改用 layer-list 背景（颜色 + 居中位图），并补充 Android 12 的 windowSplashScreen 属性；删除 Capacitor 默认 splash.png。\n4. 运行注册检查；重新执行 H5 构建 → cap sync → Gradle release 打包，校验签名、包名、版本与新资源。\n5. 会话内逐项复核并 finish 交付；不操作 Git，不启动模拟器。"
+}

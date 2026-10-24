@@ -1,0 +1,46 @@
+{
+  "reviewer": "当前会话逐项复核",
+  "summary": "启动图改为品牌蓝底 + 白色数独卡片与字标，并补齐 Android 12+ 启动属性；主棋盘、引导棋盘在缺少 aspect-ratio 时通过 padding-top 回退保持正方形，历史缩略棋盘补最小高度。注册检查全部通过，APK 已重新构建并通过签名与资源校验。",
+  "findings": [],
+  "criteria": [
+    {
+      "id": "splash-custom",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-23-apk-polish/apk-verification.md",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/ui.log"
+      ]
+    },
+    {
+      "id": "square-fallback",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-23-apk-polish/impact-shared-board.md",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/ui.log",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/typecheck.log"
+      ]
+    },
+    {
+      "id": "checks-pass",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/result.json",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/typecheck.log",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/unit.log",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/puzzles.log",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/ui.log",
+        "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/risk-evidence.log"
+      ]
+    },
+    {
+      "id": "apk-rebuilt",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/2026-10-23-apk-polish/apk-verification.md",
+        "docs/build/sudoku-1.0.0.apk"
+      ]
+    }
+  ],
+  "reviewedAt": "2026-10-23T08:03:13.574Z",
+  "fingerprint": "e89fc95b8036bde162a4eeff3ad9793ae8951663256afaa4885af89558d1776c"
+}

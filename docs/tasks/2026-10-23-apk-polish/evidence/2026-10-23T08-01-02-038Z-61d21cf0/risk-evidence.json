@@ -1,0 +1,85 @@
+{
+  "mode": "risk-evidence",
+  "status": "passed",
+  "files": [],
+  "deleted": [],
+  "commands": [],
+  "criteria": [
+    {
+      "id": "splash-custom",
+      "evidenceTypes": [
+        "static",
+        "logic"
+      ],
+      "risks": [],
+      "checks": [
+        "ui"
+      ],
+      "testFiles": []
+    },
+    {
+      "id": "square-fallback",
+      "evidenceTypes": [
+        "static",
+        "logic"
+      ],
+      "risks": [
+        "shared-contract"
+      ],
+      "checks": [
+        "ui"
+      ],
+      "testFiles": [],
+      "impact": {
+        "paths": [
+          "src/pages/game/index.vue",
+          "src/pages/history/detail.vue",
+          "src/pages/history/index.vue",
+          "src/pages/home/index.vue",
+          "src/pages/settings/index.vue"
+        ],
+        "note": "docs/tasks/2026-10-23-apk-polish/impact-shared-board.md"
+      }
+    },
+    {
+      "id": "checks-pass",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    },
+    {
+      "id": "apk-rebuilt",
+      "evidenceTypes": [
+        "static"
+      ],
+      "risks": [],
+      "checks": [],
+      "testFiles": []
+    }
+  ],
+  "requiredChecks": [
+    "ui"
+  ],
+  "sharedChanges": [
+    "src/components/common/OnboardingGuide.vue",
+    "src/components/sudoku/SudokuBoard.vue"
+  ],
+  "impacts": [
+    {
+      "criterion": "square-fallback",
+      "note": "docs/tasks/2026-10-23-apk-polish/impact-shared-board.md",
+      "sha256": "ba811487ec3f5cc31d11bc652122be5d81738a6c065108bac0cbe09787a76ad1",
+      "paths": [
+        "src/pages/game/index.vue",
+        "src/pages/history/detail.vue",
+        "src/pages/history/index.vue",
+        "src/pages/home/index.vue",
+        "src/pages/settings/index.vue"
+      ]
+    }
+  ],
+  "note": "核对已声明风险和实际脚本结果；业务风险分类及测试断言仍需源码复核，页面观察在复核入口核对。"
+}

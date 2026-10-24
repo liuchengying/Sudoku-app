@@ -1,0 +1,52 @@
+{
+  "id": "2026-10-23T08-01-02-038Z-61d21cf0",
+  "toolVersion": "0.5.1",
+  "startedAt": "2026-10-23T08:01:02.038Z",
+  "fingerprint": "e89fc95b8036bde162a4eeff3ad9793ae8951663256afaa4885af89558d1776c",
+  "passed": true,
+  "checks": [
+    {
+      "id": "adapter",
+      "passed": true,
+      "durationMs": 59,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/adapter.log"
+    },
+    {
+      "id": "adapter-tests",
+      "passed": true,
+      "durationMs": 395,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/adapter-tests.log"
+    },
+    {
+      "id": "typecheck",
+      "passed": true,
+      "durationMs": 2336,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/typecheck.log"
+    },
+    {
+      "id": "unit",
+      "passed": true,
+      "durationMs": 44009,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/unit.log"
+    },
+    {
+      "id": "puzzles",
+      "passed": true,
+      "durationMs": 485,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/puzzles.log"
+    },
+    {
+      "id": "ui",
+      "passed": true,
+      "durationMs": 889,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/ui.log"
+    },
+    {
+      "id": "risk-evidence",
+      "passed": true,
+      "durationMs": 40,
+      "log": "docs/tasks/2026-10-23-apk-polish/evidence/2026-10-23T08-01-02-038Z-61d21cf0/risk-evidence.log"
+    }
+  ],
+  "finishedAt": "2026-10-23T08:01:50.467Z"
+}

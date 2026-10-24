@@ -35,22 +35,29 @@ function select(index: number) {
 </script>
 
 <template>
-  <view class="board">
-    <SudokuCellView
-      v-for="cell in cells"
-      :key="cell.index"
-      :cell="cell"
-      :show-errors="showErrors"
-      :selected="cell.index === selectedIndex"
-      :related="related(cell.index)"
-      :same-value="sameValue(cell)"
-      :highlight-digit="highlightSameDigit ? selectedValue : 0"
-      :focus="focusIndexes?.includes(cell.index) ?? false"
-      @select="select"
-    />
+  <view class="board-frame">
+    <view class="board">
+      <SudokuCellView
+        v-for="cell in cells"
+        :key="cell.index"
+        :cell="cell"
+        :show-errors="showErrors"
+        :selected="cell.index === selectedIndex"
+        :related="related(cell.index)"
+        :same-value="sameValue(cell)"
+        :highlight-digit="highlightSameDigit ? selectedValue : 0"
+        :focus="focusIndexes?.includes(cell.index) ?? false"
+        @select="select"
+      />
+    </view>
   </view>
 </template>
 
 <style scoped lang="scss">
+.board-frame { width: 100%; }
 .board { width: 100%; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(9, minmax(0, 1fr)); border: 2px solid var(--board-line-strong, var(--line-strong)); background: var(--board-bg, var(--cell-bg)); overflow: hidden; }
+@supports not (aspect-ratio: 1 / 1) {
+  .board-frame { position: relative; padding-top: 100%; }
+  .board { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+}
 </style>

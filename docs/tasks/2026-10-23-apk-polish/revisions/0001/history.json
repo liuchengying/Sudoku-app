@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-23T08:00:42.973Z",
+  "reason": "补齐公共组件 shared-contract 风险与调用方影响记录，满足风险证据门槛",
+  "previousStatus": "executing",
+  "files": [
+    {
+      "source": "docs/tasks/2026-10-23-apk-polish/task.json",
+      "snapshot": "docs/tasks/2026-10-23-apk-polish/revisions/0001/task.json"
+    },
+    {
+      "source": "docs/tasks/2026-10-23-apk-polish/brief.md",
+      "snapshot": "docs/tasks/2026-10-23-apk-polish/revisions/0001/brief.md"
+    },
+    {
+      "source": "docs/tasks/2026-10-23-apk-polish/plan.md",
+      "snapshot": "docs/tasks/2026-10-23-apk-polish/revisions/0001/plan.md"
+    }
+  ]
+}

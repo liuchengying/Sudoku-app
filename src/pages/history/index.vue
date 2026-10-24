@@ -89,8 +89,8 @@ onShow(() => historyStore.refresh())
 .meta { display: flex; justify-content: space-between; align-items: flex-end; font-size: clamp(11.05px, 26rpx, 13px); margin: 20rpx 0 24rpx; }
 .meta view { display: flex; flex-direction: column; gap: 8rpx; }
 .duration { font-size: clamp(11.9px, 28rpx, 14px); font-weight: 600; font-variant-numeric: tabular-nums; }
-.mini-board { display: grid; grid-template-columns: repeat(9, 1fr); border: 3rpx solid var(--line-strong); }
-.mini-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-right: 1rpx solid var(--line); border-bottom: 1rpx solid var(--line); font-size: clamp(11.9px, 28rpx, 14px); font-weight: 620; }
+.mini-board { display: grid; grid-template-columns: repeat(9, 1fr); grid-auto-rows: minmax(18px, auto); border: 3rpx solid var(--line-strong); }
+.mini-cell { aspect-ratio: 1; min-height: 18px; display: flex; align-items: center; justify-content: center; border-right: 1rpx solid var(--line); border-bottom: 1rpx solid var(--line); font-size: clamp(11.9px, 28rpx, 14px); font-weight: 620; }
 .mini-cell.user { color: var(--primary); }
 .mini-cell.strong-right { border-right: 3rpx solid var(--line-strong); }
 .mini-cell.strong-bottom { border-bottom: 3rpx solid var(--line-strong); }

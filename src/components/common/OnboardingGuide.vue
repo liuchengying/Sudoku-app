@@ -93,8 +93,12 @@ defineExpose({ dismiss: () => finish('skip') })
             <button class="guide-button" :class="{ chosen: rule === 'column' }" :aria-pressed="rule === 'column'" @tap="rule = 'column'">看列</button>
             <button class="guide-button" :class="{ chosen: rule === 'box' }" :aria-pressed="rule === 'box'" @tap="rule = 'box'">看宫</button>
           </view>
-          <view class="rule-board" aria-hidden="true">
-            <view v-for="(digit, index) in board" :key="index" class="rule-cell" :class="{ highlighted: highlighted(index), 'box-right': index % 9 === 2 || index % 9 === 5, 'box-bottom': Math.floor(index / 9) === 2 || Math.floor(index / 9) === 5 }">{{ digit }}</view>
+          <view class="rule-board-frame">
+            <view class="rule-board-square">
+              <view class="rule-board" aria-hidden="true">
+                <view v-for="(digit, index) in board" :key="index" class="rule-cell" :class="{ highlighted: highlighted(index), 'box-right': index % 9 === 2 || index % 9 === 5, 'box-bottom': Math.floor(index / 9) === 2 || Math.floor(index / 9) === 5 }">{{ digit }}</view>
+              </view>
+            </view>
           </view>
           <text class="rule-caption" aria-live="polite">{{ ruleCopy }}</text>
           <text class="guide-tip">题目给定的数字不能修改，从空格寻找突破口。</text>
@@ -167,7 +171,14 @@ defineExpose({ dismiss: () => finish('skip') })
 .rule-tabs { display: flex; gap: 14rpx; margin: 26rpx 0; }
 .rule-tabs button { flex: 1; }
 .guide-button.chosen { background: var(--primary-soft); color: var(--primary); box-shadow: inset 0 0 0 2rpx var(--primary); }
-.rule-board { width: 100%; max-width: 540rpx; aspect-ratio: 1; margin: 0 auto; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr); border: 3rpx solid var(--board-line-strong, var(--line-strong)); background: var(--board-bg, var(--cell-bg)); }
+.rule-board-frame { width: 100%; max-width: 540rpx; margin: 0 auto; }
+.rule-board-square { width: 100%; }
+.rule-board { width: 100%; aspect-ratio: 1; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr); border: 3rpx solid var(--board-line-strong, var(--line-strong)); background: var(--board-bg, var(--cell-bg)); }
+@supports not (aspect-ratio: 1 / 1) {
+  .rule-board-square { position: relative; padding-top: 100%; }
+  .rule-board { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+  .demo-board button { min-height: 44px; }
+}
 .rule-cell { display: flex; align-items: center; justify-content: center; font-size: clamp(11.05px, 26rpx, 13px); color: var(--board-given, var(--given-number)); border-right: 1rpx solid var(--board-line, var(--line)); border-bottom: 1rpx solid var(--board-line, var(--line)); }
 .rule-cell:nth-child(9n) { border-right: 0; }
 .rule-cell:nth-child(n+73) { border-bottom: 0; }
