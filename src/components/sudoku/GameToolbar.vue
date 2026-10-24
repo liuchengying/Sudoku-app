@@ -63,8 +63,9 @@ const emit = defineEmits<{
 .swap { font-size: clamp(22.1px, 52rpx, 26px); font-weight: 700; }
 .label { font-size: clamp(11.05px, 26rpx, 13px); color: var(--text-primary); font-weight: 600; white-space: nowrap; }
 .dot { color: #f7bb2c; font-size: clamp(9.35px, 22rpx, 11px); margin-right: 5rpx; }
-.tool.active .icon-circle { background: var(--primary-soft); box-shadow: inset 0 0 0 3rpx var(--primary); }
-.tool.active .label { color: var(--primary); }
+.tool.active .icon-circle { background: var(--hit-bg, var(--primary)); box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, .2); }
+.tool.active .glyph { color: var(--hit-fg, #ffffff); }
+.tool.active .label { color: var(--primary); font-weight: 700; }
 .undo-row { min-height: 48px; margin-top: 6rpx; display: flex; align-items: center; justify-content: center; gap: 22rpx; color: var(--primary); font-size: clamp(9.78px, 23rpx, 11.5px); }
 .undo.off { color: #c6c7ca; }
 .divider { color: #d4d4d6; }

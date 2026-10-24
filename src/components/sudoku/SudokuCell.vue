@@ -71,7 +71,9 @@ const displayMask = computed(() => props.inverseMask || props.cell.notesMask)
 .cell.error .value { color: var(--board-error, var(--error)); }
 .notes { position: absolute; inset: 2px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
 .note { display: flex; align-items: center; justify-content: center; font-size: var(--note-font-size); line-height: 1; color: var(--board-accent, var(--primary)); font-weight: 560; }
-.note-highlight { background: var(--board-accent-soft, var(--primary-soft)); font-weight: 800; border-radius: 4rpx; }
+.note-highlight { background: var(--board-hit-bg, var(--hit-bg)); color: var(--board-hit-fg, var(--hit-fg)); font-weight: 700; border-radius: 6rpx; box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, .25); animation: note-hit-pulse 1.1s ease-in-out infinite; }
+@keyframes note-hit-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+@media (prefers-reduced-motion: reduce) { .note-highlight { animation: none; } }
 .cell.focus { box-shadow: inset 0 0 0 2px var(--board-hint, var(--hint)); }
 .error-mark { position: absolute; right: 2rpx; bottom: 2rpx; color: var(--board-error, var(--error)); font-size: clamp(8.5px, 20rpx, 10px); font-weight: 800; }
 .hint-dot { position: absolute; right: 7rpx; top: 7rpx; width: 8rpx; height: 8rpx; border-radius: 50%; background: var(--board-hint, var(--hint)); opacity: .65; }

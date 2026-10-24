@@ -19,8 +19,9 @@ function blocked(d: number) { return props.disabled || (!props.inverseMode && Bo
 .answer-key { min-width: 0; min-height: 52px; padding: 6px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; background: var(--surface); color: var(--text-primary); border-radius: 8px; }
 .digit { font-size: 24px; font-weight: 650; }
 .remaining { font-size: 11px; color: var(--text-secondary); }
-.note-mode .answer-key, .answer-key.active { background: var(--primary-soft); color: var(--primary); }
-.answer-key.active { box-shadow: inset 0 0 0 3rpx var(--primary); }
+.note-mode .answer-key { background: var(--primary-soft); color: var(--primary); }
+.answer-key.active { background: var(--hit-bg, var(--primary)); color: var(--hit-fg, #ffffff); box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, .2); }
+.answer-key.active .digit, .answer-key.active .remaining { color: var(--hit-fg, #ffffff); }
 .answer-key.completed { opacity: .3; }
 .number-pad.disabled { opacity: .5; }
 </style>
