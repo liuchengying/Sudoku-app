@@ -1,15 +1,10 @@
 import { LEVELS } from '@/assets/puzzles'
 import { countSolutions, generatePuzzle, parseBoard, rateDifficulty, serializeBoard, solve, validateBoard, type PuzzleTier, type SudokuLevel } from '@/core/sudoku'
 import { classifyDifficulty, PRACTICE_TIERS } from '@/config/practice'
-import { createId } from '@/utils/id'
+import { createId, seedFromText } from '@/utils/id'
 import { practiceRepository } from '@/repositories/practice.repository'
 
 export const GENERATOR_VERSION = 1
-export function seedFromText(text: string): number {
-  let seed = 2166136261
-  for (let i = 0; i < text.length; i++) seed = Math.imul(seed ^ text.charCodeAt(i), 16777619)
-  return seed >>> 0
-}
 export function localDate(date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }

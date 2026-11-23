@@ -100,6 +100,10 @@ export type SudokuTechnique =
   | 'HIDDEN_PAIR'
   | 'NAKED_TRIPLE'
   | 'X_WING'
+  | 'XY_WING'
+  | 'X_CHAIN'
+  | 'XY_CHAIN'
+  | 'AIC'
   | 'BACKTRACKING'
 
 export interface SudokuLevel {
@@ -114,6 +118,7 @@ export interface SudokuLevel {
   version: number
   tier?: PuzzleTier
   seed?: number
+  chainSteps?: number
 }
 
 export interface DifficultyResult {
@@ -134,6 +139,7 @@ export interface LogicalStep {
   index?: number
   digit?: number
   eliminations?: CandidateElimination[]
+  chain?: Array<{ index: number; digit: number }>
   message: string
 }
 

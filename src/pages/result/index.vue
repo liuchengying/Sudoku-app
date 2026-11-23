@@ -85,7 +85,7 @@ onBackPress(() => {
     </view>
 
     <button v-if="next || game.mode === 'PRACTICE'" class="primary" :loading="loading" :disabled="loading" @tap="nextLevel">{{ game.mode === 'PRACTICE' ? '再来一道新题' : '下一关' }}</button>
-    <text v-if="next" class="score-sub next-copy">下一关：第 {{ next.levelNo }} 关 · 关卡持续生成</text>
+    <text v-if="next" class="score-sub next-copy">下一关：第 {{ next.levelNo }} 关</text>
     <button v-if="loading" class="secondary" @tap="generationToken++; loading = false">取消生成</button>
     <button class="secondary" :disabled="loading" @tap="replay">再玩一次</button>
     <text v-if="game.mode === 'DAILY'" class="home-link" @tap="openPage('/pages/daily/index')">查看挑战日历</text>

@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LEVELS } from '@/assets/puzzles'
-import { campaignPage, campaignProfile, campaignSlot, matchesCampaignProfile, nextCampaignSlot, parseCampaignId, suggestedCampaignLevel } from '@/config/campaign'
+import { CAMPAIGN_V2_BANK } from '@/assets/puzzles/campaign-v2'
+import { campaignPage, campaignProfile, campaignSlot, CAMPAIGN_GENERATOR_VERSION, ladderProfile, matchesCampaignProfile, nextCampaignSlot, parseCampaignId, suggestedCampaignLevel } from '@/config/campaign'
 import { classifyDifficulty } from '@/config/practice'
-import { countSolutions, parseBoard, rateDifficulty } from '@/core/sudoku'
+import { CAMPAIGN_BANDS, canSolveWithAtMostOneChain, countSolutions, normalizeCampaignDigits, parseBoard, rateCampaignPuzzle, rateDifficulty, serializeBoard, solve } from '@/core/sudoku'
 import { campaignRepository, validGeneratedCampaignLevel } from '@/repositories/campaign.repository'
 import { createCampaignLevel, requestCampaignLevel } from '@/services/campaign.service'
 import { GenerationCancelled } from '@/services/puzzle.service'
@@ -144,4 +145,68 @@ describe('continuous numbered campaigns', () => {
     mkdirSync(directory, { recursive: true })
     writeFileSync(resolve(directory, 'campaign-generation.json'), JSON.stringify({ sampleCount: evidence.length, duplicates: 0, invalid: 0, elapsedMs: Date.now() - started, levels: evidence }, null, 2) + '\n')
   }, 60000)
+})
+
+describe('revised campaign ladder', () => {
+  it('ships distinct, uniquely solvable templates with verified chain counts', () => {
+    const seen = new Set<string>()
+    for (const band of CAMPAIGN_BANDS) {
+      expect(CAMPAIGN_V2_BANK[band].length).toBeGreaterThanOrEqual(band === 'naked' ? 10 : 25)
+      for (const puzzle of CAMPAIGN_V2_BANK[band]) {
+        const board = parseBoard(puzzle.puzzle)
+        const normalized = normalizeCampaignDigits(board)
+        const key = serializeBoard(normalized)
+        expect(seen.has(key), band).toBe(false)
+        seen.add(key)
+        expect(countSolutions(board, 2), band).toBe(1)
+        expect(serializeBoard(solve(board)!), band).toBe(puzzle.solution)
+        expect(rateCampaignPuzzle(board), band).toEqual({
+          band, difficultyScore: puzzle.difficultyScore, techniques: puzzle.techniques, chainSteps: puzzle.chainSteps
+        })
+        if (puzzle.chainSteps > 1) expect(canSolveWithAtMostOneChain(normalized), band).toBe(false)
+      }
+    }
+  }, 30000)
+
+  it('raises the stage at the declared boundaries and keeps distant jumps in the top band', async () => {
+    const expectations = [
+      ['master', 1, 'naked', 0], ['master', 10, 'naked', 0], ['master', 11, 'singles', 0],
+      ['master', 25, 'singles', 0], ['master', 26, 'fundamentals', 0],
+      ['master', 50, 'fundamentals', 0], ['master', 51, 'patterns', 0], ['master', 10000, 'patterns', 0],
+      ['king', 25, 'patterns', 0], ['king', 26, 'one-chain', 1], ['king', 50, 'one-chain', 1],
+      ['king', 51, 'two-chains', 2], ['king', 75, 'two-chains', 2], ['king', 76, 'three-chains', 3],
+      ['grandmaster', 25, 'two-chains', 2], ['grandmaster', 26, 'three-chains', 3], ['grandmaster', 50, 'three-chains', 3],
+      ['grandmaster', 51, 'multi-chain', 4], ['grandmaster', 1000, 'multi-chain', 4], ['grandmaster', 10000, 'multi-chain', 4]
+    ] as const
+    const seen = new Set<string>()
+    for (const [track, number, band, chainSteps] of expectations) {
+      const slot = campaignSlot(track, number, CAMPAIGN_GENERATOR_VERSION)
+      const level = await requestCampaignLevel(slot.id)
+      const rating = rateCampaignPuzzle(parseBoard(level.puzzle))!
+      expect(parseCampaignId(slot.id)).toEqual(slot)
+      expect(ladderProfile(slot).band).toBe(band)
+      expect(rating.band).toBe(band)
+      expect(level.chainSteps).toBe(rating.chainSteps)
+      if (band === 'multi-chain') {
+        expect(level.chainSteps).toBeGreaterThanOrEqual(chainSteps)
+        expect(level.techniques).toContain('AIC')
+      } else expect(level.chainSteps).toBe(chainSteps)
+      const template = serializeBoard(normalizeCampaignDigits(parseBoard(level.puzzle)))
+      expect(seen.has(template)).toBe(false)
+      seen.add(template)
+      expect(validGeneratedCampaignLevel(level)).toBe(true)
+    }
+    expect(nextCampaignSlot('v2-grandmaster-10000')?.id).toBe('v2-grandmaster-10001')
+    expect(nextCampaignSlot('grandmaster-10000')?.id).toBe('grandmaster-10001')
+  })
+
+  it('reproduces the same revised level without cache and rejects mismatched saves', async () => {
+    const first = await requestCampaignLevel('v2-grandmaster-10000')
+    await requestCampaignLevel('v2-king-001')
+    campaignRepository.clear()
+    expect(await requestCampaignLevel(first.id)).toEqual(first)
+    expect(validGeneratedCampaignLevel({ ...first, chainSteps: 1 })).toBe(false)
+    expect(validGeneratedCampaignLevel({ ...first, id: 'v2-grandmaster-10001', levelNo: 10001 })).toBe(false)
+    expect(validGeneratedCampaignLevel({ ...first, id: 'grandmaster-10000', version: 1 })).toBe(false)
+  })
 })

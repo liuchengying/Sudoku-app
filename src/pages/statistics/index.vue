@@ -56,9 +56,9 @@ onShow(() => {
       <text class="section-title">无限闯关进度</text>
       <view v-for="item in byDifficulty" :key="item.id" class="difficulty-card">
         <view class="difficulty-top"><text class="name">{{ item.name }}</text><text>已完成 {{ item.completed }} 关 · ∞</text></view>
-        <text class="stage-copy">{{ item.stageLabel }} · {{ item.stageStart }}–{{ item.stageEnd }} 关 · 本阶段 {{ item.stageCompleted }}/{{ item.stageSize }}</text>
+        <text class="stage-copy">{{ item.edition }} · {{ item.stageLabel }} · {{ item.stageStart }}–{{ item.stageEnd }} 关 · 本阶段 {{ item.stageCompleted }}/{{ item.stageSize }}</text>
         <view class="progress-track"><view class="progress-fill" :style="{ width: `${item.stageCompleted / item.stageSize * 100}%` }"></view></view>
-        <text class="stage-copy">最高完成第 {{ item.highestCompleted }} 关 · 推荐第 {{ item.nextLevelNo }} 关</text>
+        <text class="stage-copy"><template v-if="item.highestCompleted">两版最高完成第 {{ item.highestCompleted }} 关 · </template>推荐第 {{ item.nextLevelNo }} 关</text>
         <view class="difficulty-meta">
           <text>金牌 {{ item.gold }}</text>
           <text>完成 {{ item.attempts }} 局</text>

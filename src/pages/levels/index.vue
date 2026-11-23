@@ -5,7 +5,7 @@ import { useAppearance } from '@/composables/useAppearance'
 import { back, continueGame, openPage } from '@/composables/useNavigation'
 import { DIFFICULTIES } from '@/config/difficulty'
 import { PRACTICE_TIERS, tierName } from '@/config/practice'
-import { campaignPage, campaignProfile, campaignSlot, CAMPAIGN_PAGE_SIZE, parseCampaignId, suggestedCampaignLevel, type CampaignSlot } from '@/config/campaign'
+import { campaignPage, campaignProfileFor, campaignSlot, CAMPAIGN_GENERATOR_VERSION, CAMPAIGN_PAGE_SIZE, LEGACY_CAMPAIGN_VERSION, parseCampaignId, suggestedCampaignLevel, type CampaignSlot, type CampaignVersion } from '@/config/campaign'
 import { knownCampaignLevel, requestCampaignLevel } from '@/services/campaign.service'
 import type { PuzzleTier } from '@/core/sudoku'
 import LevelGrid from '@/components/home/LevelGrid.vue'
@@ -24,20 +24,26 @@ const page = ref(0)
 const jumpText = ref('')
 const cacheRevision = ref(0)
 const mode = ref<'campaign' | 'practice'>('campaign')
+const campaignVersion = ref<CampaignVersion>(CAMPAIGN_GENERATOR_VERSION)
 const practiceTier = ref<PuzzleTier>('beginner')
 const loading = ref(false)
 let generationToken = 0
 const difficulty = computed(() => DIFFICULTIES[difficultyIndex.value])
-const levels = computed(() => campaignPage(difficulty.value.id, page.value))
-const selected = computed(() => campaignSlot(difficulty.value.id, selectedNo.value))
+const levels = computed(() => campaignPage(difficulty.value.id, page.value, campaignVersion.value))
+const selected = computed(() => campaignSlot(difficulty.value.id, selectedNo.value, campaignVersion.value))
 const selectedId = computed(() => selected.value.id)
 const selectedLevel = computed(() => { cacheRevision.value; return current.value?.levelId === selectedId.value ? current.value.level : knownCampaignLevel(selectedId.value) })
-const profile = computed(() => campaignProfile(difficulty.value.id, selectedNo.value))
+const profile = computed(() => campaignProfileFor(selected.value))
 const current = computed(() => gameStore.game && gameStore.game.status !== 'COMPLETED' ? gameStore.game : null)
 function selectLevel(slot: CampaignSlot) { if (!loading.value) selectedNo.value = slot.levelNo }
 function chooseLevel(levelNo: number) { selectedNo.value = levelNo; page.value = Math.floor((levelNo - 1) / CAMPAIGN_PAGE_SIZE) }
-function recommended() { chooseLevel(suggestedCampaignLevel(difficulty.value.id, progressStore.progressMap)) }
+function recommended() { chooseLevel(suggestedCampaignLevel(difficulty.value.id, progressStore.progressMap, campaignVersion.value)) }
 function chooseDifficulty(index: number) { if (loading.value) return; difficultyIndex.value = index; recommended() }
+function switchCampaignVersion() {
+  if (loading.value) return
+  campaignVersion.value = campaignVersion.value === CAMPAIGN_GENERATOR_VERSION ? LEGACY_CAMPAIGN_VERSION : CAMPAIGN_GENERATOR_VERSION
+  recommended()
+}
 function turnPage(delta: number) {
   if (loading.value || page.value + delta < 0) return
   try { campaignPage(difficulty.value.id, page.value + delta) }
@@ -100,7 +106,7 @@ onShow(() => {
   if (!gameStore.game) gameStore.restoreGame()
   cacheRevision.value++
   const slot = current.value && (current.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN' ? parseCampaignId(current.value.levelId) : undefined
-  if (slot) { difficultyIndex.value = DIFFICULTIES.findIndex(d => d.id === slot.difficultyId); chooseLevel(slot.levelNo) }
+  if (slot?.version === campaignVersion.value) { difficultyIndex.value = DIFFICULTIES.findIndex(d => d.id === slot.difficultyId); chooseLevel(slot.levelNo) }
   else recommended()
 })
 onHide(cancelGeneration)
@@ -114,15 +120,15 @@ onHide(cancelGeneration)
       <view class="tabs"><button :disabled="loading" :class="{ active: mode === 'campaign' }" @tap="mode = 'campaign'">无限闯关</button><button :disabled="loading" :class="{ active: mode === 'practice' }" @tap="mode = 'practice'">无限练习</button></view>
       <template v-if="mode === 'campaign'">
         <view class="difficulty-tabs"><button v-for="(item, index) in DIFFICULTIES" :key="item.id" :disabled="loading" :class="{ active: difficultyIndex === index }" @tap="chooseDifficulty(index)">{{ item.name }}</button></view>
-        <text class="secondary-copy">{{ difficulty.subtitle }} · 关卡不限</text>
+        <text class="secondary-copy">{{ campaignVersion === LEGACY_CAMPAIGN_VERSION ? '原版关卡' : difficulty.subtitle }} · 关卡不限</text>
         <view class="pagination"><button :disabled="loading || page === 0" @tap="turnPage(-1)">上一组</button><text>{{ levels[0].levelNo }}–{{ levels[levels.length - 1].levelNo }} 关</text><button :disabled="loading" @tap="turnPage(1)">下一组</button></view>
         <LevelGrid :levels="levels" :disabled="loading" :selected-level-id="selectedId" :current-level-id="current?.levelId" :progress-map="progressStore.progressMap" @select="selectLevel" />
         <view class="jump-row"><input :value="jumpText" class="jump-input" type="number" :disabled="loading" placeholder="输入关卡号" @input="updateJumpText" @confirm="jumpToLevel" /><button :disabled="loading" @tap="jumpToLevel">前往</button><button :disabled="loading" @tap="recommended">推荐下一关</button></view>
         <text class="selection">第 {{ selected.levelNo }} 关<template v-if="profile"> · 第 {{ profile.stage }} 阶段 · {{ profile.label }}</template></text>
-        <text v-if="selectedLevel" class="secondary-copy">实际难度：{{ tierName(selectedLevel.tier) }} · {{ selectedLevel.clueCount }} 个已知数</text>
+        <text v-if="selectedLevel" class="secondary-copy">实际难度：{{ tierName(selectedLevel.tier) }}<template v-if="selectedLevel.chainSteps"> · 参考解法用链 {{ selectedLevel.chainSteps }} 次</template><template v-else> · {{ selectedLevel.clueCount }} 个已知数</template></text>
         <text v-else-if="profile" class="secondary-copy">目标难度：{{ tierName(profile.tier) }} · 开始时离线生成唯一解题目</text>
         <button class="primary-action" :loading="loading" :disabled="loading" @tap="startSelected">{{ loading ? '正在准备题目…' : current?.levelId === selectedId ? '继续本关' : '开始本关' }}</button>
-        <text class="secondary-copy footnote">每个难度的前 25 关保留，之后自动生成。新增关卡每 25 关提升一个阶段，专家阶段持续出新题；每关首次完成获得积分。</text>
+        <button class="link edition-link" :disabled="loading" @tap="switchCampaignVersion">{{ campaignVersion === LEGACY_CAMPAIGN_VERSION ? '返回新版关卡' : '查看原版关卡' }}</button>
       </template>
       <template v-else>
         <text class="secondary-copy">离线生成唯一解题目，练习次数不限。练习计入统计，不增加闯关积分。</text>
@@ -144,7 +150,7 @@ onHide(cancelGeneration)
 .tabs button, .difficulty-tabs button { flex: 1; min-height: 48px; border-radius: 14rpx; background: var(--surface); color: var(--text-primary); font-size: clamp(11.9px, 28rpx, 14px); display: flex; align-items: center; justify-content: center; }
 .tabs .active, .difficulty-tabs .active, .tier-card.active { background: var(--primary-soft); color: var(--primary); box-shadow: inset 0 0 0 2rpx var(--primary); }
 .selection { display: block; font-size: clamp(11.05px, 26rpx, 13px); color: var(--text-secondary); margin: 20rpx 0 8rpx; }
-.footnote { display: block; margin-top: 20rpx; }
+.edition-link { margin-top: 12rpx; }
 .pagination, .jump-row { display: flex; align-items: center; gap: 12rpx; margin-top: 18rpx; }
 .pagination text { flex: 1; text-align: center; font-size: clamp(11.05px, 26rpx, 13px); }
 .pagination button, .jump-row button { margin: 0; min-height: 48px; padding: 0 18rpx; font-size: clamp(10.2px, 24rpx, 12px); border-radius: 12rpx; color: var(--primary); background: var(--primary-soft); display: flex; align-items: center; }

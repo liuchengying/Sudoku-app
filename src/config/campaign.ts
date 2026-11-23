@@ -1,11 +1,13 @@
 import { DIFFICULTIES } from './difficulty'
-import type { PuzzleTier, SudokuLevel } from '@/core/sudoku'
+import type { CampaignBand, PuzzleTier, SudokuLevel } from '@/core/sudoku'
 import type { LevelProgress } from '@/types/progress'
 
-export const CAMPAIGN_GENERATOR_VERSION = 1
+export const LEGACY_CAMPAIGN_VERSION = 1
+export const CAMPAIGN_GENERATOR_VERSION = 2
 export const CAMPAIGN_PAGE_SIZE = 25
 export const LEGACY_LEVEL_COUNT = 25
-export type CampaignSlot = Pick<SudokuLevel, 'id' | 'difficultyId' | 'levelNo'>
+export type CampaignVersion = typeof LEGACY_CAMPAIGN_VERSION | typeof CAMPAIGN_GENERATOR_VERSION
+export type CampaignSlot = Pick<SudokuLevel, 'id' | 'difficultyId' | 'levelNo'> & { version: CampaignVersion }
 export interface CampaignProfile {
   stage: number
   tier: PuzzleTier
@@ -29,27 +31,59 @@ const STAGES = [
 ] satisfies Omit<CampaignProfile, 'stage' | 'plateau'>[]
 const START_STAGE: Record<string, number> = { master: 0, king: 2, grandmaster: 4 }
 
-export function campaignSlot(difficultyId: string, levelNo: number): CampaignSlot {
+const BAND_LABELS: Record<CampaignBand, { tier: PuzzleTier; label: string }> = {
+  naked: { tier: 'beginner', label: '唯一候选' },
+  singles: { tier: 'beginner', label: '加入隐藏唯一' },
+  fundamentals: { tier: 'easy', label: '区块排除与数对' },
+  patterns: { tier: 'advanced', label: '数组、鱼形与翼形' },
+  'one-chain': { tier: 'expert', label: '单链推理' },
+  'two-chains': { tier: 'expert', label: '双链推理' },
+  'three-chains': { tier: 'expert', label: '三链推理' },
+  'multi-chain': { tier: 'expert', label: '多链与交替推理' }
+}
+
+const LADDER: Record<string, { from: number; band: CampaignBand }[]> = {
+  master: [
+    { from: 51, band: 'patterns' },
+    { from: 26, band: 'fundamentals' },
+    { from: 11, band: 'singles' },
+    { from: 1, band: 'naked' }
+  ],
+  king: [
+    { from: 76, band: 'three-chains' },
+    { from: 51, band: 'two-chains' },
+    { from: 26, band: 'one-chain' },
+    { from: 1, band: 'patterns' }
+  ],
+  grandmaster: [
+    { from: 51, band: 'multi-chain' },
+    { from: 26, band: 'three-chains' },
+    { from: 1, band: 'two-chains' }
+  ]
+}
+
+export function campaignSlot(difficultyId: string, levelNo: number, version: CampaignVersion = LEGACY_CAMPAIGN_VERSION): CampaignSlot {
   if (!DIFFICULTIES.some(d => d.id === difficultyId) || !Number.isSafeInteger(levelNo) || levelNo < 1) throw new Error('请选择有效关卡')
-  return { id: `${difficultyId}-${String(levelNo).padStart(3, '0')}`, difficultyId, levelNo }
+  const prefix = version === CAMPAIGN_GENERATOR_VERSION ? 'v2-' : ''
+  return { id: `${prefix}${difficultyId}-${String(levelNo).padStart(3, '0')}`, difficultyId, levelNo, version }
 }
 export function parseCampaignId(id: string): CampaignSlot | undefined {
-  const match = /^(master|king|grandmaster)-(\d+)$/.exec(id)
+  const match = /^(v2-)?(master|king|grandmaster)-(\d+)$/.exec(id)
   if (!match) return undefined
-  const levelNo = Number(match[2])
+  const levelNo = Number(match[3])
   if (!Number.isSafeInteger(levelNo) || levelNo < 1) return undefined
-  const slot = campaignSlot(match[1], levelNo)
+  const slot = campaignSlot(match[2], levelNo, match[1] ? CAMPAIGN_GENERATOR_VERSION : LEGACY_CAMPAIGN_VERSION)
   return slot.id === id ? slot : undefined
 }
 export function nextCampaignSlot(id: string): CampaignSlot | undefined {
   const current = parseCampaignId(id)
-  return current && current.levelNo < Number.MAX_SAFE_INTEGER ? campaignSlot(current.difficultyId, current.levelNo + 1) : undefined
+  return current && current.levelNo < Number.MAX_SAFE_INTEGER ? campaignSlot(current.difficultyId, current.levelNo + 1, current.version) : undefined
 }
-export function campaignPage(difficultyId: string, page: number): CampaignSlot[] {
+export function campaignPage(difficultyId: string, page: number, version: CampaignVersion = LEGACY_CAMPAIGN_VERSION): CampaignSlot[] {
   if (!Number.isSafeInteger(page) || page < 0) throw new Error('请选择有效页码')
   const first = page * CAMPAIGN_PAGE_SIZE + 1
   campaignSlot(difficultyId, first + CAMPAIGN_PAGE_SIZE - 1)
-  return Array.from({ length: CAMPAIGN_PAGE_SIZE }, (_, i) => campaignSlot(difficultyId, first + i))
+  return Array.from({ length: CAMPAIGN_PAGE_SIZE }, (_, i) => campaignSlot(difficultyId, first + i, version))
 }
 export function campaignProfile(difficultyId: string, levelNo: number): CampaignProfile | null {
   campaignSlot(difficultyId, levelNo)
@@ -61,8 +95,17 @@ export function matchesCampaignProfile(level: SudokuLevel): boolean {
   const profile = campaignProfile(level.difficultyId, level.levelNo)
   return !!profile && level.tier === profile.tier && level.difficultyScore >= profile.minScore && level.difficultyScore <= profile.maxScore
 }
-export function suggestedCampaignLevel(difficultyId: string, progress: Record<string, LevelProgress>): number {
-  const completed = new Set(Object.values(progress).filter(p => p.completed && p.difficultyId === difficultyId).map(p => parseCampaignId(p.levelId)).filter((slot): slot is CampaignSlot => slot?.difficultyId === difficultyId).map(slot => slot.levelNo))
+export function ladderProfile(slot: CampaignSlot) {
+  const band = LADDER[slot.difficultyId].find(entry => slot.levelNo >= entry.from)!
+  return { ...band, ...BAND_LABELS[band.band], stage: Math.floor((slot.levelNo - 1) / CAMPAIGN_PAGE_SIZE) + 1 }
+}
+
+export function campaignProfileFor(slot: CampaignSlot): Pick<CampaignProfile, 'tier' | 'label' | 'stage'> | null {
+  return slot.version === CAMPAIGN_GENERATOR_VERSION ? ladderProfile(slot) : campaignProfile(slot.difficultyId, slot.levelNo)
+}
+
+export function suggestedCampaignLevel(difficultyId: string, progress: Record<string, LevelProgress>, version: CampaignVersion = LEGACY_CAMPAIGN_VERSION): number {
+  const completed = new Set(Object.values(progress).filter(p => p.completed && p.difficultyId === difficultyId).map(p => parseCampaignId(p.levelId)).filter((slot): slot is CampaignSlot => slot?.difficultyId === difficultyId && slot.version === version).map(slot => slot.levelNo))
   let levelNo = 1
   while (completed.has(levelNo)) levelNo++
   return levelNo

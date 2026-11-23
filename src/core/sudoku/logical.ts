@@ -1,5 +1,6 @@
 import { boxOf, colOf, FULL_MASK, peerIndexes, rowOf } from './board'
 import { digitBit, getCandidateMask, hasDigit, maskToDigits, popCount } from './candidate'
+import { chainMoves, findXYWing } from './chains'
 import { validateBoard } from './validator'
 import type { CandidateElimination, LogicalSolveResult, LogicalStep, SudokuTechnique } from './types'
 
@@ -11,6 +12,10 @@ const TECHNIQUE_WEIGHTS: Record<SudokuTechnique, number> = {
   HIDDEN_PAIR: 12,
   NAKED_TRIPLE: 18,
   X_WING: 34,
+  XY_WING: 44,
+  X_CHAIN: 60,
+  XY_CHAIN: 72,
+  AIC: 88,
   BACKTRACKING: 90
 }
 
@@ -314,37 +319,38 @@ function hasCandidateContradiction(board: number[], candidates: number[]): boole
 
 const finders = [findNakedSingle, findHiddenSingle, findLockedCandidate, findNakedPair, findHiddenPair, findNakedTriple, findXWing]
 
-export function solveLogically(input: number[], maxSteps = 2000): LogicalSolveResult {
-  const board = [...input]
-  if (!validateBoard(board)) {
-    return { board, candidates: Array(81).fill(0), steps: [], techniques: [], score: 0, solved: false, valid: false, remaining: board.filter((v) => v === 0).length }
+type TechniqueSet = 'classic' | 'patterns' | 'chains'
+
+function findLogicalStep(board: number[], candidates: number[], techniques: TechniqueSet): LogicalStep | null {
+  for (const finder of finders) {
+    const step = finder(board, candidates)
+    if (step) return step
   }
-  const candidates = initializeCandidates(board)
+  if (techniques === 'classic') return null
+  return findXYWing(candidates) ?? (techniques === 'chains' ? chainMoves(candidates, ALL_UNITS).next().value ?? null : null)
+}
+
+function applyStep(board: number[], candidates: number[], step: LogicalStep): boolean {
+  if (step.kind === 'PLACE') {
+    return step.index != null && step.digit != null && placeDigit(board, candidates, step.index, step.digit)
+  }
+  return !!step.eliminations && applyEliminations(candidates, step.eliminations) > 0
+}
+
+function solveState(board: number[], candidates: number[], maxSteps: number, techniques: TechniqueSet): LogicalSolveResult {
   const steps: LogicalStep[] = []
   let score = 0
+  let valid = true
 
-  while (board.some((value) => value === 0) && steps.length < maxSteps) {
-    if (hasCandidateContradiction(board, candidates)) {
-      return { board, candidates, steps, techniques: [...new Set(steps.map((s) => s.technique))], score, solved: false, valid: false, remaining: board.filter((v) => v === 0).length }
-    }
-
-    let progressed = false
-    for (const finder of finders) {
-      const step = finder(board, candidates)
-      if (!step) continue
-      if (step.kind === 'PLACE') {
-        if (step.index == null || step.digit == null || !placeDigit(board, candidates, step.index, step.digit)) {
-          return { board, candidates, steps, techniques: [...new Set(steps.map((s) => s.technique))], score, solved: false, valid: false, remaining: board.filter((v) => v === 0).length }
-        }
-      } else if (!step.eliminations || applyEliminations(candidates, step.eliminations) === 0) {
-        continue
-      }
-      steps.push(step)
-      score += TECHNIQUE_WEIGHTS[step.technique]
-      progressed = true
+  while (board.includes(0) && steps.length < maxSteps && !hasCandidateContradiction(board, candidates)) {
+    const step = findLogicalStep(board, candidates, techniques)
+    if (!step) break
+    if (!applyStep(board, candidates, step)) {
+      valid = false
       break
     }
-    if (!progressed) break
+    steps.push(step)
+    score += TECHNIQUE_WEIGHTS[step.technique]
   }
 
   const remaining = board.filter((value) => value === 0).length
@@ -355,12 +361,46 @@ export function solveLogically(input: number[], maxSteps = 2000): LogicalSolveRe
     techniques: [...new Set(steps.map((step) => step.technique))],
     score,
     solved: remaining === 0,
-    valid: !hasCandidateContradiction(board, candidates),
+    valid: valid && !hasCandidateContradiction(board, candidates),
     remaining
   }
 }
 
-export function nextLogicalPlacement(input: number[]): { step: LogicalStep; preceding: SudokuTechnique[]; steps: LogicalStep[] } | null {
+function solveWith(input: number[], maxSteps: number, techniques: TechniqueSet): LogicalSolveResult {
+  const board = [...input]
+  if (!validateBoard(board)) {
+    return { board, candidates: Array(81).fill(0), steps: [], techniques: [], score: 0, solved: false, valid: false, remaining: board.filter((v) => v === 0).length }
+  }
+  return solveState(board, initializeCandidates(board), maxSteps, techniques)
+}
+
+export function solveLogically(input: number[], maxSteps = 2000): LogicalSolveResult {
+  return solveWith(input, maxSteps, 'classic')
+}
+
+export function solveCampaignLogically(input: number[]): LogicalSolveResult {
+  return solveWith(input, 2000, 'chains')
+}
+
+export function canSolveWithAtMostOneChain(input: number[]): boolean {
+  const initial = solveWith(input, 2000, 'patterns')
+  if (!initial.valid) return false
+  if (initial.solved) return true
+  const tried = new Set<string>()
+  for (const step of chainMoves(initial.candidates, ALL_UNITS)) {
+    const effect = step.kind === 'PLACE'
+      ? `place:${step.index}:${step.digit}`
+      : step.eliminations!.map(item => `${item.index}:${item.mask}`).sort().join(',')
+    if (tried.has(effect)) continue
+    tried.add(effect)
+    const board = [...initial.board]
+    const candidates = [...initial.candidates]
+    if (applyStep(board, candidates, step) && solveState(board, candidates, 2000, 'patterns').solved) return true
+  }
+  return false
+}
+
+export function nextLogicalPlacement(input: number[], campaign = false): { step: LogicalStep; preceding: SudokuTechnique[]; steps: LogicalStep[] } | null {
   const board = [...input]
   if (!validateBoard(board)) return null
   const candidates = initializeCandidates(board)
@@ -369,22 +409,12 @@ export function nextLogicalPlacement(input: number[]): { step: LogicalStep; prec
 
   for (let guard = 0; guard < 200; guard += 1) {
     if (hasCandidateContradiction(board, candidates)) return null
-    const naked = findNakedSingle(board, candidates)
-    if (naked) return { step: naked, preceding, steps: [...steps, naked] }
-    const hidden = findHiddenSingle(board, candidates)
-    if (hidden) return { step: hidden, preceding, steps: [...steps, hidden] }
-
-    let eliminated = false
-    for (const finder of [findLockedCandidate, findNakedPair, findHiddenPair, findNakedTriple, findXWing]) {
-      const step = finder(board, candidates)
-      if (!step?.eliminations) continue
-      if (applyEliminations(candidates, step.eliminations) === 0) continue
-      preceding.push(step.technique)
-      steps.push(step)
-      eliminated = true
-      break
-    }
-    if (!eliminated) return null
+    const step = findLogicalStep(board, candidates, campaign ? 'chains' : 'classic')
+    if (!step) return null
+    steps.push(step)
+    if (step.kind === 'PLACE') return { step, preceding, steps }
+    if (!applyStep(board, candidates, step)) return null
+    preceding.push(step.technique)
   }
   return null
 }

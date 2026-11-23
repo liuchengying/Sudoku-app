@@ -14,7 +14,7 @@ export const settingsRepository = {
       if (typeof DEFAULT_SETTINGS[key] === 'boolean' && typeof v === 'boolean') (settings as unknown as Record<string, unknown>)[key] = v
     }
     if (raw.theme === 'light' || raw.theme === 'dark') settings.theme = raw.theme
-    if (raw.boardColor === 'blue' || raw.boardColor === 'green') settings.boardColor = raw.boardColor
+    if (raw.boardColor === 'blue' || raw.boardColor === 'green' || raw.boardColor === 'yellow') settings.boardColor = raw.boardColor
     if (raw.inputStyle === 'cell-first' || raw.inputStyle === 'number-first') settings.inputStyle = raw.inputStyle
     return settings
   },

@@ -24,6 +24,7 @@ import { useSettingsStore } from './settings.store'
 import { useProgressStore } from './progress.store'
 import { useHistoryStore } from './history.store'
 import { getDifficulty } from '@/config/difficulty'
+import { CAMPAIGN_GENERATOR_VERSION } from '@/config/campaign'
 import { getLevelById } from '@/assets/puzzles'
 import type { MedalType } from '@/types/progress'
 import { audioService } from '@/services/audio.service'
@@ -382,7 +383,8 @@ const inverseDigit = ref<number | null>(null)
     if (wrong) {
       pendingHint.value = { index: wrong.index, digit: wrong.solution, technique: 'BACKTRACKING', message: `第 ${Math.floor(wrong.index / 9) + 1} 行第 ${wrong.index % 9 + 1} 列的填写有误，请先检查这个格。展开答案可以更正。`, focusIndexes: [wrong.index] }
     } else {
-      pendingHint.value = findHint(currentBoard(true))
+      const revisedCampaign = game.value.mode === 'CAMPAIGN' && game.value.level?.version === CAMPAIGN_GENERATOR_VERSION
+      pendingHint.value = findHint(currentBoard(true), revisedCampaign)
       if (!pendingHint.value) {
         const target = game.value.cells.find(c => !c.value)
         if (target) pendingHint.value = { index: target.index, digit: target.solution, technique: 'BACKTRACKING', message: '现有教学技巧暂时无法继续推导，可展开答案提示。', focusIndexes: [target.index] }

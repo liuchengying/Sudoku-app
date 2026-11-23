@@ -81,6 +81,34 @@ button::after { border: none; }
   --board-line: #66816b;
   --board-line-strong: #afc5a9;
 }
+.board-yellow {
+  --board-hit-bg: #e8e34b;
+  --board-hit-fg: #22211b;
+  --board-bg: #d7d7d7;
+  --board-alternate-bg: #d8d6be;
+  --board-related: #e2d999;
+  --board-same: var(--board-hit-bg);
+  --board-selected: #ebe74d;
+  --board-accent: #53410f;
+  --board-given: #22211b;
+  --board-hint: #4d4928;
+  --board-error: #8c211d;
+  --board-line: #757469;
+  --board-line-strong: #282721;
+}
+.theme-dark.board-yellow {
+  --board-bg: #23221d;
+  --board-alternate-bg: #343023;
+  --board-related: #463b24;
+  --board-same: #574824;
+  --board-selected: #645227;
+  --board-accent: #f4dfa0;
+  --board-given: #f6f0dc;
+  --board-hint: #ffe4a6;
+  --board-error: #ffc4bc;
+  --board-line: #aba48e;
+  --board-line-strong: #d6cda7;
+}
 .large-digits { --digit-font-size: clamp(22px, 7.2vw, 34px); --note-font-size: clamp(11px, 2.9vw, 13px); }
 @media (max-height: 500px) {
   .game-page { --digit-font-size: 24px; --note-font-size: 10px; }

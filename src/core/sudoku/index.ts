@@ -6,6 +6,7 @@ export * from './solver'
 export * from './logical'
 export * from './hint'
 export * from './difficulty'
+export * from './campaign-rating'
 
 export * from './generator'
 export * from './replay'

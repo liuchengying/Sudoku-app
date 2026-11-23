@@ -14,7 +14,7 @@ import { useSettingsStore } from '@/stores/settings.store'
 import HintSheet from '@/components/sudoku/HintSheet.vue'
 import { gameTitle } from '@/utils/game-label'
 import { tierName } from '@/config/practice'
-import { campaignProfile } from '@/config/campaign'
+import { campaignProfileFor, parseCampaignId } from '@/config/campaign'
 import { getLevelById } from '@/assets/puzzles'
 import { formatDuration } from '@/utils/time'
 import { shareApp } from '@/services/share.service'
@@ -45,7 +45,10 @@ let pageVisible = true
 const game = computed(() => gameStore.game)
 const title = computed(() => game.value ? gameTitle(game.value) : '数独')
 const level = computed(() => game.value ? game.value.level ?? getLevelById(game.value.levelId) : null)
-const profile = computed(() => game.value && (game.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN' && level.value ? campaignProfile(level.value.difficultyId, level.value.levelNo) : null)
+const profile = computed(() => {
+  const slot = game.value && (game.value.mode ?? 'CAMPAIGN') === 'CAMPAIGN' ? parseCampaignId(game.value.levelId) : undefined
+  return slot ? campaignProfileFor(slot) : null
+})
 const elapsedText = computed(() => formatDuration(gameStore.elapsed(now.value)))
 const instantChecking = computed(() => settingsStore.settings.immediateErrorCheck && !settingsStore.settings.independentMode)
 const windowStyle = computed(() => ({

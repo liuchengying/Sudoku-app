@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { createRenderer, h, nextTick, reactive, type Component } from 'vue'
 import { LEVELS } from '@/assets/puzzles'
-import { createCells, digitBit, findHint, getCandidateMask, maskToDigits, parseBoard, peerIndexes, snapshotCell, validateBoard } from '@/core/sudoku'
+import { createCells, digitBit, findHint, getCandidateMask, maskToDigits, parseBoard, peerIndexes, snapshotCell, solveCampaignLogically, validateBoard } from '@/core/sudoku'
 import { useGameStore } from '@/stores/game.store'
 import { useSettingsStore } from '@/stores/settings.store'
 import { useProgressStore } from '@/stores/progress.store'
@@ -20,6 +20,7 @@ import HistoryDetail from '@/pages/history/detail.vue'
 import HintSheet from '@/components/sudoku/HintSheet.vue'
 import GamePage from '@/pages/game/index.vue'
 import HomePage from '@/pages/home/index.vue'
+import SettingsPage from '@/pages/settings/index.vue'
 import LevelsPage from '@/pages/levels/index.vue'
 import ResultPage from '@/pages/result/index.vue'
 import DailyPage from '@/pages/daily/index.vue'
@@ -119,7 +120,7 @@ describe('Infinite campaign game and page integration', () => {
     expect(currentGameRepository.load()?.levelId).toBe('master-001')
   })
 
-  it('shows successive pages beyond 25 and launches a generated level from the real selection component', async () => {
+  it('defaults to the revised ladder and launches its levels beyond 25 from the real selection component', async () => {
     const mounted = mount(LevelsPage, {})
     hooks.shows.forEach(cb => cb())
     const nextGroup = find(mounted.root, el => el.tag === 'button' && el.text === '下一组')!
@@ -131,7 +132,7 @@ describe('Infinite campaign game and page integration', () => {
     await nextTick()
     expect(startButton.props.disabled).toBe(true)
     await vi.advanceTimersByTimeAsync(1000)
-    expect(useGameStore().game).toMatchObject({ mode: 'CAMPAIGN', levelId: 'master-026' })
+    expect(useGameStore().game).toMatchObject({ mode: 'CAMPAIGN', levelId: 'v2-master-026', level: { tier: 'easy' } })
     expect(uni.navigateTo).toHaveBeenCalledOnce()
     expect(uni.navigateTo).toHaveBeenCalledWith({ url: '/pages/game/index' })
     mounted.unmount()
@@ -148,6 +149,9 @@ describe('Infinite campaign game and page integration', () => {
     const mounted = mount(LevelsPage, {})
     hooks.shows.forEach(cb => cb())
     await nextTick()
+    expect(findAll(mounted.root, el => el.tag === 'text' && el.props.class === 'number')[0].text).toBe('1')
+    find(mounted.root, el => el.tag === 'button' && el.text === '查看原版关卡')!.props.onTap()
+    await nextTick()
     expect(findAll(mounted.root, el => el.tag === 'text' && el.props.class === 'number')[0].text).toBe('26')
     find(mounted.root, el => el.tag === 'button' && String(el.props.class).includes('primary-action'))!.props.onTap()
     await vi.advanceTimersByTimeAsync(1000)
@@ -155,6 +159,10 @@ describe('Infinite campaign game and page integration', () => {
     const stats = useStatisticsStore()
     expect(stats.summary).toMatchObject({ completedLevels: 76, legacyCompletedLevels: 75, legacyTotal: 75, totalScore: 402000 })
     expect(stats.byDifficulty[0]).toMatchObject({ completed: 26, highestCompleted: 26, nextLevelNo: 27, stageCompleted: 1 })
+    useGameStore().startGame(await generated('v2-master-001'))
+    finish(useGameStore())
+    expect(stats.summary).toMatchObject({ completedLevels: 77, legacyCompletedLevels: 75, totalScore: 404000 })
+    expect(stats.byDifficulty[0]).toMatchObject({ edition: '新版', completed: 27, highestCompleted: 26, nextLevelNo: 2, stageCompleted: 1 })
     mounted.unmount()
   })
 
@@ -179,6 +187,57 @@ describe('Infinite campaign game and page integration', () => {
     expect(useGameStore().game).toBeNull()
     expect(uni.navigateTo).not.toHaveBeenCalled()
     mounted.unmount()
+  })
+
+  it('jumps to a multi-chain level, restores the puzzle and continues in the revised ladder', async () => {
+    const selection = mount(LevelsPage, {})
+    hooks.shows.forEach(cb => cb())
+    find(selection.root, el => el.tag === 'button' && el.text === '宗师')!.props.onTap()
+    find(selection.root, el => el.tag === 'input')!.props.onInput({ detail: { value: '10000' } })
+    find(selection.root, el => el.tag === 'button' && el.text === '前往')!.props.onTap()
+    await nextTick()
+    expect(find(selection.root, el => el.text.includes('多链与交替推理'))).toBeDefined()
+    find(selection.root, el => el.tag === 'button' && el.text === '开始本关')!.props.onTap()
+    await vi.advanceTimersByTimeAsync(10)
+    const store = useGameStore()
+    const level = store.game!.level!
+    expect(level.id).toBe('v2-grandmaster-10000')
+    expect(level.chainSteps).toBeGreaterThanOrEqual(4)
+    store.pause(); store.flushSave()
+    selection.unmount()
+
+    setActivePinia(createPinia())
+    const restored = useGameStore()
+    expect(restored.restoreGame()).toBe(true)
+    expect(restored.game!.level).toEqual(level)
+    restored.resume()
+    finish(restored)
+    const result = mount(ResultPage, {})
+    find(result.root, el => el.tag === 'button' && el.text === '下一关')!.props.onTap()
+    await vi.advanceTimersByTimeAsync(10)
+    expect(restored.game!.levelId).toBe('v2-grandmaster-10001')
+    expect(restored.game!.level!.chainSteps).toBeGreaterThanOrEqual(4)
+    result.unmount()
+  })
+
+  it('reveals a chain deduction through the game hint action at the first advanced bottleneck', async () => {
+    const level = await generated('v2-grandmaster-051')
+    const store = useGameStore()
+    store.startGame(level)
+    const trace = solveCampaignLogically(parseBoard(level.puzzle))
+    for (const step of trace.steps) {
+      if (step.chain) break
+      if (step.kind === 'PLACE') {
+        store.selectCell(step.index!)
+        store.inputNormalDigit(step.digit!)
+      }
+    }
+    const hint = store.requestHint()!
+    expect(hint.technique).not.toBe('BACKTRACKING')
+    const chain = hint.steps!.find(step => step.chain)?.chain
+    expect(chain?.length).toBeGreaterThanOrEqual(4)
+    expect(hint.focusIndexes).toEqual(expect.arrayContaining(chain!.map(node => node.index)))
+    expect(store.game!.hintCount).toBe(1)
   })
 
   it('advances directly from original level 25 to generated 26 and then 27 from the result page', async () => {
@@ -249,6 +308,39 @@ describe('First-run guide and main menu entry', () => {
     expect(find(reopened.root, el => String(el.props.class).split(' ').includes('play-button'))).toBeDefined()
     expect(useGameStore().game).toBeNull()
     reopened.unmount()
+  })
+})
+
+describe('Board color settings', () => {
+  it('applies yellow to the current board and restores the choice on a cold start', async () => {
+    start()
+    const game = mount(GamePage, {})
+    const settings = mount(SettingsPage, {})
+    const hasClass = (el: HostNode, name: string) => String(el.props.class).split(' ').includes(name)
+    const gamePage = find(game.root, el => hasClass(el, 'game-page'))!
+    const yellow = find(settings.root, el => hasClass(el, 'board-color-yellow'))!
+    expect(hasClass(gamePage, 'board-yellow')).toBe(false)
+    expect(yellow.props['aria-pressed']).toBe(false)
+
+    yellow.props.onTap()
+    await nextTick()
+    expect(yellow.props['aria-pressed']).toBe(true)
+    expect(hasClass(gamePage, 'board-yellow')).toBe(true)
+    const cells = findAll(gamePage, el => hasClass(el, 'cell'))
+    const boxCorners = [0, 3, 6, 27, 30, 33, 54, 57, 60]
+    expect(boxCorners.map(index => hasClass(cells[index], 'alternate-box')))
+      .toEqual([false, true, false, true, false, true, false, true, false])
+    expect(cells.filter(cell => hasClass(cell, 'alternate-box'))).toHaveLength(36)
+
+    find(settings.root, el => el.tag === 'button' && el.text === '深色')!.props.onTap()
+    await nextTick()
+    expect(hasClass(gamePage, 'theme-dark')).toBe(true)
+    expect(hasClass(gamePage, 'board-yellow')).toBe(true)
+    game.unmount()
+    settings.unmount()
+
+    setActivePinia(createPinia())
+    expect(useSettingsStore().settings).toMatchObject({ boardColor: 'yellow', theme: 'dark' })
   })
 })
 
@@ -611,7 +703,7 @@ describe('First phase adaptive game and interaction regressions', () => {
   it('continues the same game from selection and daily entries and pauses on navigation failure', async () => {
     const store = start(); store.pause(); const id = store.game!.id
     const selection = mount(LevelsPage, {}); hooks.shows.forEach(cb => cb()); await nextTick()
-    labeled(selection.root, '继续本关').props.onTap()
+    labeled(selection.root, '继续上次游戏').props.onTap()
     expect(store.game).toMatchObject({ id, status: 'PLAYING' })
     selection.unmount()
     store.pause(); continueGame()

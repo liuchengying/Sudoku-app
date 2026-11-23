@@ -7,6 +7,7 @@ const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void; (e: 'reve
 const cursor = ref(-1)
 watch(() => props.modelValue, open => { if (open) cursor.value = -1 })
 const steps = computed(() => props.hint?.steps?.length ? props.hint.steps.map(s => `${techniqueName(s.technique)}：${s.message}`) : [props.hint?.message ?? ''])
+const showingChain = computed(() => props.hint?.steps?.slice(0, cursor.value + 1).some(step => step.chain))
 function reveal() { emit('reveal'); cursor.value = 0 }
 </script>
 <template>
@@ -21,6 +22,7 @@ function reveal() { emit('reveal'); cursor.value = 0 }
       <template v-else-if="hint">
       <text class="position">观察第 {{ Math.floor(hint.index / 9) + 1 }} 行第 {{ hint.index % 9 + 1 }} 列</text>
       <text class="intro">已查看这一步提示。继续展开或填入同一步答案不会重复计数。</text>
+      <text v-if="showingChain" class="intro">R 表示行，C 表示列，括号内是候选数。= 表示强链，– 表示弱链。</text>
       <text v-for="(message, i) in steps.slice(0, cursor + 1)" :key="i" class="step">{{ i + 1 }}. {{ message }}</text>
       <button v-if="cursor < steps.length - 1" class="primary-action" @tap="cursor++">{{ cursor < 0 ? '查看推导' : '展开下一步' }}</button>
       <template v-else>

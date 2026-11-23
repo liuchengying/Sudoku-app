@@ -10,7 +10,7 @@ export interface AppSettings {
   sound: boolean
   haptics: boolean
   theme: 'light' | 'dark'
-  boardColor: 'blue' | 'green'
+  boardColor: 'blue' | 'green' | 'yellow'
   largeDigits: boolean
   inputStyle: 'cell-first' | 'number-first'
   onboardingSeen: boolean

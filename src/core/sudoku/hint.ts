@@ -10,6 +10,10 @@ const TECHNIQUE_NAMES: Record<SudokuTechnique, string> = {
   HIDDEN_PAIR: '隐藏对',
   NAKED_TRIPLE: '裸三数组',
   X_WING: 'X-Wing',
+  XY_WING: 'XY-Wing',
+  X_CHAIN: 'X 链',
+  XY_CHAIN: 'XY 链',
+  AIC: '交替推理链',
   BACKTRACKING: '答案提示'
 }
 
@@ -17,8 +21,8 @@ export function techniqueName(technique: SudokuTechnique): string {
   return TECHNIQUE_NAMES[technique]
 }
 
-export function findHint(board: number[]): HintResult | null {
-  const result = nextLogicalPlacement(board)
+export function findHint(board: number[], campaign = false): HintResult | null {
+  const result = nextLogicalPlacement(board, campaign)
   if (!result || result.step.index == null || result.step.digit == null) return null
   const { step, preceding } = result
   const index = step.index
@@ -32,7 +36,9 @@ export function findHint(board: number[]): HintResult | null {
     digit,
     technique: step.technique,
     steps: result.steps,
-    focusIndexes: [...new Set([index, ...result.steps.flatMap(s => s.eliminations?.map(e => e.index) ?? [])])],
+    focusIndexes: [...new Set([index, ...result.steps.flatMap(s => [
+      ...(s.chain?.map(c => c.index) ?? []), ...(s.eliminations?.map(e => e.index) ?? [])
+    ])])],
     message: `${prefix}${step.message}。位置：第 ${rowOf(index) + 1} 行第 ${colOf(index) + 1} 列。`
   }
 }

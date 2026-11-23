@@ -7,6 +7,7 @@ export function useAppearance() {
   const appearance = computed(() => ({
     'theme-dark': store.settings.theme === 'dark',
     'board-green': store.settings.boardColor === 'green',
+    'board-yellow': store.settings.boardColor === 'yellow',
     'large-digits': store.settings.largeDigits,
     'wide-window': metrics.width - metrics.safeLeft - metrics.safeRight >= 640
   }))

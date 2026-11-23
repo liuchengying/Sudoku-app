@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { hasDigit } from '@/core/sudoku'
+import { boxOf, hasDigit } from '@/core/sudoku'
 import type { SudokuCell } from '@/core/sudoku'
 
 const props = withDefaults(defineProps<{
@@ -38,6 +38,7 @@ const displayMask = computed(() => props.inverseMask || props.cell.notesMask)
       user: cell.origin === 'USER',
       hint: cell.origin === 'HINT',
       focus,
+      'alternate-box': boxOf(cell.index) % 2 === 1,
       'strong-right': col === 2 || col === 5,
       'strong-bottom': row === 2 || row === 5,
       'last-col': col === 8,
@@ -57,6 +58,7 @@ const displayMask = computed(() => props.inverseMask || props.cell.notesMask)
 
 <style scoped lang="scss">
 .cell { position: relative; min-width: 0; min-height: 0; background: var(--board-bg, var(--cell-bg)); display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--board-line, var(--line)); border-bottom: 1px solid var(--board-line, var(--line)); transition: background .08s ease; overflow: hidden; }
+.cell.alternate-box { background: var(--board-alternate-bg, var(--board-bg, var(--cell-bg))); }
 .cell.related { background: var(--board-related, var(--cell-related)); }
 .cell.same { background: var(--board-same, var(--cell-same)); }
 .cell.inverse { background: var(--board-inverse, var(--board-same, var(--cell-same))); }

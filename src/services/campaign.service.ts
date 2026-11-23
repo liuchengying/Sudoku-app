@@ -1,11 +1,15 @@
 import { getLevelById, LEVELS } from '@/assets/puzzles'
+import { campaignV2Level } from '@/assets/puzzles/campaign-v2'
 import { campaignProfile, campaignSlot, CAMPAIGN_GENERATOR_VERSION, matchesCampaignProfile, parseCampaignId } from '@/config/campaign'
 import { classifyDifficulty } from '@/config/practice'
 import { generatePuzzle, rateDifficulty, serializeBoard, type SudokuLevel } from '@/core/sudoku'
 import { campaignRepository, validGeneratedCampaignLevel } from '@/repositories/campaign.repository'
-import { GenerationCancelled, seedFromText } from './puzzle.service'
+import { seedFromText } from '@/utils/id'
+import { GenerationCancelled } from './puzzle.service'
 
 export function knownCampaignLevel(id: string): SudokuLevel | undefined {
+  const slot = parseCampaignId(id)
+  if (slot?.version === CAMPAIGN_GENERATOR_VERSION) return campaignV2Level(slot)
   return getLevelById(id) ?? campaignRepository.find(id)
 }
 
@@ -21,11 +25,11 @@ export async function createCampaignLevel(difficultyId: string, levelNo: number,
   const original = getLevelById(slot.id)
   if (original) return original
   const profile = campaignProfile(difficultyId, levelNo)!
-  const key = `sudoku-campaign-v${CAMPAIGN_GENERATOR_VERSION}:${slot.id}`
+  const key = `sudoku-campaign-v${slot.version}:${slot.id}`
   const seed = seedFromText(key)
   const makeLevel = (puzzle: number[], solution: number[]): SudokuLevel => {
     const rating = rateDifficulty(puzzle)
-    return { ...slot, puzzle: serializeBoard(puzzle), solution: serializeBoard(solution), tier: classifyDifficulty(rating), difficultyScore: rating.score, techniques: rating.techniques, clueCount: puzzle.filter(Boolean).length, seed, version: CAMPAIGN_GENERATOR_VERSION }
+    return { ...slot, puzzle: serializeBoard(puzzle), solution: serializeBoard(solution), tier: classifyDifficulty(rating), difficultyScore: rating.score, techniques: rating.techniques, clueCount: puzzle.filter(Boolean).length, seed }
   }
   for (let attempt = 0; attempt < 32; attempt++) {
     await yieldAndCheck()
@@ -61,6 +65,11 @@ export async function requestCampaignLevel(id: string, isCancelled?: () => boole
   const slot = parseCampaignId(id)
   if (!slot) throw new Error('请选择有效关卡')
   if (isCancelled?.()) throw new GenerationCancelled()
+  if (slot.version === CAMPAIGN_GENERATOR_VERSION) {
+    await new Promise<void>(resolve => setTimeout(resolve, 0))
+    if (isCancelled?.()) throw new GenerationCancelled()
+    return campaignV2Level(slot)
+  }
   const original = getLevelById(id)
   if (original) return original
   const cached = campaignRepository.find(id)

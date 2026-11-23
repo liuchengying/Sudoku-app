@@ -198,6 +198,10 @@ function restoreBackup() {
             <view class="palette-name"><view class="color-swatch green"></view><text>护眼绿色</text></view>
             <text class="palette-status">{{ store.settings.boardColor === 'green' ? '✓ 已选' : '选择' }}</text>
           </button>
+          <button class="board-color-yellow" :class="{ chosen: store.settings.boardColor === 'yellow' }" :aria-pressed="store.settings.boardColor === 'yellow'" @tap="store.setSetting('boardColor', 'yellow')">
+            <view class="palette-name"><view class="color-swatch yellow"></view><text>柔和黄色</text></view>
+            <text class="palette-status">{{ store.settings.boardColor === 'yellow' ? '✓ 已选' : '选择' }}</text>
+          </button>
         </view>
         <text class="label">输入方式</text>
         <view class="choices"><button :class="{ chosen: store.settings.inputStyle === 'cell-first' }" @tap="store.setSetting('inputStyle', 'cell-first')">先选格再填数</button><button :class="{ chosen: store.settings.inputStyle === 'number-first' }" @tap="store.setSetting('inputStyle', 'number-first')">先选数字再点格</button></view>
@@ -254,6 +258,7 @@ function restoreBackup() {
 .color-swatch { width: 24rpx; height: 24rpx; border-radius: 50%; flex-shrink: 0; }
 .color-swatch.blue { background: #0864cf; }
 .color-swatch.green { background: #285c3c; }
+.color-swatch.yellow { background: #e8e34b; border: 1px solid #757469; }
 .theme-dark .color-swatch.blue { background: #79b8ff; }
 .theme-dark .color-swatch.green { background: #b5e0b7; }
 .settings-page { background: var(--surface); }
